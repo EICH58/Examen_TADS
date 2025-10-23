@@ -1,0 +1,47 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de alumnos</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" /> 
+    <link rel="stylesheet" href="~/css/menu.css" />
+</head>
+
+<body>
+    <div class="d-flex">
+        <div class="sidebar vh-100 position-fixed">
+            <div class="d-flex flex-column align-items-center py-3">
+                <img class="logo" src="~/Img/Logo.png" alt="Logo">
+            </div>
+
+            <ul class="nav flex-column px-3">
+                <li class="nav-item">
+                    <ul class="nav flex-column ms-3">
+                        <li><a href="@Url.Action("Index", "Home")"><img src="~/Img/home.png" alt="I" class="icono">Inicio</a></li>
+                        <li><a href="@Url.Action("G_Control", "Graficas")"><img src="~/Img/pac.png" alt="c" class="icono">Gáfica de control</a></li>
+                        <li><a href="@Url.Action("G_Pastel", "Graficas")"><img src="~/Img/pac.png" alt="p" class="icono">Gáfica de pastel</a></li>
+                        <li><a href="@Url.Action("G_Histograma", "Graficas")"><img src="~/Img/pac.png" alt="h" class="icono">Histograma</a></li>
+                        <li><a href="@Url.Action("G_Pareto", "Graficas")"><img src="~/Img/pac.png" alt="pr" class="icono">Gáfica de pareto</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer text-center mb-3">
+                <a href="@Url.Action("info", "Home")">© 2025 by.... </a>
+            </div>
+
+        </div>
+
+
+
+        <main class="flex-grow-1" style="margin-left:300px;">
+            @RenderBody()
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

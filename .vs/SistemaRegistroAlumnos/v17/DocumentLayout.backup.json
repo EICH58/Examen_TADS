@@ -1,0 +1,84 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mgomez\\source\\repos\\sistemaregistroalumnos\\sistemaregistroalumnos\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mgomez\\source\\repos\\sistemaregistroalumnos\\sistemaregistroalumnos\\wwwroot\\css\\inicio.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\wwwroot\\css\\inicio.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mgomez\\source\\repos\\sistemaregistroalumnos\\sistemaregistroalumnos\\wwwroot\\css\\menu.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\wwwroot\\css\\menu.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 101,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-10-22T20:27:16.591Z",
+              "EditorCaption": ""
+            }
+          ]
+        },
+        {
+          "DockedWidth": 101,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "menu.css",
+              "DocumentMoniker": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos\\wwwroot\\css\\menu.css",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\wwwroot\\css\\menu.css",
+              "ToolTip": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos\\wwwroot\\css\\menu.css",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\wwwroot\\css\\menu.css",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAACMAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-22T22:37:17.099Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Inicio.css",
+              "DocumentMoniker": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos\\wwwroot\\css\\Inicio.css",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\wwwroot\\css\\Inicio.css",
+              "ToolTip": "C:\\Users\\mgomez\\source\\repos\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos\\wwwroot\\css\\Inicio.css",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\wwwroot\\css\\Inicio.css",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABUAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-10-22T22:28:09.656Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

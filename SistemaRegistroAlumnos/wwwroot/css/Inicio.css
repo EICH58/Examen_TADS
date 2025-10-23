@@ -1,0 +1,24 @@
+﻿.cont{
+    display:flex
+}
+/*Lado izquierdo*/
+.informacion {
+    padding: 30px;
+    width: 50%;
+}
+
+.subTitulo {
+    font-size: 1.5rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.parrafo {
+    font-size: 1.2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+/*Lado derecho*/
+.Botones {
+    display: flex;
+    text-align: center;
+    background: #b6ff00; /*verdesito*/
+}
