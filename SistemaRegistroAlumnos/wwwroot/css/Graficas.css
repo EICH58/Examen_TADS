@@ -1,0 +1,19 @@
+﻿.contenido {
+    padding: 20px;
+}
+
+.cont {
+    width: 95%;
+    margin: auto;
+}
+
+.toolbar-grafica {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+    .toolbar-grafica input {
+        max-width: 160px;
+    }

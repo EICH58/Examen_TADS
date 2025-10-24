@@ -1,0 +1,151 @@
+﻿<link rel="stylesheet" href="~/css/Genera.css" />
+
+<div class="contenido">
+
+    <div class="cont">
+        @{
+            ViewData["Title"] = "Diagrama de dispersión";
+        }
+
+        <link rel="stylesheet" href="~/css/Genera.css" />
+        <link rel="stylesheet" href="~/css/graficas.css" />
+
+        <div class="contenido">
+            <div class="cont">
+                <h1 class="titulo">Diagrama de dispersión (Asistencia vs. Calificación)</h1>
+
+                <div class="toolbar-grafica">
+                    <input id="ciclo" class="form-control" value="2025-1" />
+                    <button id="btnLoad" class="btn btn-primary">Cargar</button>
+                    <button id="btnPdf" class="btn btn-outline-secondary">Exportar PDF</button>
+                </div>
+
+                <!-- Gráfica -->
+                <canvas id="scatterChart" height="180"></canvas>
+            </div>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+
+        <script>
+            let chart;
+
+            // Generación de gráfica (datos locales)
+            function getDummyPoints() {
+                const pts = [];
+                for (let i = 0; i < 40; i++) {
+                    const asistencia = Math.round(Math.random() * 40 + 60);
+                    const calif = Math.max(0, Math.min(100, Math.round(asistencia + (Math.random() * 20 - 10))));
+                    pts.push({ x: asistencia, y: calif });
+                }
+                return pts;
+            }
+
+            // Render de la gráfica
+            function render(points) {
+                if (chart) chart.destroy();
+                const ctx = document.getElementById('scatterChart');
+
+                chart = new Chart(ctx, {
+                    type: 'scatter',
+                    data: {
+                        datasets: [{
+                            label: 'Alumnos',
+                            data: points,
+                            pointRadius: 5,
+                            backgroundColor: 'rgba(0, 120, 255, 0.7)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: { font: { size: 16 }, color: '#000' }
+                            },
+                            tooltip: {
+                                bodyFont: { size: 14 },
+                                callbacks: {
+                                    label: (ctx) => `Asistencia: ${ctx.raw.x}% | Calificación: ${ctx.raw.y}`
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                title: { display: true, text: '% Asistencia', font: { size: 16 } },
+                                min: 0, max: 100,
+                                ticks: { font: { size: 13 } }
+                            },
+                            y: {
+                                title: { display: true, text: 'Calificación', font: { size: 16 } },
+                                min: 0, max: 100,
+                                ticks: { font: { size: 13 } }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Carga inicial
+            render(getDummyPoints());
+
+            // Botón Cargar
+            document.getElementById('btnLoad').onclick = () => {
+                render(getDummyPoints());
+            };
+
+                        // Exportar PDF
+            document.getElementById('btnPdf').onclick = async () => {
+                try {
+                    // Obtener clase jsPDF de forma segura
+                    const { jsPDF } = window.jspdf;
+                    if (!jsPDF) throw new Error("jsPDF no disponible.");
+
+                    // Esperar un poco por render del gráfico
+                    await new Promise(resolve => setTimeout(resolve, 300));
+
+                    const img = document.getElementById('scatterChart').toDataURL('image/png', 1.0);
+                    const pdf = new jsPDF('l', 'pt', 'a4');
+                    const w = pdf.internal.pageSize.getWidth();
+                    const h = pdf.internal.pageSize.getHeight();
+
+                    pdf.text(
+                        'Dispersión: Asistencia vs Calificación (' +
+                        document.getElementById('ciclo').value +
+                        ')',
+                        40,
+                        40
+                    );
+                    pdf.addImage(img, 'PNG', 30, 60, w - 60, h - 100);
+                    pdf.save('dispersion.pdf');
+
+                    mostrarMensaje('✅ PDF generado correctamente. Revisa tu carpeta de Descargas.', 'success');
+                } catch (e) {
+                    console.error(e);
+                    mostrarMensaje('❌ Error al generar el PDF.', 'error');
+                }
+            };
+
+            // Mostrar mensaje visual
+            function mostrarMensaje(texto, tipo) {
+                const div = document.createElement('div');
+                div.textContent = texto;
+                div.style.position = 'fixed';
+                div.style.top = '20px';
+                div.style.right = '20px';
+                div.style.padding = '10px 15px';
+                div.style.borderRadius = '6px';
+                div.style.zIndex = '9999';
+                div.style.fontWeight = 'bold';
+                div.style.color = '#fff';
+                div.style.backgroundColor = tipo === 'success' ? '#28a745' : '#dc3545';
+                div.style.boxShadow = '0 2px 6px rgba(0,0,0,0.3)';
+                document.body.appendChild(div);
+                setTimeout(() => div.remove(), 3000);
+            }
+        </script>
+    </div>
+</div>
+
