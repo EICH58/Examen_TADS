@@ -1,9 +1,186 @@
 ﻿<link rel="stylesheet" href="~/css/Genera.css" />
 
 <div class="contenido">
-    <h1 class="titulo">Buscar alumnos</h1>
-
     <div class="cont">
-        <!-- Contenido específico de la vista -->
+        @{
+            ViewData["Title"] = "Buscar alumnos";
+        }
+
+        <link rel="stylesheet" href="~/css/RegistroAlumno.css" />
+
+        <div class="registro-container">
+            <h1>Buscar alumnos</h1>
+
+            <form method="get" class="registro-form">
+                <div class="grid-form">
+                    <div class="form-group">
+                        <label>No. Control</label>
+                        <input type="text" name="NumControl" value="@Context.Request.Query["NumControl"]" />
+                    </div>
+                    <div class="form-group">
+                        <label>Nombre</label>
+                        <input type="text" name="Nombre" value="@Context.Request.Query["Nombre"]" />
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido paterno</label>
+                        <input type="text" name="ApellidoPaterno" value="@Context.Request.Query["ApellidoPaterno"]" />
+                    </div>
+                    <div class="form-group">
+                        <label>Apellido materno</label>
+                        <input type="text" name="ApellidoMaterno" value="@Context.Request.Query["ApellidoMaterno"]" />
+                    </div>
+                    <div class="form-group">
+                        <label>Carrera</label>
+                        <input type="text" name="Carrera" value="@Context.Request.Query["Carrera"]" />
+                    </div>
+                    <div class="form-group">
+                        <label>Semestre</label>
+                        <input type="number" name="Semestre" value="@Context.Request.Query["Semestre"]" />
+                    </div>
+                    <div class="form-group">
+                        <label>Estatus</label>
+                        <select name="Estatus">
+                            <option value="">Todos</option>
+                            <option value="Activo">Activo</option>
+                            <option value="Inactivo">Inactivo</option>
+                            <option value="Egresado">Egresado</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="boton-guardar">
+                    <button type="submit">Buscar</button>
+                    <button type="button" onclick="limpiarFormulario()" style="margin-left: 10px;">Limpiar</button>
+                </div>
+            </form>
+
+            <!-- Resultados de la búsqueda -->
+            @if (Model != null && Model.Any())
+            {
+                <div class="resultados-busqueda">
+                    <h2>Resultados de la búsqueda</h2>
+                    <table class="tabla-alumnos">
+                        <thead>
+                            <tr>
+                                <th>No. Control</th>
+                                <th>Nombre completo</th>
+                                <th>Carrera</th>
+                                <th>Semestre</th>
+                                <th>Estatus</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var alumno in Model)
+                            {
+                                <tr>
+                                    <td>@alumno.NumControl</td>
+                                    <td>@alumno.Nombre @alumno.ApellidoPaterno @alumno.ApellidoMaterno</td>
+                                    <td>@alumno.Carrera</td>
+                                    <td>@alumno.Semestre</td>
+                                    <td>@alumno.Estatus</td>
+                                    <td>
+                                        <a href="@Url.Action("Editar", "Alumno", new { id = alumno.NumControl })" class="btn-editar">Editar</a>
+                                        <a href="@Url.Action("Detalles", "Alumno", new { id = alumno.NumControl })" class="btn-detalles">Detalles</a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else if (Context.Request.QueryString.HasValue)
+            {
+                <div class="no-resultados">
+                    <p>No se encontraron alumnos que coincidan con los criterios de búsqueda.</p>
+                </div>
+            }
+        </div>
     </div>
 </div>
+
+<script>
+    function limpiarFormulario() {
+        // Limpiar todos los campos del formulario
+        document.querySelector('form').reset();
+
+        // Redirigir a la misma página sin parámetros de búsqueda
+        window.location.href = window.location.pathname;
+    }
+
+    // Establecer el valor seleccionado en el dropdown de estatus
+    document.addEventListener('DOMContentLoaded', function() {
+        const estatusQuery = "@Context.Request.Query["Estatus"]";
+        if (estatusQuery) {
+            const selectEstatus = document.querySelector('select[name="Estatus"]');
+            selectEstatus.value = estatusQuery;
+        }
+    });
+</script>
+
+<style>
+    .resultados-busqueda {
+        margin-top: 30px;
+    }
+
+    .tabla-alumnos {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 15px;
+    }
+
+        .tabla-alumnos th,
+        .tabla-alumnos td {
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        .tabla-alumnos th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        .tabla-alumnos tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .tabla-alumnos tr:hover {
+            background-color: #f5f5f5;
+        }
+
+    .btn-editar, .btn-detalles {
+        padding: 4px 8px;
+        margin: 0 2px;
+        text-decoration: none;
+        border-radius: 3px;
+        font-size: 0.9em;
+    }
+
+    .btn-editar {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-detalles {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .btn-editar:hover {
+        background-color: #0056b3;
+    }
+
+    .btn-detalles:hover {
+        background-color: #218838;
+    }
+
+    .no-resultados {
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        border-radius: 4px;
+        color: #721c24;
+    }
+</style>

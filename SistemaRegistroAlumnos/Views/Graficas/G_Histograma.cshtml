@@ -1,9 +1,357 @@
 ﻿<link rel="stylesheet" href="~/css/Genera.css" />
 
 <div class="contenido">
+
     <h1 class="titulo">Histograma</h1>
 
     <div class="cont">
-        <!-- Contenido específico de la vista -->
+        @{
+            ViewData["Title"] = "Histograma";
+        }
+
+        <link rel="stylesheet" href="~/css/Genera.css" />
+        <link rel="stylesheet" href="~/css/graficas.css" />
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+        <style>
+            body {
+                background-color: #f8f9fa;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            .contenido {
+                max-width: 1000px;
+                margin: 30px auto;
+                padding: 20px;
+            }
+
+            .cont {
+                background-color: white;
+                border-radius: 10px;
+                box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+                padding: 25px;
+            }
+
+            .titulo {
+                color: #2c3e50;
+                text-align: center;
+                margin-bottom: 25px;
+                font-weight: 600;
+            }
+
+            .toolbar-grafica {
+                display: flex;
+                gap: 15px;
+                margin-bottom: 25px;
+                flex-wrap: wrap;
+                align-items: center;
+            }
+
+                .toolbar-grafica input {
+                    width: 150px;
+                }
+
+                .toolbar-grafica button {
+                    padding: 8px 15px;
+                    border-radius: 5px;
+                    font-weight: 500;
+                }
+
+            .histogram-container {
+                position: relative;
+                height: 400px;
+                margin-top: 20px;
+            }
+
+            .info-box {
+                background-color: #e8f4fd;
+                border-left: 4px solid #3498db;
+                padding: 15px;
+                margin-top: 20px;
+                border-radius: 0 5px 5px 0;
+            }
+
+                .info-box h5 {
+                    color: #2c3e50;
+                    margin-bottom: 10px;
+                }
+
+                .info-box p {
+                    margin-bottom: 5px;
+                    color: #34495e;
+                }
+
+            .rango-colores {
+                display: flex;
+                justify-content: space-between;
+                margin-top: 10px;
+                font-size: 12px;
+            }
+
+            .color-item {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+            }
+
+            .color-box {
+                width: 15px;
+                height: 15px;
+                border-radius: 3px;
+            }
+        </style>
+
+        <!-- <h1 class="titulo">Histograma de Calificaciones</h1> -->
+
+        <div class="toolbar-grafica">
+            <input id="ciclo" class="form-control" value="2025-1" placeholder="Ciclo escolar">
+            <button id="btnLoad" class="btn btn-primary">Cargar Datos</button>
+            <button id="btnPdf" class="btn btn-outline-secondary">Exportar PDF</button>
+        </div>
+
+        <!-- Gráfica -->
+        <div class="histogram-container">
+            <canvas id="histogramChart"></canvas>
+        </div>
+
+        <!-- Información adicional -->
+        <div class="info-box">
+
+            <h5>Distribución de Calificaciones</h5>
+
+            <p>Este histograma muestra la frecuencia de calificaciones agrupadas en intervalos de 10 puntos.</p>
+
+            <div class="rango-colores">
+
+                <div class="color-item">
+                    <div class="color-box" style="background-color: #e74c3c;"></div>
+                    <span>0-59: Reprobado</span>
+                </div>
+
+                <div class="color-item">
+                    <div class="color-box" style="background-color: #f39c12;"></div>
+                    <span>60-69: Suficiente</span>
+                </div>
+
+                <div class="color-item">
+                    <div class="color-box" style="background-color: #3498db;"></div>
+                    <span>70-79: Bueno</span>
+                </div>
+
+                <div class="color-item">
+                    <div class="color-box" style="background-color: #2ecc71;"></div>
+                    <span>80-100: Excelente</span>
+                </div>
+
+            </div>
+
+        </div>
+
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script>
+        let chart;
+
+        // Generación de datos de ejemplo para el histograma
+        function getDummyGrades() {
+            const grades = [];
+            for (let i = 0; i < 100; i++) {
+                // Generar calificaciones con distribución normal centrada en 75
+                const grade = Math.max(0, Math.min(100, Math.round(75 + (Math.random() * 30 - 15))));
+                grades.push(grade);
+            }
+            return grades;
+        }
+
+        // Calcular frecuencias para el histograma
+        function calculateFrequencies(grades) {
+            const bins = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+            const frequencies = new Array(bins.length - 1).fill(0);
+
+            grades.forEach(grade => {
+                for (let i = 0; i < bins.length - 1; i++) {
+                    if (grade >= bins[i] && grade < bins[i+1]) {
+                        frequencies[i]++;
+                        break;
+                    }
+                }
+                // Caso especial para el valor máximo
+                if (grade === 100) {
+                    frequencies[frequencies.length - 1]++;
+                }
+            });
+
+            return frequencies;
+        }
+
+        // Generar colores según el rango de calificaciones
+        function getBarColors(bins) {
+            return bins.map((_, index) => {
+                const rangeStart = index * 10;
+                if (rangeStart < 60) return '#e74c3c'; // Rojo para reprobados
+                if (rangeStart < 70) return '#f39c12'; // Naranja para suficiente
+                if (rangeStart < 80) return '#3498db'; // Azul para bueno
+                return '#2ecc71'; // Verde para excelente
+            });
+        }
+
+        // Render del histograma
+        function render(grades) {
+            if (chart) chart.destroy();
+            const ctx = document.getElementById('histogramChart');
+
+            const bins = ['0-9', '10-19', '20-29', '30-39', '40-49', '50-59', '60-69', '70-79', '80-89', '90-100'];
+            const frequencies = calculateFrequencies(grades);
+            const backgroundColors = getBarColors(bins);
+
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: bins,
+                    datasets: [{
+                        label: 'Número de Alumnos',
+                        data: frequencies,
+                        backgroundColor: backgroundColors,
+                        borderColor: '#2c3e50',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                font: { size: 14 },
+                                color: '#2c3e50',
+                                usePointStyle: true
+                            }
+                        },
+                        tooltip: {
+                            bodyFont: { size: 14 },
+                            callbacks: {
+                                title: (context) => `Rango: ${context[0].label}`,
+                                label: (context) => `Alumnos: ${context.raw}`
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Rango de Calificaciones',
+                                font: { size: 16, weight: 'bold' },
+                                color: '#2c3e50'
+                            },
+                            ticks: {
+                                font: { size: 13 },
+                                color: '#34495e'
+                            },
+                            grid: {
+                                display: false
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Número de Alumnos',
+                                font: { size: 16, weight: 'bold' },
+                                color: '#2c3e50'
+                            },
+                            ticks: {
+                                font: { size: 13 },
+                                color: '#34495e',
+                                precision: 0
+                            },
+                            beginAtZero: true
+                        }
+                    },
+                    animation: {
+                        duration: 1000,
+                        easing: 'easeOutQuart'
+                    }
+                }
+            });
+        }
+
+        // Carga inicial
+        render(getDummyGrades());
+
+        // Botón Cargar
+        document.getElementById('btnLoad').onclick = () => {
+            render(getDummyGrades());
+            mostrarMensaje('✅ Datos actualizados correctamente.', 'success');
+        };
+
+        // Exportar PDF
+        document.getElementById('btnPdf').onclick = async () => {
+            try {
+                const { jsPDF } = window.jspdf;
+                if (!jsPDF) throw new Error("jsPDF no disponible.");
+
+                await new Promise(resolve => setTimeout(resolve, 300));
+
+                const img = document.getElementById('histogramChart').toDataURL('image/png', 1.0);
+                const pdf = new jsPDF('l', 'pt', 'a4');
+                const w = pdf.internal.pageSize.getWidth();
+                const h = pdf.internal.pageSize.getHeight();
+
+                pdf.setFontSize(20);
+                pdf.text(
+                    'Histograma de Calificaciones (' +
+                    document.getElementById('ciclo').value +
+                    ')',
+                    40,
+                    40
+                );
+                pdf.setFontSize(12);
+                pdf.text('Sistema de Control de Alumnos', 40, 60);
+                pdf.addImage(img, 'PNG', 30, 80, w - 60, h - 120);
+                pdf.save('histograma_calificaciones.pdf');
+
+                mostrarMensaje('✅ PDF generado correctamente. Revisa tu carpeta de Descargas.', 'success');
+            } catch (e) {
+                console.error(e);
+                mostrarMensaje('❌ Error al generar el PDF.', 'error');
+            }
+        };
+
+        // Mostrar mensaje visual
+        function mostrarMensaje(texto, tipo) {
+            // Eliminar mensajes existentes
+            const existingMessages = document.querySelectorAll('.alert-message');
+            existingMessages.forEach(msg => msg.remove());
+
+            const div = document.createElement('div');
+            div.textContent = texto;
+            div.className = 'alert-message';
+            div.style.position = 'fixed';
+            div.style.top = '20px';
+            div.style.right = '20px';
+            div.style.padding = '12px 20px';
+            div.style.borderRadius = '6px';
+            div.style.zIndex = '9999';
+            div.style.fontWeight = 'bold';
+            div.style.color = '#fff';
+            div.style.backgroundColor = tipo === 'success' ? '#28a745' : '#dc3545';
+            div.style.boxShadow = '0 4px 12px rgba(0,0,0,0.3)';
+            div.style.transition = 'opacity 0.3s';
+            document.body.appendChild(div);
+
+            setTimeout(() => {
+                div.style.opacity = '0';
+                setTimeout(() => div.remove(), 300);
+            }, 3000);
+        }
+    </script>
 </div>
+
