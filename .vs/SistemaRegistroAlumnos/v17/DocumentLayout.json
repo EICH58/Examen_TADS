@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\views\\alumnos\\buscaralumnos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\alumnos\\buscaralumnos.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\home\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\views\\graficas\\g_pastel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_pastel.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\views\\alumnos\\agregaralumno.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\alumnos\\agregaralumno.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\views\\graficas\\g_pareto.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_pareto.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\controllers\\alumnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\controllers\\alumnoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\eich2\\documents\\github\\examen_tads\\sistemaregistroalumnos\\models\\alumno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\models\\alumno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,8 +26,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 101,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Alumno.cs",
+              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Models\\Alumno.cs",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Models\\Alumno.cs",
+              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Models\\Alumno.cs",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Models\\Alumno.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAA4wBwAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T06:19:41.645Z",
+              "IsPinned": true
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{e506b91c-c606-466a-90a9-123d1d1e12b3}"
@@ -39,40 +56,40 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "BuscarAlumnos.cshtml",
-              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Alumnos\\BuscarAlumnos.cshtml",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Alumnos\\BuscarAlumnos.cshtml",
-              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Alumnos\\BuscarAlumnos.cshtml",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Alumnos\\BuscarAlumnos.cshtml",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAALkAAAAIAAAAAAAAAA==",
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Home\\Index.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACIAAAB7AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-25T19:13:54.082Z",
+              "WhenOpened": "2025-10-27T09:25:02.332Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "G_Pastel.cshtml",
-              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Pastel.cshtml",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Pastel.cshtml",
-              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Pastel.cshtml",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Pastel.cshtml",
-              "ViewState": "AgIAAGkBAAAAAAAAAAAIwIIBAAAAAAAAAAAAAA==",
+              "Title": "AgregarAlumno.cshtml",
+              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Alumnos\\AgregarAlumno.cshtml",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Alumnos\\AgregarAlumno.cshtml",
+              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Alumnos\\AgregarAlumno.cshtml",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Alumnos\\AgregarAlumno.cshtml",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIsAAAAGAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-25T19:12:57.299Z",
+              "WhenOpened": "2025-10-27T06:23:01.613Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "G_Pareto.cshtml",
-              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Pareto.cshtml",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Pareto.cshtml",
-              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Pareto.cshtml",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Pareto.cshtml",
-              "ViewState": "AgIAAGkBAAAAAAAAAAAIwIIBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-25T19:10:32.768Z",
+              "Title": "AlumnosController.cs",
+              "DocumentMoniker": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Controllers\\AlumnosController.cs",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Controllers\\AlumnosController.cs",
+              "ToolTip": "C:\\Users\\EICH2\\Documents\\GitHub\\Examen_TADS\\SistemaRegistroAlumnos\\Controllers\\AlumnosController.cs",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Controllers\\AlumnosController.cs",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAowM4AAAA/AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-27T06:21:59.004Z",
               "EditorCaption": ""
             }
           ]

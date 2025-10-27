@@ -1,0 +1,140 @@
+﻿@model SistemaRegistroAlumnos.Models.Alumno
+
+@{
+    ViewData["Title"] = "Agregar Nuevo Alumno";
+}
+
+<link rel="stylesheet" href="~/css/Genera.css" />
+
+<div class="contenido">
+    <div class="cont">
+        <h2>@ViewData["Title"]</h2>
+
+        <!-- Mostrar mensajes de error generales -->
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div class="alert alert-danger">
+                <h5>Errores de validación:</h5>
+                <ul>
+                    @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                    {
+                        <li>@error.ErrorMessage</li>
+                    }
+                </ul>
+            </div>
+        }
+
+        <form asp-action="AgregarAlumno" method="post">
+            @Html.AntiForgeryToken()
+
+            <!-- Número de control -->
+            <div class="form-group">
+                <label asp-for="Num_Control" class="control-label">Número de Control *</label>
+                <input asp-for="Num_Control" class="form-control" required />
+                <span asp-validation-for="Num_Control" class="text-danger"></span>
+            </div>
+
+            <!-- Nombre -->
+            <div class="form-group">
+                <label asp-for="Nom_Alumno" class="control-label">Nombre *</label>
+                <input asp-for="Nom_Alumno" class="form-control" required />
+                <span asp-validation-for="Nom_Alumno" class="text-danger"></span>
+            </div>
+
+            <!-- Apellido paterno -->
+            <div class="form-group">
+                <label asp-for="App_Alumno" class="control-label">Apellido Paterno *</label>
+                <input asp-for="App_Alumno" class="form-control" required />
+                <span asp-validation-for="App_Alumno" class="text-danger"></span>
+            </div>
+
+            <!-- Apellido materno -->
+            <div class="form-group">
+                <label asp-for="Apm_Alumno" class="control-label">Apellido Materno *</label>
+                <input asp-for="Apm_Alumno" class="form-control" required />
+                <span asp-validation-for="Apm_Alumno" class="text-danger"></span>
+            </div>
+
+            <!-- Fecha de nacimiento -->
+            <div class="form-group">
+                <label asp-for="Fecha_Nac" class="control-label">Fecha de Nacimiento *</label>
+                <input asp-for="Fecha_Nac" type="date" class="form-control" required />
+                <span asp-validation-for="Fecha_Nac" class="text-danger"></span>
+            </div>
+
+            <!-- Género -->
+            <div class="form-group">
+                <label asp-for="Gen_Alumno" class="control-label">Género *</label>
+                <select asp-for="Gen_Alumno" class="form-control" required>
+                    <option value="">Seleccione un género</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+                <span asp-validation-for="Gen_Alumno" class="text-danger"></span>
+            </div>
+
+            <!-- Carrera -->
+            <div class="form-group">
+                <label asp-for="Id_Carrera_Alum" class="control-label">Carrera *</label>
+                <select asp-for="Id_Carrera_Alum" class="form-control" required asp-items="ViewBag.Carreras">
+                    <option value="">Seleccione una carrera</option>
+                </select>
+                <span asp-validation-for="Id_Carrera_Alum" class="text-danger"></span>
+            </div>
+
+            <!-- Semestre -->
+            <div class="form-group">
+                <label asp-for="Id_Semestre_Alum" class="control-label">Semestre *</label>
+                <select asp-for="Id_Semestre_Alum" class="form-control" required asp-items="ViewBag.Semestres">
+                    <option value="">Seleccione un semestre</option>
+                </select>
+                <span asp-validation-for="Id_Semestre_Alum" class="text-danger"></span>
+            </div>
+
+            <!-- Status -->
+            <div class="form-group">
+                <label asp-for="Id_Status_Alum" class="control-label">Status *</label>
+                <select asp-for="Id_Status_Alum" class="form-control" required asp-items="ViewBag.StatusAlumnos">
+                    <option value="">Seleccione un status</option>
+                </select>
+                <span asp-validation-for="Id_Status_Alum" class="text-danger"></span>
+            </div>
+
+            <!-- Dirección -->
+            <div class="form-group">
+                <label asp-for="Colonia_Alum" class="control-label">Colonia</label>
+                <input asp-for="Colonia_Alum" class="form-control" />
+                <span asp-validation-for="Colonia_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Calle_Alum" class="control-label">Calle</label>
+                <input asp-for="Calle_Alum" class="form-control" />
+                <span asp-validation-for="Calle_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Casa" class="control-label">Número de Casa</label>
+                <input asp-for="Num_Casa" class="form-control" />
+                <span asp-validation-for="Num_Casa" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Ext" class="control-label">No. Exterior</label>
+                <input asp-for="Num_Ext" class="form-control" />
+                <span asp-validation-for="Num_Ext" class="text-danger"></span>
+            </div>
+
+            <!-- Botones -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a asp-action="ListaAlumnos" class="btn btn-secondary">Cancelar</a>
+            </div>
+
+            <div class="text-muted">
+                <small>* Campos obligatorios</small>
+            </div>
+        </form>
+    </div>
+</div>

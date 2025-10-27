@@ -1,0 +1,47 @@
+﻿@model  IEnumerable<SistemaRegistroAlumnos.Models.Alumno>
+
+<link rel="stylesheet" href="~/css/Genera.css" />
+
+<div class="contenido">
+    <div class="cont">
+        <h2>Lista de Alumnos</h2>
+
+        @{
+            ViewData["Title"] = "Sistema Académico";
+        }
+
+        <!-- Botón para agregar nuevo alumno -->
+        <div class="mb-3">
+            <a href="/Alumnos/AgregarAlumno" class="btn btn-success">Agregar Nuevo Alumno</a>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Número de Control</th>
+                    <th>Nombre</th>
+                    <th>Carrera</th>
+                    <th>Semestre</th>
+                    <th>Status</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var alumno in Model)
+                {
+                    <tr>
+                        <td>@alumno.Num_Control</td>
+                        <td>@alumno.Nom_Alumno @alumno.App_Alumno @alumno.Apm_Alumno</td>
+                        <td>@alumno.Carrera?.Nombre_Carrera</td>
+                        <td>@alumno.Semestre?.Num_Semestre</td>
+                        <td>@alumno.StatusAlumno?.Estado_Status</td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@alumno.Id_Alumno" class="btn btn-info">Detalles</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+  

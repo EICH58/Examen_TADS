@@ -1,0 +1,47 @@
+﻿<link rel="stylesheet" href="~/css/Genera.css" />
+<div class="contenido">
+    <div>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        @{
+            ViewData["Title"] = "Sistema Académico";
+        }
+
+        <!-- CSS principal -->
+        <link rel="stylesheet" href="~/css/estilos.css" asp-append-version="true" />
+
+        <!-- Puedes agregar más estilos aquí si los necesitas -->
+    </div>
+    <div class="cont">
+        <!-- Encabezado global del sistema -->
+        <header>
+            <h1>Sistema de Gestión Académica</h1>
+        </header>
+
+        <!-- Menú de navegación principal -->
+        <nav>
+            <ul>
+                <li><a asp-controller="Alumno" asp-action="Index">Alumnos</a></li>
+                <li><a asp-controller="Carrera" asp-action="Index">Carreras</a></li>
+                <li><a asp-controller="Semestre" asp-action="Index">Semestres</a></li>
+                <li><a asp-controller="StatusAlumno" asp-action="Index">Status Alumno</a></li>
+                <li><a asp-controller="Materia" asp-action="Index">Materias</a></li>
+                <li><a asp-controller="Unidad" asp-action="Index">Unidades</a></li>
+                <li><a asp-controller="PerfilSocioeconomico" asp-action="Index">Perfil Socioeconómico</a></li>
+                <li><a asp-controller="EstadoAsistencia" asp-action="Index">Estado Asistencia</a></li>
+                <li><a asp-controller="Asistencia" asp-action="Index">Asistencia</a></li>
+                <li><a asp-controller="Calificaciones" asp-action="Index">Calificaciones</a></li>
+                <li><a asp-controller="Administradores" asp-action="Index">Administradores</a></li>
+            </ul>
+        </nav>
+
+        <!-- Pie de página -->
+        <footer>
+            <p>© @DateTime.Now.Year - Sistema Académico</p>
+        </footer>
+
+        <!-- Scripts globales (opcionales) -->
+        <script src="~/js/site.js" asp-append-version="true"></script>
+
+    </div>
+</div>
