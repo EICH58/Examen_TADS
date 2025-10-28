@@ -14,7 +14,11 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SistemaRegistroAlumnos")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
+<<<<<<< Updated upstream
 [assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+=======
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b105e174cb4190099e7cf6aef76f970236bfbeec")]
+>>>>>>> Stashed changes
 [assembly: System.Reflection.AssemblyProductAttribute("SistemaRegistroAlumnos")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SistemaRegistroAlumnos")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

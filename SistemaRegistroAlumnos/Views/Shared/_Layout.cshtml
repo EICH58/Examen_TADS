@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sistema de alumnos</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" /> 
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="~/css/menu.css" />
 </head>
 
@@ -31,10 +31,7 @@
             <div class="sidebar-footer text-center mb-3">
                 <a href="@Url.Action("info", "Home")">© 2025 by.... </a>
             </div>
-
         </div>
-
-
 
         <main class="flex-grow-1" style="margin-left:300px;">
             @RenderBody()
@@ -43,5 +40,7 @@
 
     <!-- Scripts -->
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

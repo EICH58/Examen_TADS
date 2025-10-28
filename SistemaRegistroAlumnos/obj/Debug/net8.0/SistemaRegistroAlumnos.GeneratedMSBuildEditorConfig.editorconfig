@@ -20,10 +20,28 @@ build_property._RazorSourceGeneratorDebug =
 build_property.EffectiveAnalysisLevelStyle = 8.0
 build_property.EnableCodeStyleSeverity = 
 
+<<<<<<< Updated upstream
+=======
+[C:/Users/mcecy/Desktop/Examen_TADS-AppWeb/Examen_TADS-AppWeb/SistemaRegistroAlumnos/Views/Administradores/Administradores.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5pc3RyYWRvcmVzXEFkbWluaXN0cmFkb3Jlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mcecy/Desktop/Examen_TADS-AppWeb/Examen_TADS-AppWeb/SistemaRegistroAlumnos/Views/Alumnos/AgregarAlumno.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xBZ3JlZ2FyQWx1bW5vLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+>>>>>>> Stashed changes
 [C:/Users/mcecy/Desktop/Examen_TADS-AppWeb/Examen_TADS-AppWeb/SistemaRegistroAlumnos/Views/Alumnos/BuscarAlumnos.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xCdXNjYXJBbHVtbm9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+<<<<<<< Updated upstream
+=======
+[C:/Users/mcecy/Desktop/Examen_TADS-AppWeb/Examen_TADS-AppWeb/SistemaRegistroAlumnos/Views/Alumnos/ListaAlumnos.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xMaXN0YUFsdW1ub3MuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+>>>>>>> Stashed changes
 [C:/Users/mcecy/Desktop/Examen_TADS-AppWeb/Examen_TADS-AppWeb/SistemaRegistroAlumnos/Views/Alumnos/RegistroAlumno.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xSZWdpc3Ryb0FsdW1uby5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 

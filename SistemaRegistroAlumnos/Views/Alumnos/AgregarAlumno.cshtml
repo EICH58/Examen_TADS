@@ -1,0 +1,132 @@
+﻿@model SistemaRegistroAlumnos.Models.Alumno
+
+@{
+    ViewData["Title"] = "Registrar nuevo alumno";
+}
+
+<link rel="stylesheet" href="~/css/RegistroAlumno.css" />
+
+<div class="registro-container">
+    <h1 class="titulo">@ViewData["Title"]</h1>
+
+    <!-- Mensajes de confirmación -->
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="alert alert-success text-center" role="alert">
+            @TempData["MensajeExito"]
+        </div>
+    }
+    @if (TempData["MensajeError"] != null)
+    {
+        <div class="alert alert-danger text-center" role="alert">
+            @TempData["MensajeError"]
+        </div>
+    }
+
+    <!-- Formulario -->
+    <form asp-action="AgregarAlumno" method="post" class="registro-form">
+        @Html.AntiForgeryToken()
+
+        <div class="grid-form">
+            <div class="form-group">
+                <label asp-for="Num_Control">No. Control</label>
+                <input asp-for="Num_Control" required />
+                <span asp-validation-for="Num_Control" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gen_Alumno">Género</label>
+                <select asp-for="Gen_Alumno" required>
+                    <option value="">Seleccione</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+                <span asp-validation-for="Gen_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fecha_Nac">Fecha de nacimiento</label>
+                <input asp-for="Fecha_Nac" type="date" required />
+                <span asp-validation-for="Fecha_Nac" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Id_Carrera_Alum">Carrera</label>
+                <select asp-for="Id_Carrera_Alum" asp-items="ViewBag.Carreras" required>
+                    <option value="">Seleccione</option>
+                </select>
+                <span asp-validation-for="Id_Carrera_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Nom_Alumno">Nombre</label>
+                <input asp-for="Nom_Alumno" required />
+                <span asp-validation-for="Nom_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Id_Semestre_Alum">Semestre</label>
+                <select asp-for="Id_Semestre_Alum" asp-items="ViewBag.Semestres" required>
+                    <option value="">Seleccione</option>
+                </select>
+                <span asp-validation-for="Id_Semestre_Alum" class="text-danger"></span>
+            </div>
+
+            @* <div class="form-group">
+                <label asp-for="Id_Status_Alum">Status</label>
+                <select asp-for="Id_Status_Alum" asp-items="ViewBag.StatusAlumnos" required>
+                    <option value="">Seleccione</option>
+                </select>
+                <span asp-validation-for="Id_Status_Alum" class="text-danger"></span>
+            </div> *@
+
+            <div class="form-group">
+                <label asp-for="Cod_Postal">Código postal</label>
+                <input asp-for="Cod_Postal" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="App_Alumno">Apellido paterno</label>
+                <input asp-for="App_Alumno" required />
+                <span asp-validation-for="App_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Colonia_Alum">Colonia</label>
+                <input asp-for="Colonia_Alum" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Calle_Alum">Calle</label>
+                <input asp-for="Calle_Alum" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Apm_Alumno">Apellido materno</label>
+                <input asp-for="Apm_Alumno" required />
+                <span asp-validation-for="Apm_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Casa">No. Interior</label>
+                <input asp-for="Num_Casa" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Ext">No. Exterior</label>
+                <input asp-for="Num_Ext" />
+            </div>
+        </div>
+
+        <div class="boton-guardar">
+            <button type="submit">
+                <i class="bi bi-upload"></i> Guardar
+            </button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

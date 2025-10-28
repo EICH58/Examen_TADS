@@ -1,3 +1,4 @@
+wwwroot\css\estilos-busqueda.css
 wwwroot\css\Genera.css
 wwwroot\css\Graficas.css
 wwwroot\css\Inicio.css
