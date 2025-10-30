@@ -19,7 +19,7 @@ namespace SistemaRegistroAlumnos.Models
         public int Id_Unidad_Calif { get; set; }
 
         [Required]
-        public DateTime Fecha_Registro { get; set; }
+        public DateTime? Fecha_Registro { get; set; }
 
         // Relaciones
         public virtual Alumno Alumno { get; set; } = null!;

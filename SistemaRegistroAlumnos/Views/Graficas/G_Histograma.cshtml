@@ -1,9 +1,217 @@
-﻿<link rel="stylesheet" href="~/css/Genera.css" />
+﻿@{
+    ViewData["Title"] = "Histograma";
+}
+<link rel="stylesheet" href="~/css/graficas.css" />
 
-<div class="contenido">
-    <h1 class="titulo">Histograma</h1>
+<div class="grafica-container">
 
-    <div class="cont">
-        <!-- Contenido específico de la vista -->
+    <h2 class="grafica-titulo">Histograma</h2>
+
+    <!-- =================== FILTROS (horizontales) =================== -->
+    <div class="filtros" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center;">
+        <label style="margin-right:6px;">Carrera:</label>
+        <select id="carreraSelect" class="form-control" style="width:240px;">
+            <option value="">-- Carrera --</option>
+        </select>
+
+        <label style="margin-left:10px; margin-right:6px;">Materia:</label>
+        <select id="materiaSelect" class="form-control" style="width:240px;">
+            <option value="">-- Materia --</option>
+        </select>
+
+        <label style="margin-left:10px; margin-right:6px;">Unidad:</label>
+        <select id="unidadSelect" class="form-control" style="width:220px;">
+            <option value="">-- Todas --</option>
+        </select>
+
+        <button id="btnCargarDatos" class="btn-cargar" style="margin-left:10px;">Cargar Datos</button>
+        <button id="btnExportarPDF" class="btn-exportar">Exportar PDF</button>
     </div>
+
+    <!-- =================== GRÁFICA =================== -->
+    <div class="contenedor-grafica">
+        <canvas id="histogramaCanvas"></canvas>
+    </div>
+
+    <!-- =================== TABLA RESUMEN =================== -->
+    <div id="resumen" class="bloque-interpretacion" style="margin-top:18px;">
+        <h4>Resumen</h4>
+        <div id="tablaResumenContainer"></div>
+    </div>
+
+    <!-- =================== INTERPRETACIÓN GENERAL =================== -->
+    <div class="bloque-interpretacion" style="margin-top:16px;">
+        <h4>Distribución de Calificaciones</h4>
+        <p>
+            Este histograma muestra la <strong>frecuencia de alumnos</strong> por rangos de calificación (0–59, 60–69, 70–79, 80–100).
+            Puedes filtrar por <strong>Carrera</strong>, <strong>Materia</strong> y, opcionalmente, <strong>Unidad</strong>.
+            Si no eliges Unidad, se considera el <strong>promedio del alumno</strong> en la materia/carrera seleccionada.
+        </p>
+    </div>
+
 </div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('histogramaCanvas').getContext('2d');
+        let histogramaChart;
+
+        const RUTAS = {
+            carreras: '/api/carreras',
+            materias: (idCarrera) => `/api/materias/${idCarrera}`,
+            unidades: (idMateria) => `/api/unidades/${idMateria}`,
+            histograma: '/api/histograma/calificaciones'
+        };
+
+        async function poblar(url, selectEl, textKey, valueKey) {
+            selectEl.innerHTML = selectEl === document.getElementById('unidadSelect')
+                ? '<option value="">-- Todas --</option>'
+                : `<option value="">-- ${selectEl.id.includes('carrera') ? 'Carrera' : 'Materia'} --</option>`;
+            try {
+                const r = await fetch(url);
+                if (!r.ok) throw new Error('No OK');
+                const data = await r.json();
+                data.forEach(it => {
+                    const op = document.createElement('option');
+                    op.value = it[valueKey];
+                    op.textContent = it[textKey];
+                    selectEl.appendChild(op);
+                });
+            } catch (e) {
+                console.warn('No se pudo poblar', selectEl.id, e);
+            }
+        }
+
+        async function initSelects() {
+            await poblar(RUTAS.carreras, document.getElementById('carreraSelect'), 'nombre_Carrera', 'id_Carrera');
+            document.getElementById('carreraSelect').addEventListener('change', async (e) => {
+                const idC = e.target.value;
+                const materiaSel = document.getElementById('materiaSelect');
+                const unidadSel  = document.getElementById('unidadSelect');
+                materiaSel.innerHTML = '<option value="">-- Materia --</option>';
+                unidadSel.innerHTML  = '<option value="">-- Todas --</option>';
+                if (idC) await poblar(RUTAS.materias(idC), materiaSel, 'nombre_Materia', 'id_Materia');
+            });
+            document.getElementById('materiaSelect').addEventListener('change', async (e) => {
+                const idM = e.target.value;
+                const unidadSel = document.getElementById('unidadSelect');
+                unidadSel.innerHTML  = '<option value="">-- Todas --</option>';
+                if (idM) await poblar(RUTAS.unidades(idM), unidadSel, 'nombre_Unidad', 'id_Unidades');
+            });
+        }
+
+        function agrupar(califs) {
+            const bins = { "0-59":0, "60-69":0, "70-79":0, "80-100":0 };
+            califs.forEach(n => {
+                const v = Number(n);
+                if (isNaN(v)) return;
+                if (v <= 59) bins["0-59"]++;
+                else if (v <= 69) bins["60-69"]++;
+                else if (v <= 79) bins["70-79"]++;
+                else bins["80-100"]++;
+            });
+            return bins;
+        }
+
+        function renderChart(bins) {
+            const labels  = Object.keys(bins);
+            const valores = Object.values(bins);
+            const colores = ["#ef5350", "#ffb300", "#42a5f5", "#66bb6a"];
+
+            if (histogramaChart) histogramaChart.destroy();
+            histogramaChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [{ label: 'Número de Alumnos', data: valores, backgroundColor: colores }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Número de Alumnos' } },
+                        x: { title: { display: true, text: 'Rango de Calificaciones' } }
+                    },
+                    plugins: { legend: { display: true, position: 'top' } }
+                }
+            });
+        }
+
+        function renderResumen(califs, bins) {
+            const total = califs.length;
+            const promedio = total ? (califs.reduce((a,b)=>a+Number(b),0)/total).toFixed(2) : '—';
+            const entries = Object.entries(bins);
+            const top = entries.reduce((acc, cur) => cur[1] > acc[1] ? cur : acc, ["0-59", 0]);
+            const predominante = top[0];
+
+            const etiqueta = (r) => {
+                if (r === "0-59") return "Reprobado";
+                if (r === "60-69") return "Suficiente";
+                if (r === "70-79") return "Bueno";
+                return "Excelente";
+            };
+
+            const html = `
+                <table class="tabla-resumen">
+                    <thead><tr>
+                        <th>Total alumnos</th>
+                        <th>Promedio general</th>
+                        <th>Rango con más alumnos</th>
+                        <th>Nivel predominante</th>
+                    </tr></thead>
+                    <tbody><tr>
+                        <td>${total}</td>
+                        <td>${promedio}</td>
+                        <td>${predominante} (${top[1]})</td>
+                        <td>${etiqueta(predominante)}</td>
+                    </tr></tbody>
+                </table>
+            `;
+            document.getElementById('tablaResumenContainer').innerHTML = html;
+        }
+
+        async function cargarDatos() {
+            const params = new URLSearchParams();
+            const idC = document.getElementById('carreraSelect').value;
+            const idM = document.getElementById('materiaSelect').value;
+            const idU = document.getElementById('unidadSelect').value;
+
+            if (idC) params.append('idCarrera', idC);
+            if (idM) params.append('idMateria', idM);
+            if (idU) params.append('idUnidad', idU); // solo si eligió unidad
+
+            const url = params.toString()
+                ? `${RUTAS.histograma}?${params.toString()}`
+                : RUTAS.histograma;
+
+            try {
+                const r = await fetch(url);
+                if (!r.ok) throw new Error('No OK');
+                const califs = await r.json(); // [70.31, 21.6, ...]
+                if (!califs.length) {
+                    if (histogramaChart) histogramaChart.destroy();
+                    document.getElementById('tablaResumenContainer').innerHTML = '<em>No hay datos para los filtros.</em>';
+                    return;
+                }
+                const bins = agrupar(califs);
+                renderChart(bins);
+                renderResumen(califs, bins);
+            } catch (e) {
+                console.error(e);
+                alert('Problema al cargar datos.');
+            }
+        }
+
+        // Eventos
+        document.getElementById('btnCargarDatos').addEventListener('click', cargarDatos);
+        document.getElementById('btnExportarPDF').addEventListener('click', () => {
+            alert('Exportación a PDF en camino. Primero dejamos perfecto el histograma.');
+        });
+
+        // Init: catálogos + carga automática global
+        (async () => {
+            await initSelects();
+            await cargarDatos(); // carga inicial sin filtros
+        })();
+    </script>
+}

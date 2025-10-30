@@ -1,22 +1,19 @@
-<<<<<<< Updated upstream
+
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-=======
-﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SistemaRegistroAlumnos.Data;
 using SistemaRegistroAlumnos.Models;
 using System.Linq;
 using System.Threading.Tasks;
->>>>>>> Stashed changes
+
 
 namespace SistemaRegistroAlumnos.Controllers
 {
     public class AlumnosController : Controller
     {
-<<<<<<< Updated upstream
-        // GET: AlumnosController1
+
         public ActionResult BuscarAlumnos()
         {
             return View();
@@ -25,7 +22,8 @@ namespace SistemaRegistroAlumnos.Controllers
         public ActionResult RegistroAlumno()
         {
             return View();
-=======
+        }
+
         private readonly ApplicationDbContext _context;
 
         public AlumnosController(ApplicationDbContext context)
@@ -123,7 +121,6 @@ namespace SistemaRegistroAlumnos.Controllers
            // ViewBag.StatusAlumnos = new SelectList(_context.Status_Alumno.ToList(), "Id_Status", "Estado_Status");
 
             return View(alumno);
->>>>>>> Stashed changes
         }
     }
 }

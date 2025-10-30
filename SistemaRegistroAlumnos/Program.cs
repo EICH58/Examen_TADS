@@ -1,11 +1,6 @@
-<<<<<<< Updated upstream
-var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
-=======
 using Microsoft.EntityFrameworkCore;
 using SistemaRegistroAlumnos.Data;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure; // <-- Agregado
+using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,13 +12,12 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     )
 );
 
-// Add services to the container
->>>>>>> Stashed changes
+// Agregar controladores con vistas
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline
+// Configurar el pipeline HTTP
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -32,16 +26,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
-
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
-// ? Bloque de prueba simplificado (solo conexión)
+// Bloque de prueba de conexión
 using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
@@ -51,19 +44,20 @@ using (var scope = app.Services.CreateScope())
         {
             Console.ForegroundColor = ConsoleColor.Green;
             Console.WriteLine("? Conexión a la base de datos exitosa.");
-            Console.ResetColor();
         }
         else
         {
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine("? No se pudo conectar a la base de datos.");
-            Console.ResetColor();
         }
     }
     catch (Exception ex)
     {
         Console.ForegroundColor = ConsoleColor.Red;
         Console.WriteLine("?? Error al probar la conexión: " + ex.Message);
+    }
+    finally
+    {
         Console.ResetColor();
     }
 }

@@ -3,29 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\",
   "Documents": [
     {
-<<<<<<< Updated upstream
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\views\\alumnos\\registroalumno.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\alumnos\\registroalumno.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\views\\graficas\\g_dispersion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_dispersion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\wwwroot\\css\\registroalumno.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\wwwroot\\css\\registroalumno.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
-=======
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\views\\graficas\\g_dispersion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_dispersion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\controllers\\graficascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\controllers\\graficascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
->>>>>>> Stashed changes
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\views\\graficas\\g_histograma.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_histograma.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\wwwroot\\css\\graficas.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\wwwroot\\css\\graficas.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
     }
   ],
   "DocumentGroupContainers": [
@@ -35,82 +22,44 @@
       "DocumentGroups": [
         {
           "DockedWidth": 101,
-<<<<<<< Updated upstream
           "SelectedChildIndex": 1,
-=======
-          "SelectedChildIndex": 2,
->>>>>>> Stashed changes
           "Children": [
             {
               "$type": "Document",
               "DocumentIndex": 2,
-<<<<<<< Updated upstream
-              "Title": "RegistroAlumno.css",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\wwwroot\\css\\RegistroAlumno.css",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\wwwroot\\css\\RegistroAlumno.css",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\wwwroot\\css\\RegistroAlumno.css",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\wwwroot\\css\\RegistroAlumno.css",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAiAAAAAAAAAA==",
+              "Title": "Graficas.css",
+              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
+              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
+              "ViewState": "AgIAAFMAAAAAAAAAAAAgwH8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-23T22:17:35.486Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-29T22:02:06.433Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "RegistroAlumno.cshtml",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Alumnos\\RegistroAlumno.cshtml",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Alumnos\\RegistroAlumno.cshtml",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Alumnos\\RegistroAlumno.cshtml",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Alumnos\\RegistroAlumno.cshtml",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-23T22:17:21.89Z",
-              "EditorCaption": ""
-=======
-              "Title": "ApplicationDbContext.cs",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Data\\ApplicationDbContext.cs",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Data\\ApplicationDbContext.cs",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Data\\ApplicationDbContext.cs",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Data\\ApplicationDbContext.cs",
-              "ViewState": "AgIAABMAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T04:08:18.54Z"
->>>>>>> Stashed changes
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-<<<<<<< Updated upstream
-=======
               "Title": "GraficasController.cs",
               "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
               "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
               "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
               "RelativeToolTip": "SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAIwH0AAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAALcAAAAAAAAAAAAuwMoAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-28T03:06:15.042Z",
+              "WhenOpened": "2025-10-29T21:58:55.119Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
->>>>>>> Stashed changes
-              "Title": "G_Dispersion.cshtml",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
-<<<<<<< Updated upstream
-              "ViewState": "AgIAAGYAAAAAAAAAAAAAAA4AAABcAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "G_Histograma.cshtml",
+              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
+              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
+              "ViewState": "AgIAALgAAAAAAAAAAAAuwNgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-23T17:50:50.399Z",
-=======
-              "ViewState": "AgIAAC4BAAAAAAAAAAAIwFgBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-28T03:04:36.407Z",
->>>>>>> Stashed changes
+              "WhenOpened": "2025-10-29T21:57:38.816Z",
               "EditorCaption": ""
             }
           ]

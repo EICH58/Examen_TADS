@@ -248,15 +248,13 @@
             });
         }
 
-
-                 // =================== EXPORTAR PDF ===================
+                // =================== EXPORTAR PDF ===================
         async function exportarPDF() {
             try {
-                // === Asegura que jsPDF esté cargado ===
                 const { jsPDF } = window.jspdf;
-                const doc = new jsPDF('l', 'pt', 'a4'); // horizontal
+                const doc = new jsPDF('l', 'pt', 'a4'); // formato horizontal
 
-                // === Captura el contenedor completo de la gráfica (no solo el canvas) ===
+                // === Contenedores ===
                 const chartContainer = document.getElementById('graficaContainer');
                 const tablaContainer = document.getElementById('tablaContainer');
 
@@ -269,14 +267,13 @@
                 const imgChart = canvasChart.toDataURL('image/png', 1.0);
 
                 doc.setFontSize(18);
-                doc.setTextColor(30);
                 doc.text("Gráfica de Dispersión", 300, 50);
                 doc.addImage(imgChart, 'PNG', 40, 80, 750, 420);
 
                 // ====== Tabla ======
                 doc.addPage();
                 const canvasTabla = await html2canvas(tablaContainer, {
-                    scale: 1,
+                    scale: 1.5,
                     backgroundColor: "#ffffff",
                     useCORS: true
                 });
@@ -286,30 +283,6 @@
                 doc.text("Tabla de Datos", 350, 50);
                 doc.addImage(imgTabla, 'PNG', 40, 80, 750, 400);
 
-                // ====== Calcular promedios ======
-                const filas = document.querySelectorAll("#tablaResultados tbody tr");
-                let totalAsistencia = 0, totalCalif = 0, n = filas.length;
-
-                filas.forEach(fila => {
-                    const tds = fila.querySelectorAll("td");
-                    totalAsistencia += parseFloat((tds[4]?.innerText || "0"));
-                    totalCalif += parseFloat((tds[5]?.innerText || "0"));
-                });
-
-                const promAsistencia = n ? (totalAsistencia / n).toFixed(2) : "0.00";
-                const promCalif = n ? (totalCalif / n).toFixed(2) : "0.00";
-
-                // ====== Resumen ======
-                doc.addPage();
-                doc.setFontSize(18);
-                doc.text("Resumen de Promedios", 300, 80);
-                doc.setFontSize(14);
-                doc.setTextColor(60);
-                doc.text(`Promedio de Asistencia: ${promAsistencia}%`, 100, 130);
-                doc.text(`Promedio de Calificación: ${promCalif}`, 100, 160);
-                doc.setDrawColor(100);
-                doc.line(80, 180, 760, 180);
-
                 // ====== Guardar ======
                 const nombreSeguro = (s) => (s || "").toString().replace(/[\\/:*?"<>|]/g, "_").trim();
                 const carreraTxt = nombreSeguro(document.querySelector("#carreraSelect option:checked")?.text);
@@ -318,32 +291,12 @@
                 const fileName = `Grafica_Dispersion_${carreraTxt}_${materiaTxt}_${unidadTxt}.pdf`;
 
                 doc.save(fileName);
-
-                // ====== Notificación flotante (SweetAlert2) ======
-                Swal.fire({
-                    icon: 'success',
-                    title: 'PDF exportado correctamente',
-                    showConfirmButton: false,
-                    timer: 2000,
-                    toast: true,
-                    position: 'top-end'
-                });
-
-            } catch (err) {
+                console.log("✅ PDF generado correctamente:", fileName);
+            }
+            catch (err) {
                 console.error("❌ Error al exportar PDF:", err);
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error al exportar PDF',
-                    text: 'Revisa la consola para más detalles.',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    toast: true,
-                    position: 'top-end'
-                });
             }
         }
-
-
 
     </script>
 }

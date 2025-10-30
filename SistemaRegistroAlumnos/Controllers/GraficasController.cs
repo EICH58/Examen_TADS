@@ -21,7 +21,8 @@ namespace SistemaRegistroAlumnos.Controllers
         public ActionResult G_Pareto() => View();
 
         // ===================================================
-        // MÉTODO NUEVO: ObtenerDatosMateriaUnidadCarrera
+        // MÉTODO ORIGINAL: ObtenerDatosMateriaUnidadCarrera
+        // (Usado por dispersión)
         // ===================================================
         [HttpGet]
         public IActionResult ObtenerDatosMateriaUnidadCarrera(int? idCarrera = 1, int? idMateria = 1, int? idUnidad = 1)
@@ -70,7 +71,85 @@ namespace SistemaRegistroAlumnos.Controllers
         }
 
         // ===================================================
-        // ENDPOINT PARA LLENAR SELECT DE CARRERAS
+        // NUEVO MÉTODO: Calificaciones para Histograma
+        // ===================================================
+        [HttpGet("/api/histograma/calificaciones")]
+        public IActionResult ObtenerCalificacionesHistograma(int? idCarrera, int? idMateria, int? idUnidad)
+        {
+            // Base: calificación por registro (alumno-unidad)
+            var q = from c in _context.Calificaciones
+                    join a in _context.Alumno on c.Id_Alumno_Calif equals a.Id_Alumno
+                    join u in _context.Unidades on c.Id_Unidad_Calif equals u.Id_Unidades
+                    join m in _context.Materias on u.Id_Materia_Unidad equals m.Id_Materia
+                    join cr in _context.Carrera on m.Id_Carrera_Materia equals cr.Id_Carrera
+                    // Solo traemos los campos que necesitamos
+                    select new
+                    {
+                        a.Id_Alumno,
+                        u.Id_Unidades,
+                        m.Id_Materia,
+                        cr.Id_Carrera,
+                        Calif_Indiv = c.Calif_Indiv
+                    };
+
+            if (idCarrera.HasValue)
+                q = q.Where(x => x.Id_Carrera == idCarrera.Value);
+
+            if (idMateria.HasValue)
+                q = q.Where(x => x.Id_Materia == idMateria.Value);
+
+            if (idUnidad.HasValue)
+                q = q.Where(x => x.Id_Unidades == idUnidad.Value);
+
+            // Evita Nulls en Calificaciones
+            var listaLimpia = q
+                .Where(x => x.Calif_Indiv != null)
+                .ToList();
+
+            var califs = Enumerable.Empty<decimal>().AsQueryable();
+
+            // ==== Lógica por nivel de filtro ====
+            if (idUnidad.HasValue)
+            {
+                // Por unidad específica
+                califs = listaLimpia
+                    .GroupBy(x => x.Id_Alumno)
+                    .Select(g => Math.Round(g.Average(y => y.Calif_Indiv), 2))
+                    .AsQueryable();
+            }
+            else if (idMateria.HasValue)
+            {
+                // Promedio por materia (todas las unidades)
+                califs = listaLimpia
+                    .GroupBy(x => new { x.Id_Alumno, x.Id_Materia })
+                    .Select(g => Math.Round(g.Average(y => y.Calif_Indiv), 2))
+                    .AsQueryable();
+            }
+            else if (idCarrera.HasValue)
+            {
+                // Promedio por carrera (todas las materias)
+                califs = listaLimpia
+                     .GroupBy(x => x.Id_Alumno)
+                     .Select(g => new { IdAlumno = g.Key, Promedio = Math.Round(g.Average(y => y.Calif_Indiv), 2) })
+                     .GroupBy(x => 1) // agrupa todo en un solo conjunto
+                     .SelectMany(g => g.Select(x => x.Promedio))
+                     .AsQueryable();
+            }
+            else
+            {
+                // Promedio general por alumno (para carga inicial)
+                califs = listaLimpia
+                    .GroupBy(x => x.Id_Alumno)
+                    .Select(g => Math.Round(g.Average(y => y.Calif_Indiv), 2))
+                    .AsQueryable();
+            }
+
+            var lista = califs.Select(x => (double)x).ToList();
+            return Json(lista); // Ejemplo: [70.31, 21.6, 75.81, ...]
+        }
+
+        // ===================================================
+        // ENDPOINT: Obtener todas las carreras (para select)
         // ===================================================
         [HttpGet("/api/carreras")]
         public IActionResult ObtenerCarreras()
@@ -87,7 +166,7 @@ namespace SistemaRegistroAlumnos.Controllers
         }
 
         // ===================================================
-        // ENDPOINT PARA LLENAR SELECT DE MATERIAS SEGÚN CARRERA
+        // ENDPOINT: Materias según carrera
         // ===================================================
         [HttpGet("/api/materias/{idCarrera}")]
         public IActionResult ObtenerMateriasPorCarrera(int idCarrera)
@@ -105,7 +184,7 @@ namespace SistemaRegistroAlumnos.Controllers
         }
 
         // ===================================================
-        // ENDPOINT PARA LLENAR SELECT DE UNIDADES SEGÚN MATERIA
+        // ENDPOINT: Unidades según materia
         // ===================================================
         [HttpGet("/api/unidades/{idMateria}")]
         public IActionResult ObtenerUnidadesPorMateria(int idMateria)

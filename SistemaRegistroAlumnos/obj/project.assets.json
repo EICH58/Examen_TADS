@@ -1,9 +1,6 @@
 {
   "version": 3,
   "targets": {
-<<<<<<< Updated upstream
-    "net8.0": {}
-=======
     "net8.0": {
       "Azure.Core/1.38.0": {
         "type": "package",
@@ -4794,20 +4791,14 @@
         "useSharedDesignerContext.txt"
       ]
     }
->>>>>>> Stashed changes
   },
-  "libraries": {},
   "projectFileDependencyGroups": {
-<<<<<<< Updated upstream
-    "net8.0": []
-=======
     "net8.0": [
       "Microsoft.EntityFrameworkCore.Design >= 9.0.10",
       "Microsoft.EntityFrameworkCore.SqlServer >= 9.0.10",
       "Microsoft.EntityFrameworkCore.Tools >= 9.0.10",
       "Pomelo.EntityFrameworkCore.MySql >= 9.0.0"
     ]
->>>>>>> Stashed changes
   },
   "packageFolders": {
     "C:\\Users\\mcecy\\.nuget\\packages\\": {},
@@ -4859,8 +4850,6 @@
     "frameworks": {
       "net8.0": {
         "targetAlias": "net8.0",
-<<<<<<< Updated upstream
-=======
         "dependencies": {
           "Microsoft.EntityFrameworkCore.Design": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -4883,7 +4872,6 @@
             "version": "[9.0.0, )"
           }
         },
->>>>>>> Stashed changes
         "imports": [
           "net461",
           "net462",
