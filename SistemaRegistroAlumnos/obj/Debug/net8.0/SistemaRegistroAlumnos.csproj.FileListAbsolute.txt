@@ -172,3 +172,6 @@ C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlum
 C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\obj\Debug\net8.0\SistemaRegistroAlumnos.pdb
 C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\obj\Debug\net8.0\SistemaRegistroAlumnos.genruntimeconfig.cache
 C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\obj\Debug\net8.0\ref\SistemaRegistroAlumnos.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\BouncyCastle.Cryptography.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\itextsharp.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\itextsharp.xmlworker.dll

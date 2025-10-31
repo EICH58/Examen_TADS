@@ -1,6 +1,7 @@
 ﻿namespace SistemaRegistroAlumnos.Models
 {
     using System.ComponentModel.DataAnnotations;
+    using System.Collections.Generic;
 
     public class Semestre
     {
@@ -16,6 +17,6 @@
         [Required]
         public int Num_Semestre { get; set; }
 
-        public ICollection<Alumno> Alumnos { get; set; }
+        public ICollection<Alumno> Alumnos { get; set; } = new List<Alumno>();
     }
 }

@@ -1,12 +1,15 @@
 {
   "version": 2,
-  "dgSpecHash": "jvnmUzHYBb8=",
+  "dgSpecHash": "3NrLYQ6ZBwc=",
   "success": true,
   "projectFilePath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mcecy\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\mcecy\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
+    "C:\\Users\\mcecy\\.nuget\\packages\\bouncycastle.cryptography\\2.4.0\\bouncycastle.cryptography.2.4.0.nupkg.sha512",
     "C:\\Users\\mcecy\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
+    "C:\\Users\\mcecy\\.nuget\\packages\\itextsharp\\5.5.13.4\\itextsharp.5.5.13.4.nupkg.sha512",
+    "C:\\Users\\mcecy\\.nuget\\packages\\itextsharp.xmlworker\\5.5.13.4\\itextsharp.xmlworker.5.5.13.4.nupkg.sha512",
     "C:\\Users\\mcecy\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\7.0.0\\microsoft.bcl.asyncinterfaces.7.0.0.nupkg.sha512",
     "C:\\Users\\mcecy\\.nuget\\packages\\microsoft.build.framework\\17.8.3\\microsoft.build.framework.17.8.3.nupkg.sha512",
     "C:\\Users\\mcecy\\.nuget\\packages\\microsoft.build.locator\\1.7.8\\microsoft.build.locator.1.7.8.nupkg.sha512",
@@ -86,5 +89,30 @@
     "C:\\Users\\mcecy\\.nuget\\packages\\system.threading.tasks.extensions\\4.5.4\\system.threading.tasks.extensions.4.5.4.nupkg.sha512",
     "C:\\Users\\mcecy\\.nuget\\packages\\system.windows.extensions\\6.0.0\\system.windows.extensions.6.0.0.nupkg.sha512"
   ],
-  "logs": []
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'iTextSharp 5.5.13.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "projectPath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+      "libraryId": "iTextSharp",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "message": "Package 'itextsharp.xmlworker 5.5.13.4' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
+      "projectPath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+      "libraryId": "itextsharp.xmlworker",
+      "targetGraphs": [
+        "net8.0"
+      ]
+    }
+  ]
 }

@@ -3,16 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\controllers\\graficascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\controllers\\graficascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\controllers\\exportarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\controllers\\exportarcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\views\\graficas\\g_histograma.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_histograma.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\controllers\\graficas\\g_dispersioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\controllers\\graficas\\g_dispersioncontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\wwwroot\\css\\graficas.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
-      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\wwwroot\\css\\graficas.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\sistemaregistroalumnos.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\sistemaregistroalumnos.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|c:\\users\\mcecy\\desktop\\examen_tads-appweb\\examen_tads-appweb\\sistemaregistroalumnos\\views\\graficas\\g_dispersion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{7CBEBA27-951A-4E95-BC8F-470571FAFDF6}|SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj|solutionrelative:sistemaregistroalumnos\\views\\graficas\\g_dispersion.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,44 +26,62 @@
       "DocumentGroups": [
         {
           "DockedWidth": 101,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 4,
           "Children": [
             {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "Graficas.css",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\wwwroot\\css\\Graficas.css",
-              "ViewState": "AgIAAFMAAAAAAAAAAAAgwH8AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
-              "WhenOpened": "2025-10-29T22:02:06.433Z"
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "GraficasController.cs",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Controllers\\GraficasController.cs",
-              "ViewState": "AgIAALcAAAAAAAAAAAAuwMoAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-29T21:58:55.119Z",
+              "DocumentIndex": 2,
+              "Title": "SistemaRegistroAlumnos",
+              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\SistemaRegistroAlumnos.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-10-31T01:03:36.232Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "G_Histograma.cshtml",
-              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
-              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
-              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
-              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Histograma.cshtml",
-              "ViewState": "AgIAALgAAAAAAAAAAAAuwNgAAAABAAAAAAAAAA==",
+              "Title": "G_DispersionController.cs",
+              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\Graficas\\G_DispersionController.cs",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Controllers\\Graficas\\G_DispersionController.cs",
+              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\Graficas\\G_DispersionController.cs",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Controllers\\Graficas\\G_DispersionController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAF4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T00:49:29.15Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "G_Dispersion.cshtml",
+              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
+              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Views\\Graficas\\G_Dispersion.cshtml",
+              "ViewState": "AgIAALgAAAAAAAAAAAAvwNoAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2025-10-29T21:57:38.816Z",
+              "WhenOpened": "2025-10-31T00:31:38.413Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ExportarController.cs",
+              "DocumentMoniker": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\ExportarController.cs",
+              "RelativeDocumentMoniker": "SistemaRegistroAlumnos\\Controllers\\ExportarController.cs",
+              "ToolTip": "C:\\Users\\mcecy\\Desktop\\Examen_TADS-AppWeb\\Examen_TADS-AppWeb\\SistemaRegistroAlumnos\\Controllers\\ExportarController.cs",
+              "RelativeToolTip": "SistemaRegistroAlumnos\\Controllers\\ExportarController.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAowDsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-31T00:30:35.034Z",
               "EditorCaption": ""
             }
           ]

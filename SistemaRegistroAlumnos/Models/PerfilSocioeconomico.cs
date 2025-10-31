@@ -17,8 +17,8 @@
         public int? Personas_Hogar { get; set; }
 
         [StringLength(50)]
-        public string Vivienda_Tipo { get; set; }
+        public string Vivienda_Tipo { get; set; } = null!;
 
-        public virtual Alumno Alumno { get; set; }
+        public virtual Alumno Alumno { get; set; } = null!;
     }
 }

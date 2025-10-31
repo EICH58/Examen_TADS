@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
+    using System.Collections.Generic;
 
     [Table("Carrera")]
     public class Carrera
@@ -20,7 +21,7 @@
         [Required]
         public int Creditos_Carrera { get; set; }
 
-        public ICollection<Alumno> Alumnos { get; set; }
-        public ICollection<Materia> Materias { get; set; }
+        public ICollection<Alumno> Alumnos { get; set; } = new List<Alumno>();
+        public ICollection<Materia> Materias { get; set; } = new List<Materia>();
     }
 }
