@@ -13,47 +13,57 @@ namespace SistemaRegistroAlumnos.Controllers
         {
             try
             {
-                if (datos == null || string.IsNullOrEmpty(datos.ImagenBase64))
-                    return BadRequest(new { exito = false, error = "Datos inválidos o incompletos." });
+                // ===== VALIDACIÓN DE DATOS =====
+                if (datos == null)
+                    return Json(new { exito = false, error = "No se recibieron datos para generar el PDF." });
 
-                // Convertir imagen Base64 → bytes
+                if (string.IsNullOrEmpty(datos.ImagenBase64))
+                    return Json(new { exito = false, error = "No se recibió la imagen de la gráfica." });
+
+                // ===== CONVERTIR IMAGEN =====
                 byte[] bytes = Convert.FromBase64String(
                     datos.ImagenBase64.Replace("data:image/png;base64,", "").Trim()
                 );
 
-                // Generar el PDF (horizontal, con tabla e imagen)
+                // ===== GENERAR PDF =====
                 string ruta = AuxiliarPDF.GenerarPDF(
                     datos.Titulo ?? "Gráfica generada",
-                    datos.Descripcion ?? "Gráfica generada desde el sistema.",
+                    datos.Descripcion ?? "",
                     bytes,
                     datos.TablaHTML ?? "",
                     "ReportesGenerados",
-                    datos.Prefijo ?? "Grafica"
+                    datos.Prefijo ?? "Reporte"
                 );
 
-                // Leer el PDF generado en memoria para descargarlo
-                byte[] pdfBytes = System.IO.File.ReadAllBytes(ruta);
+                // ===== VALIDAR RUTA =====
+                if (ruta.StartsWith("ERROR:"))
+                    return Json(new { exito = false, error = ruta });
 
-                // Nombre de descarga
+                if (!System.IO.File.Exists(ruta))
+                    return Json(new { exito = false, error = "El archivo PDF no se generó correctamente." });
+
+                // ===== LEER PDF =====
+                byte[] pdfBytes = System.IO.File.ReadAllBytes(ruta);
                 string nombreArchivo = Path.GetFileName(ruta);
 
-                // Enviar el PDF como descarga directa
-                return File(pdfBytes, "application/pdf", nombreArchivo);
+                // ✅ RESPUESTA CORRECTA
+                Response.Headers.Append("Content-Disposition", $"attachment; filename={nombreArchivo}");
+                return File(pdfBytes, "application/pdf");
             }
             catch (Exception ex)
             {
-                return BadRequest(new { exito = false, error = "Error al generar el PDF: " + ex.Message });
+                return Json(new { exito = false, error = "Error al generar el PDF: " + ex.Message });
             }
         }
     }
 
-    // Clase auxiliar para recibir datos del frontend
+    // ===== CLASE AUXILIAR =====
     public class DatosGrafica
     {
         public string? Titulo { get; set; }
         public string? Descripcion { get; set; }
         public string? ImagenBase64 { get; set; }
-        public string? TablaHTML { get; set; }   // 👈 nuevo campo
+        public string? TablaHTML { get; set; }
         public string? Prefijo { get; set; }
     }
 }

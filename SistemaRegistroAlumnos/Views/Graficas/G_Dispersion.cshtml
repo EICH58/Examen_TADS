@@ -61,7 +61,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // ======== TOAST ========
+        // =================== TOAST ===================
         function mostrarToast(mensaje, color = "green") {
             const toast = document.getElementById("toast");
             toast.style.background = color === "red" ? "#dc3545" : "#198754";
@@ -70,7 +70,7 @@
             setTimeout(() => toast.style.display = "none", 2500);
         }
 
-        // ======== HELPERS SELECT ========
+        // =================== HELPERS ===================
         function setOptions(selectEl, items, getVal, getText) {
             selectEl.innerHTML = '<option value="">-- Selecciona --</option>';
             items.forEach(it => {
@@ -81,37 +81,31 @@
             });
         }
 
-        // ======== CARGA SELECTS ========
-        function cargarCarreras() {
-            return fetch('/Graficas/ObtenerCarreras')
-                .then(res => res.json())
-                .then(carreras => {
-                    setOptions(document.getElementById("carreraSelect"), carreras, c => c.id_Carrera, c => c.nombre_Carrera);
-                    return carreras;
-                });
+        // =================== CARGA DE SELECTS ===================
+        async function cargarCarreras() {
+            const res = await fetch('/Graficas/ObtenerCarreras');
+            const data = await res.json();
+            setOptions(carreraSelect, data, c => c.id_Carrera, c => c.nombre_Carrera);
+            return data;
         }
 
-        function cargarMaterias(idCarrera) {
-            if (!idCarrera) return Promise.resolve([]);
-            return fetch(`/Graficas/ObtenerMateriasPorCarrera/${idCarrera}`)
-                .then(res => res.json())
-                .then(materias => {
-                    setOptions(document.getElementById("materiaSelect"), materias, m => m.id_Materia, m => m.nombre_Materia);
-                    return materias;
-                });
+        async function cargarMaterias(idCarrera) {
+            if (!idCarrera) return [];
+            const res = await fetch(`/Graficas/ObtenerMateriasPorCarrera/${idCarrera}`);
+            const data = await res.json();
+            setOptions(materiaSelect, data, m => m.id_Materia, m => m.nombre_Materia);
+            return data;
         }
 
-        function cargarUnidades(idMateria) {
-            if (!idMateria) return Promise.resolve([]);
-            return fetch(`/Graficas/ObtenerUnidadesPorMateria/${idMateria}`)
-                .then(res => res.json())
-                .then(unidades => {
-                    setOptions(document.getElementById("unidadSelect"), unidades, u => u.id_Unidades, u => u.nombre_Unidad);
-                    return unidades;
-                });
+        async function cargarUnidades(idMateria) {
+            if (!idMateria) return [];
+            const res = await fetch(`/Graficas/ObtenerUnidadesPorMateria/${idMateria}`);
+            const data = await res.json();
+            setOptions(unidadSelect, data, u => u.id_Unidades, u => u.nombre_Unidad);
+            return data;
         }
 
-        // ======== TABLA & GRÁFICA ========
+        // =================== TABLA Y GRÁFICA ===================
         function actualizarTabla(data) {
             const tbody = document.querySelector("#tablaResultados tbody");
             tbody.innerHTML = data.map(d => `
@@ -162,7 +156,7 @@
                 `${carreraTxt} – ${materiaTxt} – ${unidadTxt}`;
         }
 
-        // ======== CARGA DATOS (CLICK FILTRAR) ========
+        // =================== CARGA DE DATOS ===================
         function cargarDatos() {
             const idCarrera = carreraSelect.value;
             const idMateria = materiaSelect.value;
@@ -187,44 +181,63 @@
                 .catch(() => mostrarToast("Error al cargar los datos.", "red"));
         }
 
-        // ======== EXPORTAR PDF ========
+        // =================== EXPORTAR PDF ===================
         document.getElementById('btnExportarPDF').addEventListener('click', async () => {
             try {
                 const canvas = document.getElementById('dispersionChart');
-                const tablaHTML = document.getElementById('tablaResultados').outerHTML;
-                const imagenBase64 = canvas.toDataURL('image/png');
-                const titulo = "Gráfica de Dispersión";
-                const descripcion = "Relación entre el porcentaje de asistencia y las calificaciones de los alumnos.";
+                const carreraTxt = carreraSelect.options[carreraSelect.selectedIndex]?.text || "";
+                const materiaTxt = materiaSelect.options[materiaSelect.selectedIndex]?.text || "";
+                const unidadTxt  = unidadSelect.options[unidadSelect.selectedIndex]?.text || "";
 
-                const datos = {
-                    Titulo: titulo,
-                    Descripcion: descripcion,
-                    ImagenBase64: imagenBase64,
+                const tablaHTML = `
+                    <style>
+                        table { width:100%; border-collapse:collapse; font-family:Helvetica; font-size:11px; }
+                        th { background:#343a40; color:white; padding:6px; border:1px solid #999; text-align:center; }
+                        td { border:1px solid #999; padding:5px; text-align:center; }
+                    </style>
+                    ${document.getElementById('tablaResultados').outerHTML}
+                `;
+
+                const payload = {
+                    Titulo: carreraTxt,
+                    Descripcion: `${materiaTxt}|${unidadTxt}`,
+                    ImagenBase64: canvas.toDataURL('image/png'),
                     TablaHTML: tablaHTML,
                     Prefijo: "G_Dispersion"
                 };
 
-                         const resp = await fetch('/api/exportar/pdf', {
-                            method: 'POST',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(datos)
-                        });
+                const resp = await fetch('/api/exportar/pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
 
+                const contentType = resp.headers.get('content-type') || '';
 
-
-                const resultado = await resp.json();
-                if (resultado.exito) {
-                    mostrarToast("Datos enviados para generar PDF.", "green");
-                } else {
-                    mostrarToast("Error al generar el PDF.", "red");
+                if (resp.ok && contentType.includes('application/pdf')) {
+                    const blob = await resp.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `G_Dispersion_${new Date().toISOString().slice(0,16).replace('T','_').replace(':','-')}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(url);
+                    mostrarToast("PDF generado correctamente.", "green");
+                    return;
                 }
-            } catch (err) {
-                console.error(err);
+
+                const errJson = await resp.json().catch(() => ({}));
+                const msg = errJson?.error || "Error al generar el PDF.";
+                mostrarToast(msg, "red");
+            } catch (e) {
+                console.error(e);
                 mostrarToast("Error al exportar el PDF.", "red");
             }
         });
 
-        // ======== INIT ========
+        // =================== INICIALIZACIÓN ===================
         document.addEventListener("DOMContentLoaded", async () => {
             const carreraSel = document.getElementById("carreraSelect");
             const materiaSel = document.getElementById("materiaSelect");
@@ -232,18 +245,47 @@
 
             carreraSel.addEventListener("change", async () => {
                 const idCarrera = carreraSel.value;
-                await cargarMaterias(idCarrera);
+                const materias = await cargarMaterias(idCarrera);
                 unidadSel.innerHTML = '<option value="">-- Selecciona unidad --</option>';
+                if (materias.length > 0) {
+                    materiaSel.value = materias[0].id_Materia;
+                    const unidades = await cargarUnidades(materias[0].id_Materia);
+                    if (unidades.length > 0) {
+                        unidadSel.value = unidades[0].id_Unidades;
+                        cargarDatos();
+                    }
+                }
             });
 
             materiaSel.addEventListener("change", async () => {
                 const idMateria = materiaSel.value;
-                await cargarUnidades(idMateria);
+                const unidades = await cargarUnidades(idMateria);
+                if (unidades.length > 0) {
+                    unidadSel.value = unidades[0].id_Unidades;
+                    cargarDatos();
+                }
             });
 
             document.getElementById("btnFiltrar").addEventListener("click", cargarDatos);
 
-            await cargarCarreras(); // carga inicial
+            try {
+                const carreras = await cargarCarreras();
+                if (carreras.length > 0) {
+                    carreraSel.value = carreras[0].id_Carrera;
+                    const materias = await cargarMaterias(carreras[0].id_Carrera);
+                    if (materias.length > 0) {
+                        materiaSel.value = materias[0].id_Materia;
+                        const unidades = await cargarUnidades(materias[0].id_Materia);
+                        if (unidades.length > 0) {
+                            unidadSel.value = unidades[0].id_Unidades;
+                            cargarDatos();
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Error en carga inicial:", err);
+                mostrarToast("Error en carga inicial.", "red");
+            }
         });
     </script>
 }
