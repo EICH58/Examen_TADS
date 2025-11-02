@@ -1,3 +1,4 @@
+wwwroot\css\Asistencia.css
 wwwroot\css\estilos-busqueda.css
 wwwroot\css\Genera.css
 wwwroot\css\Graficas.css
@@ -9,6 +10,7 @@ wwwroot\favicon.ico
 wwwroot\Img\buscar.png
 wwwroot\Img\exportar.png
 wwwroot\Img\fondo.png
+wwwroot\Img\Formato.png
 wwwroot\Img\home.png
 wwwroot\Img\Logo.png
 wwwroot\Img\mas.png
@@ -71,3 +73,4 @@ wwwroot\lib\jquery\dist\jquery.js
 wwwroot\lib\jquery\dist\jquery.min.js
 wwwroot\lib\jquery\dist\jquery.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\Plantilla\LisAsistencia.xlsx

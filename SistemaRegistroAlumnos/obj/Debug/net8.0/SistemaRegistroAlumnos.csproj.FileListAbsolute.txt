@@ -357,3 +357,11 @@ C:\Users\mgomez\Desktop\TADP\Examen_TADS\SistemaRegistroAlumnos\bin\Debug\net8.0
 C:\Users\mgomez\Desktop\TADP\Examen_TADS\SistemaRegistroAlumnos\bin\Debug\net8.0\RBush.dll
 C:\Users\mgomez\Desktop\TADP\Examen_TADS\SistemaRegistroAlumnos\bin\Debug\net8.0\SixLabors.Fonts.dll
 C:\Users\mgomez\Desktop\TADP\Examen_TADS\SistemaRegistroAlumnos\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\RBush.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\mcecy\Desktop\Examen_TADS-AppWeb\Examen_TADS-AppWeb\SistemaRegistroAlumnos\bin\Debug\net8.0\System.IO.Packaging.dll

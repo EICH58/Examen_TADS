@@ -15,9 +15,6 @@ namespace SistemaRegistroAlumnos.Controllers.Graficas
             _context = context;
         }
 
-        // ===========================
-        // 📊 Vista principal (NECESARIA para /Graficas/G_Histograma)
-        // ===========================
         [HttpGet("G_Histograma")]
         public IActionResult G_Histograma()
         {
@@ -25,44 +22,86 @@ namespace SistemaRegistroAlumnos.Controllers.Graficas
         }
 
         // ===========================
-        // 📈 API: Calificaciones para histograma
+        // 📈 Calificaciones CORREGIDO V3 - FUNCIONAL
         // ===========================
         [HttpGet("/api/histograma/calificaciones")]
         public IActionResult ObtenerCalificacionesHistograma(int? idCarrera, int? idMateria, int? idUnidad)
         {
-            var q =
-                from c in _context.Calificaciones
-                join a in _context.Alumno on c.Id_Alumno_Calif equals a.Id_Alumno
-                join u in _context.Unidades on c.Id_Unidad_Calif equals u.Id_Unidades
-                join m in _context.Materias on u.Id_Materia_Unidad equals m.Id_Materia
-                select new
+            try
+            {
+                // === CASO 1: Filtro por UNIDAD específica ===
+                if (idUnidad.HasValue)
                 {
-                    Alumno = a.Id_Alumno,
-                    CarreraAlumno = a.Id_Carrera_Alum,   // carrera real del alumno
-                    Materia = m.Id_Materia,
-                    Unidad = u.Id_Unidades,
-                    Calif = (decimal?)c.Calif_Indiv
-                };
+                    var promediosPorUnidad = _context.Calificaciones
+                        .Where(c => c.Id_Unidad_Calif == idUnidad.Value)
+                        .GroupBy(c => c.Id_Alumno_Calif)
+                        .Select(g => Math.Round(g.Average(c => c.Calif_Indiv), 2))
+                        .ToList();
 
-            if (idCarrera.HasValue)
-                q = q.Where(x => x.CarreraAlumno == idCarrera.Value);
+                    return Json(promediosPorUnidad.Select(v => (double)v));
+                }
 
-            if (idMateria.HasValue)
-                q = q.Where(x => x.Materia == idMateria.Value);
+                // === CASO 2: Filtro por MATERIA (promedio de todas sus unidades) ===
+                if (idMateria.HasValue)
+                {
+                    var idsUnidades = _context.Unidades
+                        .Where(u => u.Id_Materia_Unidad == idMateria.Value)
+                        .Select(u => u.Id_Unidades)
+                        .ToList();
 
-            if (idUnidad.HasValue)
-                q = q.Where(x => x.Unidad == idUnidad.Value);
+                    if (!idsUnidades.Any())
+                    {
+                        return Json(new double[] { });
+                    }
 
-            // Trae datos a memoria y promedia por alumno (sin inflar)
-            var lista = q.Where(x => x.Calif != null).ToList();
+                    var promediosPorMateria = _context.Calificaciones
+                        .Where(c => idsUnidades.Contains(c.Id_Unidad_Calif))
+                        .GroupBy(c => c.Id_Alumno_Calif)
+                        .Select(g => Math.Round(g.Average(c => c.Calif_Indiv), 2))
+                        .ToList();
 
-            var promediosPorAlumno = lista
-                .GroupBy(x => x.Alumno)
-                .Select(g => Math.Round(g.Average(y => y.Calif!.Value), 2))
-                .Select(v => (double)v)
-                .ToList();
+                    return Json(promediosPorMateria.Select(v => (double)v));
+                }
 
-            return Json(promediosPorAlumno);
+                // === CASO 3: Filtro por CARRERA (TODAS las calificaciones de alumnos de esa carrera) ===
+                if (idCarrera.HasValue)
+                {
+                    // 🔑 CLAVE: Solo filtramos por alumnos de la carrera
+                    // NO filtramos por materias de la carrera
+                    var idsAlumnos = _context.Alumno
+                        .Where(a => a.Id_Carrera_Alum == idCarrera.Value)
+                        .Select(a => a.Id_Alumno)
+                        .ToList();
+
+                    if (!idsAlumnos.Any())
+                    {
+                        return Json(new double[] { });
+                    }
+
+                    // Obtener TODAS las calificaciones de esos alumnos
+                    var promediosPorCarrera = _context.Calificaciones
+                        .Where(c => idsAlumnos.Contains(c.Id_Alumno_Calif))
+                        .GroupBy(c => c.Id_Alumno_Calif)
+                        .Select(g => Math.Round(g.Average(c => c.Calif_Indiv), 2))
+                        .ToList();
+
+                    return Json(promediosPorCarrera.Select(v => (double)v));
+                }
+
+                // === CASO 4: SIN FILTROS - Todos los alumnos ===
+                var promediosGenerales = _context.Calificaciones
+                    .GroupBy(c => c.Id_Alumno_Calif)
+                    .Select(g => Math.Round(g.Average(c => c.Calif_Indiv), 2))
+                    .ToList();
+
+                return Json(promediosGenerales.Select(v => (double)v));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"❌ Error en histograma: {ex.Message}");
+                Console.WriteLine($"StackTrace: {ex.StackTrace}");
+                return Json(new { error = ex.Message });
+            }
         }
 
         // ===========================
@@ -72,8 +111,13 @@ namespace SistemaRegistroAlumnos.Controllers.Graficas
         public IActionResult ObtenerCarreras()
         {
             var carreras = _context.Carrera
-                .Select(c => new { id_Carrera = c.Id_Carrera, nombre_Carrera = c.Nombre_Carrera })
+                .Select(c => new
+                {
+                    id_Carrera = c.Id_Carrera,
+                    nombre_Carrera = c.Nombre_Carrera
+                })
                 .ToList();
+
             return Json(carreras);
         }
 
@@ -82,8 +126,13 @@ namespace SistemaRegistroAlumnos.Controllers.Graficas
         {
             var materias = _context.Materias
                 .Where(m => m.Id_Carrera_Materia == idCarrera)
-                .Select(m => new { id_Materia = m.Id_Materia, nombre_Materia = m.Nombre_Materia })
+                .Select(m => new
+                {
+                    id_Materia = m.Id_Materia,
+                    nombre_Materia = m.Nombre_Materia
+                })
                 .ToList();
+
             return Json(materias);
         }
 
@@ -92,8 +141,13 @@ namespace SistemaRegistroAlumnos.Controllers.Graficas
         {
             var unidades = _context.Unidades
                 .Where(u => u.Id_Materia_Unidad == idMateria)
-                .Select(u => new { id_Unidades = u.Id_Unidades, nombre_Unidad = u.Nombre_Unidad })
+                .Select(u => new
+                {
+                    id_Unidades = u.Id_Unidades,
+                    nombre_Unidad = u.Nombre_Unidad
+                })
                 .ToList();
+
             return Json(unidades);
         }
     }
