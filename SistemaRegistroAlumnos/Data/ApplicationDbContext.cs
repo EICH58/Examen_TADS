@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
+using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 using SistemaRegistroAlumnos.Models;
 
 namespace SistemaRegistroAlumnos.Data
@@ -9,38 +12,26 @@ namespace SistemaRegistroAlumnos.Data
         {
         }
 
-        // ==================== Tablas principales ====================
+        // DbSets originales
         public DbSet<Semestre> Semestre { get; set; }
-        public DbSet<StatusAlumno> StatusAlumno { get; set; }
+        public DbSet<StatusAlumno> Status_Alumno { get; set; }
         public DbSet<Carrera> Carrera { get; set; }
         public DbSet<Alumno> Alumno { get; set; }
-        public DbSet<PerfilSocioeconomico> PerfilesSocioeconomico { get; set; }
+        public DbSet<PerfilSocioeconomico> Perfil_Socioeconomico { get; set; }
+        public DbSet<EstadoAsistencia> EstadosAsistencia { get; set; }
         public DbSet<Materia> Materias { get; set; }
         public DbSet<Unidad> Unidades { get; set; }
-
-        // ==================== Tablas académicas ====================
         public DbSet<Asistencia> Asistencia { get; set; }
-        public DbSet<EstadoAsistencia> EstadoAsistencia { get; set; }
         public DbSet<Calificacion> Calificaciones { get; set; }
 
-        // ==================== Configuración del modelo ====================
+        // NUEVO: Usuarios
+        public DbSet<Usuarios> Usuarios { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Nombres de tablas explícitos (evita errores con EF pluralizador)
-            modelBuilder.Entity<Alumno>().ToTable("Alumno");
-            modelBuilder.Entity<Carrera>().ToTable("Carrera");
-            modelBuilder.Entity<Semestre>().ToTable("Semestre");
-            modelBuilder.Entity<StatusAlumno>().ToTable("Status_Alumno");
-            modelBuilder.Entity<Asistencia>().ToTable("Asistencia");
-            modelBuilder.Entity<Calificacion>().ToTable("Calificaciones");
-            modelBuilder.Entity<EstadoAsistencia>().ToTable("Estado_Asistencia");
-
-            // ==================== Índices útiles ====================
-            // Los ID ya están indexados automáticamente (por ser clave primaria)
-            // Así que aquí solo se crean índices adicionales de utilidad real
-
+            // Configuraciones originales
             modelBuilder.Entity<Alumno>()
                 .HasIndex(a => a.Num_Control)
                 .IsUnique();
@@ -48,19 +39,36 @@ namespace SistemaRegistroAlumnos.Data
             modelBuilder.Entity<Alumno>()
                 .HasIndex(a => new { a.Nom_Alumno, a.App_Alumno });
 
+            modelBuilder.Entity<Asistencia>()
+                .HasIndex(a => a.Fecha_Asis);
+
             modelBuilder.Entity<Calificacion>()
                 .HasIndex(c => c.Id_Alumno_Calif);
 
-            // ==================== Relaciones uno a uno ====================
             modelBuilder.Entity<Alumno>()
                 .HasOne(a => a.PerfilSocioeconomico)
                 .WithOne(p => p.Alumno)
                 .HasForeignKey<PerfilSocioeconomico>(p => p.Id_Alumno);
 
-            // ==================== Tipos de columna ====================
             modelBuilder.Entity<Alumno>()
                 .Property(a => a.Fecha_Nac)
                 .HasColumnType("date");
+
+            // NUEVO: Configuración de Usuarios (copiada del scaffold)
+            modelBuilder.Entity<Usuarios>(entity =>
+            {
+                entity.HasKey(e => e.IdUsuario).HasName("PRIMARY");
+
+                entity.Property(e => e.IdUsuario)
+                    .HasColumnType("int(11)")
+                    .HasColumnName("Id_Usuario");
+                entity.Property(e => e.ContraUsuario)
+                    .HasMaxLength(30)
+                    .HasColumnName("contra_usuario");
+                entity.Property(e => e.NombreUsuario)
+                    .HasMaxLength(25)
+                    .HasColumnName("nombre_usuario");
+            });
         }
     }
 }

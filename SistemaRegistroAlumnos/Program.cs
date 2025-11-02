@@ -26,9 +26,23 @@ namespace SistemaRegistroAlumnos
                     new MySqlServerVersion(new Version(8, 0, 36))
                 )
             );
+            // AUTENTICACIÓN CON COOKIES (simple)
+            builder.Services.AddAuthentication("CookieAuth")
+                .AddCookie("CookieAuth", options =>
+                {
+                    options.LoginPath = "/Account/Login";     // Vista de login
+                    options.AccessDeniedPath = "/Account/Denied";
+                    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+                });
+            // Autorización (para usar [Authorize])
+            builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
+
+
+
+           
             // ======== Configuración del pipeline ========
             if (!app.Environment.IsDevelopment())
             {
@@ -39,11 +53,12 @@ namespace SistemaRegistroAlumnos
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}"
+                pattern: "{controller=Account}/{action=Login}/{id?}"
             );
 
             app.Run();

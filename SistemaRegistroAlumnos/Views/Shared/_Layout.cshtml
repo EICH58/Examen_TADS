@@ -11,31 +11,43 @@
 
 <body>
     <div class="d-flex">
-        <div class="sidebar vh-100 position-fixed">
-            <div class="d-flex flex-column align-items-center py-3">
-                <img class="logo" src="~/Img/Logo.png" alt="Logo">
+        <!-- === MENÚ LATERAL: SOLO SI ESTÁ LOGUEADO === -->
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="sidebar vh-100 position-fixed">
+                <div class="d-flex flex-column align-items-center py-3">
+                    <img class="logo" src="~/Img/Logo.png" alt="Logo">
+                </div>
+
+                <ul class="nav flex-column px-3">
+                    <li class="nav-item">
+                        <ul class="nav flex-column ms-3">
+                            <li><a href="@Url.Action("Index", "Home")"><img src="~/Img/home.png" alt="I" class="icono">Inicio</a></li>
+                            <li><a href="@Url.Action("G_Dispersion", "Graficas")"><img src="~/Img/pac.png" alt="c" class="icono">Gráfica de dispersión</a></li>
+                            <li><a href="@Url.Action("G_Pastel", "Graficas")"><img src="~/Img/pac.png" alt="p" class="icono">Gráfica de pastel</a></li>
+                            <li><a href="@Url.Action("G_Histograma", "Graficas")"><img src="~/Img/pac.png" alt="h" class="icono">Histograma</a></li>
+                            <li><a href="@Url.Action("G_Pareto", "Graficas")"><img src="~/Img/pac.png" alt="pr" class="icono">Gráfica de pareto</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <div class="sidebar-footer text-center mb-3">
+                    <a href="@Url.Action("info", "Home")">© 2025 by.... </a>
+                </div>
             </div>
 
-            <ul class="nav flex-column px-3">
-                <li class="nav-item">
-                    <ul class="nav flex-column ms-3">
-                        <li><a href="@Url.Action("Index", "Home")"><img src="~/Img/home.png" alt="I" class="icono">Inicio</a></li>
-                        <li><a href="@Url.Action("G_Dispersion", "Graficas")"><img src="~/Img/pac.png" alt="c" class="icono">Gráfica de dispersión</a></li>
-                        <li><a href="@Url.Action("G_Pastel", "Graficas")"><img src="~/Img/pac.png" alt="p" class="icono">Gráfica de pastel</a></li>
-                        <li><a href="@Url.Action("G_Histograma", "Graficas")"><img src="~/Img/pac.png" alt="h" class="icono">Histograma</a></li>
-                        <li><a href="@Url.Action("G_Pareto", "Graficas")"><img src="~/Img/pac.png" alt="pr" class="icono">Gráfica de pareto</a></li>
-                    </ul>
-                </li>
-            </ul>
-
-            <div class="sidebar-footer text-center mb-3">
-                <a href="@Url.Action("info", "Home")">© 2025 by.... </a>
-            </div>
-        </div>
-
-        <main class="flex-grow-1" style="margin-left:300px;">
-            @RenderBody()
-        </main>
+            <!-- Contenido principal con margen -->
+            <main class="flex-grow-1" style="margin-left:300px;">
+                @RenderBody()
+            </main>
+        }
+        else
+        {
+            <!-- === SI NO ESTÁ LOGUEADO: SIN MENÚ, SIN MARGEN === -->
+            <main class="flex-grow-1">
+                @RenderBody()
+            </main>
+        }
     </div>
 
     <!-- Scripts -->
