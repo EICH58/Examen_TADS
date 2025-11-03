@@ -1,9 +1,10 @@
-using System.Text;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
-using SistemaRegistroAlumnos.Data; // ?? importa tu contexto
+using SistemaRegistroAlumnos.Data;
+using SistemaRegistroAlumnos.Includes; // ? Importa el BitacoraService que dejaste en Includes
+using System.Text;
 
 namespace SistemaRegistroAlumnos
 {
@@ -11,7 +12,7 @@ namespace SistemaRegistroAlumnos
     {
         public static void Main(string[] args)
         {
-            // ?? Solución al error de codificación 1252
+            // ? Solución al error de codificación 1252
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
             var builder = WebApplication.CreateBuilder(args);
@@ -19,27 +20,32 @@ namespace SistemaRegistroAlumnos
             // ======== Configuración de servicios ========
             builder.Services.AddControllersWithViews();
 
-            // ? Registro de tu DbContext (vuelve a agregar esta línea)
+            // ? Registro del DbContext
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseMySql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     new MySqlServerVersion(new Version(8, 0, 36))
                 )
             );
-            // AUTENTICACIÓN CON COOKIES (simple)
+
+            // ? Registro del servicio de Bitácora
+            builder.Services.AddHttpContextAccessor();
+            builder.Services.AddScoped<BitacoraService>();
+
+            // ? Autenticación con cookies
             builder.Services.AddAuthentication("CookieAuth")
                 .AddCookie("CookieAuth", options =>
                 {
-                    options.LoginPath = "/Account/Login";     // Vista de login
+                    options.LoginPath = "/Account/Login";
                     options.AccessDeniedPath = "/Account/Denied";
                     options.ExpireTimeSpan = TimeSpan.FromHours(8);
                 });
-            // Autorización (para usar [Authorize])
+
+            // ? Autorización para usar [Authorize]
             builder.Services.AddAuthorization();
 
             var app = builder.Build();
 
-           
             // ======== Configuración del pipeline ========
             if (!app.Environment.IsDevelopment())
             {

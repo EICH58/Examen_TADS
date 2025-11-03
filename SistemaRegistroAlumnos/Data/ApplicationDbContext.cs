@@ -19,6 +19,7 @@ namespace SistemaRegistroAlumnos.Data
         public DbSet<Calificacion> Calificaciones { get; set; }
         public DbSet<FactorPorAlumno> FactoresPorAlumno { get; set; }  // ← AGREGAR ESTA LÍNEA
         public DbSet<Usuarios> Usuarios { get; set; }
+        public DbSet<Bitacora> Bitacora { get; set; }
 
         // ==================== Mapeo y configuración ====================
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -35,7 +36,8 @@ namespace SistemaRegistroAlumnos.Data
             modelBuilder.Entity<EstadoAsistencia>().ToTable("Estado_Asistencia");
             modelBuilder.Entity<Materia>().ToTable("Materias");
             modelBuilder.Entity<Unidad>().ToTable("Unidades");
-            modelBuilder.Entity<FactorPorAlumno>().ToTable("Factor_Por_Alumno"); 
+            modelBuilder.Entity<FactorPorAlumno>().ToTable("Factor_Por_Alumno");
+            modelBuilder.Entity<Bitacora>().ToTable("Bitacora");
 
             // --- Índices útiles ---
             modelBuilder.Entity<Alumno>()
@@ -58,6 +60,11 @@ namespace SistemaRegistroAlumnos.Data
             modelBuilder.Entity<Alumno>()
                 .Property(a => a.Fecha_Nac)
                 .HasColumnType("date");
+
+            modelBuilder.Entity<Bitacora>()
+                .HasIndex(b => b.Fecha_Hora);
+            modelBuilder.Entity<Bitacora>()
+                .HasIndex(b => b.Id_Usuario);
 
             // --- Usuarios (login) ---
             modelBuilder.Entity<Usuarios>(entity =>

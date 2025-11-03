@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SistemaRegistroAlumnos.Includes;
+using SistemaRegistroAlumnos.Includes; // ✅ Para acceder a BitacoraService
 using System;
 using System.IO;
 
@@ -8,6 +8,15 @@ namespace SistemaRegistroAlumnos.Controllers
     [Route("api/exportar")]
     public class ExportarController : Controller
     {
+        // ✅ Inyección del servicio de Bitácora
+        private readonly BitacoraService _bitacoraService;
+
+        // ✅ Constructor actualizado
+        public ExportarController(BitacoraService bitacoraService)
+        {
+            _bitacoraService = bitacoraService;
+        }
+
         [HttpPost("pdf")]
         public IActionResult ExportarPDF([FromBody] DatosGrafica datos)
         {
@@ -46,12 +55,21 @@ namespace SistemaRegistroAlumnos.Controllers
                 byte[] pdfBytes = System.IO.File.ReadAllBytes(ruta);
                 string nombreArchivo = Path.GetFileName(ruta);
 
+                // ✅ REGISTRO EN BITÁCORA
+                _bitacoraService.RegistrarAccion(
+                    "Exportar PDF",
+                    $"Se generó correctamente el archivo '{nombreArchivo}' en {DateTime.Now:dd/MM/yyyy HH:mm:ss}"
+                );
+
                 // ✅ RESPUESTA CORRECTA
                 Response.Headers.Append("Content-Disposition", $"attachment; filename={nombreArchivo}");
                 return File(pdfBytes, "application/pdf");
             }
             catch (Exception ex)
             {
+                // ❌ REGISTRA ERRORES TAMBIÉN
+                _bitacoraService.RegistrarAccion("Error PDF", $"Error al generar PDF: {ex.Message}");
+
                 return Json(new { exito = false, error = "Error al generar el PDF: " + ex.Message });
             }
         }

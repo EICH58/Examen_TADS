@@ -1,0 +1,55 @@
+﻿@model IEnumerable<SistemaRegistroAlumnos.Models.Bitacora>
+@{
+    ViewData["Title"] = "Bitácora del Sistema";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4">📜 Bitácora del Sistema</h2>
+
+    <div class="mb-3 text-center">
+        <form method="get" asp-action="Index">
+            <input type="text" name="filtroAccion" class="form-control d-inline-block w-50"
+                   placeholder="Buscar por acción o usuario..." value="@ViewBag.FiltroAccion" />
+            <button type="submit" class="btn btn-primary ms-2">
+                <i class="bi bi-search"></i> Buscar
+            </button>
+        </form>
+    </div>
+
+    <table class="table table-striped table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>#</th>
+                <th>Usuario</th>
+                <th>Acción</th>
+                <th>Descripción</th>
+                <th>Fecha y Hora</th>
+                <th>IP</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int i = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@i</td>
+                        <td>@item.Id_Usuario</td>
+                        <td>@item.Accion</td>
+                        <td>@item.Descripcion</td>
+                        <td>@item.Fecha_Hora.ToString("g")</td>
+                        <td>@item.IP_Address</td>
+                    </tr>
+                    i++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted">No hay registros en la bitácora.</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
