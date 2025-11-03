@@ -29,17 +29,14 @@
                             <li><a href="@Url.Action("G_Histograma", "Graficas")"><img src="~/Img/pac.png" alt="h" class="icono">Histograma</a></li>
                             <li><a href="@Url.Action("G_Pareto", "Graficas")"><img src="~/Img/pac.png" alt="pr" class="icono">Gráfica de pareto</a></li>
 
-                            @* ✅ Mostrar la pestaña Bitácora solo si el usuario es Coordinador *@
-                            @{
-                                var rol = User.FindFirst(ClaimTypes.Role)?.Value;
-                                if (rol == "Coordinador")
-                                {
-                                    <li>
-                                        <a href="@Url.Action("Index", "Bitacora")">
-                                            <img src="~/Img/pac.png" alt="b" class="icono">Bitácora
-                                        </a>
-                                    </li>
-                                }
+                            @* ✅ MOSTRAR BITÁCORA SOLO SI ES COORDINADOR *@
+                            @if (User.IsInRole("Coordinador"))
+                            {
+                                <li>
+                                    <a href="@Url.Action("Index", "Bitacora")">
+                                        <img src="~/Img/pac.png" alt="b" class="icono">Bitácora
+                                    </a>
+                                </li>
                             }
                         </ul>
                     </li>

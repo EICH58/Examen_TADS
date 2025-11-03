@@ -1,0 +1,139 @@
+﻿@{
+    ViewData["Title"] = "Bitácora del Sistema";
+}
+<link rel="stylesheet" href="~/css/graficas.css" />
+
+<div class="grafica-container">
+    <h2 class="grafica-titulo titulo">📜 Bitácora del Sistema</h2>
+
+    <!-- Filtros -->
+    <div class="filtros" style="display:flex; gap:10px; justify-content:center; align-items:center; margin-bottom:20px;">
+        <input type="text" id="filtroAccion" class="form-control" placeholder="Buscar por acción..." style="width:300px;" />
+        <button id="btnBuscar" class="btn btn-primary">Buscar</button>
+        <button id="btnRecargar" class="btn btn-success">Recargar</button>
+    </div>
+
+    <!-- Tabla de registros -->
+    <div style="max-width:1200px; margin:0 auto; background:#fff; padding:20px; border-radius:12px; box-shadow:0 2px 8px rgba(0,0,0,.08);">
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th style="width:5%;">#</th>
+                    <th style="width:15%;">Usuario</th>
+                    <th style="width:15%;">Acción</th>
+                    <th style="width:35%;">Descripción</th>
+                    <th style="width:15%;">Fecha y Hora</th>
+                    <th style="width:15%;">IP</th>
+                </tr>
+            </thead>
+            <tbody id="tablaRegistros">
+                <tr>
+                    <td colspan="6" class="text-center text-muted">Cargando registros...</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Paginación -->
+        <div id="paginacion" class="text-center mt-3"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        let paginaActual = 1;
+        const registrosPorPagina = 50;
+
+        async function cargarRegistros(pagina = 1, filtro = '') {
+            try {
+                const url = `/Bitacora/ObtenerRegistros?page=${pagina}&pageSize=${registrosPorPagina}&filtroAccion=${encodeURIComponent(filtro)}`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                const tbody = document.getElementById('tablaRegistros');
+                tbody.innerHTML = '';
+
+                if (data.registros && data.registros.length > 0) {
+                    let contador = (pagina - 1) * registrosPorPagina + 1;
+                    data.registros.forEach(r => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${contador++}</td>
+                            <td>${r.usuario}</td>
+                            <td><span class="badge bg-primary">${r.accion}</span></td>
+                            <td>${r.descripcion || '-'}</td>
+                            <td>${new Date(r.fecha_Hora).toLocaleString('es-MX')}</td>
+                            <td>${r.ip_Address || '-'}</td>
+                        `;
+                        tbody.appendChild(tr);
+                    });
+
+                    renderizarPaginacion(data.total, data.page, data.pageSize);
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No hay registros disponibles.</td></tr>';
+                }
+            } catch (error) {
+                console.error('Error al cargar registros:', error);
+                document.getElementById('tablaRegistros').innerHTML = '<tr><td colspan="6" class="text-center text-danger">Error al cargar datos.</td></tr>';
+            }
+        }
+
+        function renderizarPaginacion(total, paginaActual, tamanoPagina) {
+            const totalPaginas = Math.ceil(total / tamanoPagina);
+            const paginacionDiv = document.getElementById('paginacion');
+            paginacionDiv.innerHTML = '';
+
+            if (totalPaginas <= 1) return;
+
+            const nav = document.createElement('nav');
+            const ul = document.createElement('ul');
+            ul.className = 'pagination justify-content-center';
+
+            // Anterior
+            const liPrev = document.createElement('li');
+            liPrev.className = `page-item ${paginaActual === 1 ? 'disabled' : ''}`;
+            liPrev.innerHTML = `<a class="page-link" href="#">Anterior</a>`;
+            liPrev.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (paginaActual > 1) cargarRegistros(paginaActual - 1, document.getElementById('filtroAccion').value);
+            });
+            ul.appendChild(liPrev);
+
+            // Números de página
+            for (let i = 1; i <= totalPaginas; i++) {
+                const li = document.createElement('li');
+                li.className = `page-item ${i === paginaActual ? 'active' : ''}`;
+                li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+                li.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    cargarRegistros(i, document.getElementById('filtroAccion').value);
+                });
+                ul.appendChild(li);
+            }
+
+            // Siguiente
+            const liNext = document.createElement('li');
+            liNext.className = `page-item ${paginaActual === totalPaginas ? 'disabled' : ''}`;
+            liNext.innerHTML = `<a class="page-link" href="#">Siguiente</a>`;
+            liNext.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (paginaActual < totalPaginas) cargarRegistros(paginaActual + 1, document.getElementById('filtroAccion').value);
+            });
+            ul.appendChild(liNext);
+
+            nav.appendChild(ul);
+            paginacionDiv.appendChild(nav);
+        }
+
+        document.getElementById('btnBuscar').addEventListener('click', () => {
+            cargarRegistros(1, document.getElementById('filtroAccion').value);
+        });
+
+        document.getElementById('btnRecargar').addEventListener('click', () => {
+            document.getElementById('filtroAccion').value = '';
+            cargarRegistros(1, '');
+        });
+
+        // Carga inicial
+        cargarRegistros(1, '');
+    </script>
+}
