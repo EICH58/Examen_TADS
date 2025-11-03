@@ -1,0 +1,101 @@
+﻿@model IEnumerable<SistemaRegistroAlumnos.Models.Alumno>
+
+@{
+    ViewData["Title"] = "Buscar Alumnos";
+}
+
+<link rel="stylesheet" href="~/css/estilos-busqueda.css" />
+
+<div class="contenido">
+    <div class="cont">
+        <div class="container">
+            <div class="busqueda-card">
+                <h1 class="titulo">🔍 Buscar Alumno</h1>
+
+                @if (TempData["BusquedaOk"] != null)
+                {
+                    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+                        @TempData["BusquedaOk"]
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Cerrar"></button>
+                    </div>
+                }
+
+                <form method="get" asp-action="BuscarAlumnos" class="row g-3 justify-content-center">
+                    <div class="col-md-3">
+                        <input type="text" name="numControl" placeholder="Número de control"
+                               class="form-control" value="@ViewBag.NumControl" />
+                    </div>
+
+                    <div class="col-md-3">
+                        <select name="carreraId" class="form-select">
+                            <option value="">-- Carrera --</option>
+                            @if (ViewBag.Carreras is SelectList carrerasList)
+                            {
+                                foreach (var c in carrerasList)
+                                {
+                                    <option value="@c.Value" selected="@(c.Value == ViewBag.CarreraId?.ToString())">@c.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-3">
+                        <select name="semestreId" class="form-select">
+                            <option value="">-- Semestre --</option>
+                            @if (ViewBag.Semestres is SelectList semestresList)
+                            {
+                                foreach (var s in semestresList)
+                                {
+                                    <option value="@s.Value" selected="@(s.Value == ViewBag.SemestreId?.ToString())">@s.Text</option>
+                                }
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-2 text-center">
+                        <button type="submit" class="btn btn-primary w-100">Buscar</button>
+                    </div>
+                </form>
+
+                <hr class="my-4" />
+
+                @if (Model != null && Model.Any())
+                {
+                    <h4 class="text-center mb-3 text-success fw-bold">Resultados (@Model.Count())</h4>
+
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover align-middle text-center">
+                            <thead>
+                                <tr>
+                                    <th>Número de Control</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido Paterno</th>
+                                    <th>Apellido Materno</th>
+                                    <th>Carrera</th>
+                                    <th>Semestre</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var a in Model)
+                                {
+                                    <tr>
+                                        <td>@a.Num_Control</td>
+                                        <td>@a.Nom_Alumno</td>
+                                        <td>@a.App_Alumno</td>
+                                        <td>@a.Apm_Alumno</td>
+                                        <td>@(a.Carrera?.Nombre_Carrera ?? "—")</td>
+                                        <td>@(a.Semestre != null ? a.Semestre.Num_Semestre.ToString() : "—")</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-center mt-4 text-danger fw-bold">No se encontraron coincidencias.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>

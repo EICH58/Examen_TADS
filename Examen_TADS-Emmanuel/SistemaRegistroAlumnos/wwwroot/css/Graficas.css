@@ -1,0 +1,127 @@
+﻿/* ===============================
+   ARCHIVO: wwwroot/css/graficas.css
+   Propósito: Estilos unificados para todas las gráficas
+================================*/
+
+/* ======== CONTENEDOR PRINCIPAL ======== */
+.grafica-container {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 25px;
+    margin: 30px auto;
+    width: 90%;
+    max-width: 1100px;
+}
+
+/* ======== TÍTULOS ======== */
+.grafica-titulo {
+    text-align: center;
+    font-weight: 700;
+    color: #1a237e;
+    margin-bottom: 25px;
+}
+
+/* ======== BOTONES ======== */
+.btn-cargar {
+    background-color: #1565c0;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn-cargar:hover {
+        background-color: #0d47a1;
+    }
+
+.btn-exportar {
+    background-color: #455a64;
+    color: white;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    margin-left: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .btn-exportar:hover {
+        background-color: #263238;
+    }
+
+/* ======== SELECTORES Y FILTROS ======== */
+.filtros {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+    .filtros select, .filtros input {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        margin-right: 10px;
+    }
+
+/* ======== CONTENEDOR DE LA GRÁFICA ======== */
+.contenedor-grafica {
+    position: relative;
+    width: 100%;
+    height: 420px;
+    margin: 0 auto;
+}
+
+/* ======== LEYENDA / INTERPRETACIÓN ======== */
+.bloque-interpretacion {
+    background: #e8f0fe;
+    border-left: 5px solid #1565c0;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-top: 30px;
+    font-size: 15px;
+}
+
+    .bloque-interpretacion h4 {
+        color: #0d47a1;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .bloque-interpretacion p {
+        margin: 0;
+        line-height: 1.6;
+    }
+
+/* ======== RESPONSIVIDAD ======== */
+@media (max-width: 768px) {
+    .grafica-container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    .contenedor-grafica {
+        height: 300px;
+    }
+}
+
+/* Tabla de resumen para gráficos */
+.tabla-resumen {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+    background: #fff;
+}
+
+    .tabla-resumen th, .tabla-resumen td {
+        border: 1px solid #e0e0e0;
+        padding: 8px 10px;
+        text-align: center;
+        font-size: 14px;
+    }
+
+    .tabla-resumen thead th {
+        background: #f5f7fb;
+        font-weight: 600;
+    }

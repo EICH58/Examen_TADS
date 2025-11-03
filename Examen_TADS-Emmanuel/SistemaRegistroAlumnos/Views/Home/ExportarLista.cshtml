@@ -1,0 +1,58 @@
+﻿<link rel="stylesheet" href="~/css/Genera.css" />
+<link href="~/css/asistencia.css" rel="stylesheet" />
+@{
+    ViewData["Title"] = "Subir Lista de Asistencia";
+}
+
+<div class="container mt-4">
+    <h2>Subir Lista de Asistencia (Excel)</h2>
+    <hr />
+
+
+    <!-- MENSAJES -->
+    @if (ViewBag.Exito != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show">
+            @ViewBag.Exito
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show">
+            @ViewBag.Error
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    @if (ViewBag.Info != null)
+    {
+        <div class="alert alert-info alert-dismissible fade show">
+            @ViewBag.Info
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+    }
+    <!-- FORMULARIO -->
+    <form asp-action="ExportarLista" method="post" enctype="multipart/form-data" class="mt-3 d-flex align-items-end gap-3">
+        <div class="subir flex-fill">
+            <label for="excelFile" class="form-label d-block">Archivo Excel (.xlsx)</label>
+            <input type="file" name="excelFile" id="excelFile" class="form-control" accept=".xlsx" required />
+        </div>
+        <div class="boton">
+            <button type="submit" class="btn-custom">Subir y Guardar</button>
+        </div>
+    </form>
+    
+    <div class="mt-3 mb-3">
+        <a href="/Plantilla/LisAsistencia.xlsx"
+           class="btn btn-success"
+           download>
+            <i class="bi bi-download"></i> Descargar Plantilla Excel
+        </a>
+        <small class="text-muted d-block mt-2">
+            Descarga la plantilla con desplegable de estados y formato correcto.
+        </small>
+    </div>
+    <img src="~/img/formato.png" />
+ 
+
+</div>
