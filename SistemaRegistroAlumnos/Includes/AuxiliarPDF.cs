@@ -48,6 +48,10 @@ namespace SistemaRegistroAlumnos.Includes
                             GenerarPDF_Pastel(fs, titulo, descripcion, imagenPngBytes, tablaHTML);
                             break;
 
+                        case "G_Pareto":
+                            GenerarPDF_Pareto(fs, titulo, descripcion, imagenPngBytes, tablaHTML);
+                            break;
+
                         default:
                             throw new Exception("Tipo de gráfico no reconocido o no soportado.");
                     }
@@ -61,9 +65,7 @@ namespace SistemaRegistroAlumnos.Includes
             }
         }
 
-        // ==========================================================
         // =============== GRÁFICA DE DISPERSIÓN ====================
-        // ==========================================================
         private static void GenerarPDF_Dispersion(FileStream fs, string titulo, string descripcion, byte[] imagenPngBytes, string tablaHTML)
         {
             using (Document doc = new Document(PageSize.A4.Rotate(), 42f, 42f, 56f, 56f))
@@ -112,9 +114,7 @@ namespace SistemaRegistroAlumnos.Includes
             }
         }
 
-        // ==========================================================
         // ================= GRÁFICA DE HISTOGRAMA ==================
-        // ==========================================================
         private static void GenerarPDF_Histograma(FileStream fs, string titulo, string descripcion, byte[] imagenPngBytes, string tablaHTML)
         {
             using (Document doc = new Document(PageSize.A4, 42f, 42f, 56f, 56f))
@@ -169,9 +169,8 @@ namespace SistemaRegistroAlumnos.Includes
             }
         }
 
-        // ==========================================================
+
         // ============== MÉTODOS AUXILIARES GENERALES ==============
-        // ==========================================================
         private static void AgregarTituloTabla(Document doc, string texto)
         {
             var p = new Paragraph(texto,
@@ -229,9 +228,8 @@ namespace SistemaRegistroAlumnos.Includes
             doc.Add(table);
         }
 
-        // ==========================================================
+
         // ================= GRÁFICA DE PASTEL ======================
-        // ==========================================================
         private static void GenerarPDF_Pastel(FileStream fs, string titulo, string descripcion, byte[] imagenPngBytes, string tablaHTML)
         {
             using (Document doc = new Document(PageSize.A4, 42f, 42f, 56f, 56f))
@@ -275,6 +273,61 @@ namespace SistemaRegistroAlumnos.Includes
                 var pDesc = new Paragraph(
                     "Este diagrama de pastel muestra el porcentaje de aprobación y reprobación de los alumnos. " +
                     "Se considera aprobado con calificación ≥ 70 y reprobado con < 70.",
+                    new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL))
+                {
+                    SpacingBefore = 16f,
+                    Alignment = Element.ALIGN_JUSTIFIED
+                };
+                doc.Add(pDesc);
+
+                doc.Close();
+            }
+        }
+
+        // ================= GRÁFICA DE PARETO ======================
+        private static void GenerarPDF_Pareto(FileStream fs, string titulo, string descripcion, byte[] imagenPngBytes, string tablaHTML)
+        {
+            using (Document doc = new Document(PageSize.A4, 42f, 42f, 56f, 56f))
+            {
+                PdfWriter.GetInstance(doc, fs);
+                doc.Open();
+
+                // Título principal
+                var pTitulo = new Paragraph("Gráfica de Pareto (Factores de Riesgo)",
+                    new Font(Font.FontFamily.HELVETICA, 16, Font.BOLD))
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    SpacingAfter = 6f
+                };
+                doc.Add(pTitulo);
+
+                // Subtítulo
+                var pSubtitulo = new Paragraph(descripcion,
+                    new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL))
+                {
+                    Alignment = Element.ALIGN_CENTER,
+                    SpacingAfter = 16f
+                };
+                doc.Add(pSubtitulo);
+
+                // Imagen
+                if (imagenPngBytes != null && imagenPngBytes.Length > 0)
+                {
+                    var img = Image.GetInstance(imagenPngBytes);
+                    img.Alignment = Element.ALIGN_CENTER;
+                    img.ScaleToFit(460f, 320f);
+                    img.SpacingAfter = 18f;
+                    doc.Add(img);
+                }
+
+                // Tabla resumen
+                AgregarTituloTabla(doc, "Resumen de la gráfica");
+                AgregarTablaDesdeHTML(doc, tablaHTML, 4);
+
+                // Descripción
+                var pDesc = new Paragraph(
+                    "Este diagrama de Pareto muestra la distribución de factores de riesgo que afectan a los alumnos. " +
+                    "Los factores están ordenados de mayor a menor frecuencia, mostrando el porcentaje acumulado.",
                     new Font(Font.FontFamily.HELVETICA, 11, Font.NORMAL))
                 {
                     SpacingBefore = 16f,

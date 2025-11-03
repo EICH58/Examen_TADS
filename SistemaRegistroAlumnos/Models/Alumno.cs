@@ -70,7 +70,7 @@
         public virtual Carrera? Carrera { get; set; }
         public virtual Semestre? Semestre { get; set; }
         public virtual StatusAlumno? StatusAlumno { get; set; }
-        public virtual PerfilSocioeconomico? PerfilSocioeconomico { get; set; }
+        public virtual FactorPorAlumno? PerfilSocioeconomico { get; set; }
         public virtual ICollection<Asistencia>? Asistencias { get; set; }
         public virtual ICollection<Calificacion>? Calificaciones { get; set; }
     }

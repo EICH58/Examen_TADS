@@ -5,9 +5,11 @@ using System.Diagnostics;
 using ClosedXML.Excel;
 using System.Globalization;
 using DocumentFormat.OpenXml.InkML;
+using Microsoft.AspNetCore.Authorization;
 
 namespace SistemaRegistroAlumnos.Controllers
 {
+
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
