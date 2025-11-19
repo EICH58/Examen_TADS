@@ -1,0 +1,415 @@
+/* =========================================
+   ESTILOS DE FUNCIONALIDADES DE ACCESIBILIDAD
+   ========================================= */
+
+/* ==================== ALTO CONTRASTE ==================== */
+body.high-contrast {
+    filter: contrast(1.5) !important;
+    background: #000 !important;
+    color: #fff !important;
+}
+
+body.high-contrast * {
+    background-color: #000 !important;
+    color: #fff !important;
+    border-color: #fff !important;
+}
+
+body.high-contrast a {
+    color: #ffff00 !important;
+    text-decoration: underline !important;
+}
+
+body.high-contrast button,
+body.high-contrast .btn {
+    background-color: #333 !important;
+    color: #fff !important;
+    border: 2px solid #fff !important;
+}
+
+/* ==================== TAMAÑO DE TEXTO ==================== */
+body.text-small {
+    font-size: 12px !important;
+}
+
+body.text-small * {
+    font-size: inherit !important;
+}
+
+body.text-large {
+    font-size: 24px !important;
+}
+
+body.text-large * {
+    font-size: inherit !important;
+}
+
+body.text-large h1 { font-size: 3.5rem !important; }
+body.text-large h2 { font-size: 2.8rem !important; }
+body.text-large h3 { font-size: 2.3rem !important; }
+body.text-large h4 { font-size: 2rem !important; }
+body.text-large h5 { font-size: 1.7rem !important; }
+body.text-large h6 { font-size: 1.4rem !important; }
+body.text-large .btn, body.text-large button { font-size: 1.3rem !important; padding: 12px 24px !important; }
+body.text-large input, body.text-large select, body.text-large textarea { font-size: 1.2rem !important; }
+
+/* ==================== INVERSIÓN DE COLORES ==================== */
+body.invert-colors {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+body.invert-colors img,
+body.invert-colors video,
+body.invert-colors .no-invert {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+/* ==================== INDICADORES VISUALES ==================== */
+body.visual-indicators *:focus {
+    outline: 4px solid #ff0 !important;
+    outline-offset: 2px !important;
+    animation: pulse-focus 1s infinite;
+}
+
+@keyframes pulse-focus {
+    0%, 100% { outline-color: #ff0; }
+    50% { outline-color: #f90; }
+}
+
+body.visual-indicators button:active,
+body.visual-indicators a:active {
+    animation: flash-click 0.3s;
+}
+
+@keyframes flash-click {
+    0%, 100% { background-color: transparent; }
+    50% { background-color: rgba(255, 255, 0, 0.5); }
+}
+
+/* ==================== PUNTERO GRANDE ==================== */
+body.big-cursor,
+body.big-cursor * {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M3 3 L3 28 L11 20 L15 28 L19 26 L15 18 L25 18 Z" fill="black" stroke="white" stroke-width="2"/></svg>') 0 0, auto !important;
+}
+
+body.big-cursor a,
+body.big-cursor button,
+body.big-cursor input[type="button"],
+body.big-cursor input[type="submit"] {
+    cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M16 4 L16 28 M4 16 L28 16" stroke="black" stroke-width="4" fill="none"/><path d="M16 4 L16 28 M4 16 L28 16" stroke="white" stroke-width="2" fill="none"/></svg>') 16 16, pointer !important;
+}
+
+/* ==================== RESALTAR ENLACES ==================== */
+body.highlight-links a {
+    background-color: rgba(255, 255, 0, 0.3) !important;
+    padding: 2px 4px !important;
+    border-radius: 3px !important;
+    font-weight: bold !important;
+    text-decoration: underline !important;
+    text-decoration-thickness: 2px !important;
+}
+
+body.highlight-links a:hover {
+    background-color: rgba(255, 200, 0, 0.5) !important;
+    outline: 3px solid #ff0 !important;
+}
+
+body.highlight-links a:focus {
+    outline: 4px solid #f00 !important;
+    outline-offset: 2px !important;
+}
+
+/* ==================== MODO ENFOQUE ==================== */
+body.focus-mode {
+    background: #f9f9f9 !important;
+}
+
+body.focus-mode .sidebar,
+body.focus-mode header,
+body.focus-mode footer {
+    opacity: 0.3 !important;
+    pointer-events: none !important;
+}
+
+/* IMPORTANTE: El menú de accesibilidad SIEMPRE debe ser accesible */
+/* Incluso en páginas sin sidebar (como login) */
+body.focus-mode .accessibility-menu,
+body.focus-mode .accessibility-menu *,
+.accessibility-menu,
+.accessibility-menu * {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+}
+
+body.focus-mode main {
+    max-width: 800px !important;
+    margin: 0 auto !important;
+    padding: 40px !important;
+    background: #fff !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+body.focus-mode * {
+    animation: none !important;
+    transition: none !important;
+}
+
+/* ==================== MENÚS SIMPLIFICADOS ==================== */
+body.simplified-menus .sidebar ul ul {
+    display: none !important;
+}
+
+body.simplified-menus .dropdown-menu {
+    max-height: none !important;
+    overflow: visible !important;
+}
+
+body.simplified-menus nav {
+    font-size: 18px !important;
+}
+
+body.simplified-menus button,
+body.simplified-menus .btn {
+    min-height: 50px !important;
+    font-size: 18px !important;
+    padding: 15px 25px !important;
+}
+
+/* ==================== LECTOR DE PANTALLA ==================== */
+body[data-screen-reader="active"] *:hover::after {
+    content: attr(aria-label) " " attr(title) " " attr(alt);
+    position: absolute;
+    background: rgba(0, 0, 0, 0.9);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+    z-index: 10000;
+    white-space: nowrap;
+    margin-top: 5px;
+}
+
+/* ==================== LECTURA EN VOZ ALTA ==================== */
+body[data-read-aloud="active"] p,
+body[data-read-aloud="active"] h1,
+body[data-read-aloud="active"] h2,
+body[data-read-aloud="active"] h3,
+body[data-read-aloud="active"] h4,
+body[data-read-aloud="active"] h5,
+body[data-read-aloud="active"] h6,
+body[data-read-aloud="active"] li {
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+body[data-read-aloud="active"] p:hover,
+body[data-read-aloud="active"] h1:hover,
+body[data-read-aloud="active"] h2:hover,
+body[data-read-aloud="active"] h3:hover,
+body[data-read-aloud="active"] h4:hover,
+body[data-read-aloud="active"] h5:hover,
+body[data-read-aloud="active"] h6:hover,
+body[data-read-aloud="active"] li:hover {
+    background: rgba(100, 200, 255, 0.2);
+}
+
+/* ==================== ANIMACIONES Y TRANSICIONES ==================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+/* ==================== UTILIDADES ==================== */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.skip-to-content {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: #000;
+    color: #fff;
+    padding: 8px;
+    text-decoration: none;
+    z-index: 100;
+}
+
+.skip-to-content:focus {
+    top: 0;
+}
+
+/* ==================== COMPATIBILIDAD ==================== */
+/* Asegurar que el menú de accesibilidad no se vea afectado por los estilos */
+.accessibility-menu,
+.accessibility-menu * {
+    font-size: initial !important;
+}
+
+body.high-contrast .accessibility-menu {
+    background: #000 !important;
+}
+
+body.high-contrast .accessibility-toggle {
+    background: linear-gradient(135deg, #333 0%, #666 100%) !important;
+    border: 2px solid #fff !important;
+}
+
+body.high-contrast .accessibility-panel {
+    background: #000 !important;
+    border: 2px solid #fff !important;
+}
+
+body.high-contrast .accessibility-header {
+    background: #333 !important;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    body.text-large {
+        font-size: 18px !important;
+    }
+    
+    body.simplified-menus button,
+    body.simplified-menus .btn {
+        min-height: 44px !important;
+        font-size: 16px !important;
+    }
+}
+
+/* ==================== TECLADO EN PANTALLA ==================== */
+.keyboard-container {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #fff;
+    border: 2px solid #1B396B;
+    border-radius: 10px 10px 0 0;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.3);
+    z-index: 9998;
+    width: 90%;
+    max-width: 800px;
+    padding: 10px;
+}
+
+.keyboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: linear-gradient(135deg, #1B396B 0%, #003875 100%);
+    color: white;
+    border-radius: 8px 8px 0 0;
+    margin: -10px -10px 10px -10px;
+    font-weight: 600;
+}
+
+.keyboard-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.keyboard-close:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.keyboard-body {
+    padding: 10px;
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    margin-bottom: 5px;
+}
+
+.key {
+    min-width: 45px;
+    height: 45px;
+    background: #f5f5f5;
+    border: 2px solid #1B396B;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1B396B;
+    cursor: pointer;
+    transition: all 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+}
+
+.key:hover {
+    background: #1B396B;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.key:active {
+    transform: translateY(0);
+    background: #003875;
+}
+
+.key-space {
+    min-width: 300px;
+}
+
+.key-backspace,
+.key-enter {
+    min-width: 80px;
+}
+
+.key-shift {
+    min-width: 70px;
+}
+
+.key-shift.active {
+    background: #1B396B;
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .keyboard-container {
+        width: 100%;
+        max-width: 100%;
+    }
+    
+    .key {
+        min-width: 35px;
+        height: 40px;
+        font-size: 14px;
+    }
+    
+    .key-space {
+        min-width: 200px;
+    }
+    
+    .key-backspace,
+    .key-enter {
+        min-width: 60px;
+    }
+}
