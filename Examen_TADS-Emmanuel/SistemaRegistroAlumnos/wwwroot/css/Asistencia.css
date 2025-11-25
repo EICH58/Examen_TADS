@@ -8,16 +8,19 @@
     flex: 1; /* Ocupa todo el espacio disponible a la izquierda */
 }
 
+.titulo {
+    color: #1B396B;
+}
 .btn-custom {
-    background-color: #1B396B; /* Color oscuro elegante */
+    background-color: #1B396B; 
     color: white;
     border: none;
-    border-radius: 10px; /* Esquinas bien redondeadas */
+    border-radius: 10px; 
     padding: 0.5rem 1.5rem;
     font-weight: 500;
     transition: background-color 0.3s ease;
 }
 
     .btn-custom:hover {
-        background-color: #1a2530; /* Más oscuro al pasar el mouse */
+        background-color: #1a2530; 
     }

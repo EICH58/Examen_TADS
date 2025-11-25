@@ -1,34 +1,41 @@
 ﻿@{
     ViewData["Title"] = "Gráfica de Pareto";
 }
+
 <link rel="stylesheet" href="~/css/graficas.css" />
 
+<style>
+
+
+</style>
 <div class="grafica-container">
 
     <h2 class="grafica-titulo titulo">Gráfica de Pareto</h2>
 
     <!-- ===== FILTROS ===== -->
     <div class="filtros" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center;">
+        <div class="sele">
         <label>Carrera:</label>
-        <select id="carreraSelect" class="form-control" style="width:240px;">
+        <select id="carreraSelect" class="form-control">
             <option value="">-- Carrera --</option>
         </select>
 
         <label>Materia:</label>
-        <select id="materiaSelect" class="form-control" style="width:240px;">
+        <select id="materiaSelect" class="form-control">
             <option value="">-- Materia --</option>
         </select>
 
         <label>Unidad:</label>
-        <select id="unidadSelect" class="form-control" style="width:200px;">
+        <select id="unidadSelect" class="form-control">
             <option value="">-- Todas --</option>
         </select>
 
         <label>Modo:</label>
-        <select id="modoSelect" class="form-control" style="width:180px;">
+        <select id="modoSelect" class="form-control">
             <option value="ocurrencias">Ocurrencias</option>
             <option value="severidad">Severidad</option>
         </select>
+        </div>
 
         <button id="btnCargarDatos" class="btn btn-primary">Cargar datos</button>
         <button id="btnExportarPDF" class="btn btn-success">Exportar PDF</button>

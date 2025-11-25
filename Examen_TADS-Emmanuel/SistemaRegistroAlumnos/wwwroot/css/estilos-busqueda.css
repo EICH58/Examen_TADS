@@ -11,13 +11,8 @@
     .busqueda-card:hover {
         transform: scale(1.01);
     }
-
-/* === TÍTULOS === */
 .titulo {
-    font-weight: 700;
-    color: #002855;
-    text-align: center;
-    margin-bottom: 1.5rem;
+    color: #1B396B;
 }
 
 /* === TABLA === */

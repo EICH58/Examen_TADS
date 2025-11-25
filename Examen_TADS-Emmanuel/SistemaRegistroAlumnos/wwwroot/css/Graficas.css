@@ -2,7 +2,16 @@
    ARCHIVO: wwwroot/css/graficas.css
    Propósito: Estilos unificados para todas las gráficas
 ================================*/
+.sele {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre elementos */
+}
 
+    .sele label {
+        margin-right: 5px;
+        white-space: nowrap;
+    }
 /* ======== CONTENEDOR PRINCIPAL ======== */
 .grafica-container {
     background: #fff;
@@ -125,3 +134,4 @@
         background: #f5f7fb;
         font-weight: 600;
     }
+
