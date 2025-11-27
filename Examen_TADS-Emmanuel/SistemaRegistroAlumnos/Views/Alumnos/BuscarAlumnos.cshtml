@@ -73,6 +73,7 @@
                                     <th>Apellido Materno</th>
                                     <th>Carrera</th>
                                     <th>Semestre</th>
+                                    <th>Editar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -85,9 +86,19 @@
                                         <td>@a.Apm_Alumno</td>
                                         <td>@(a.Carrera?.Nombre_Carrera ?? "—")</td>
                                         <td>@(a.Semestre != null ? a.Semestre.Num_Semestre.ToString() : "—")</td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-sm btn-link p-0"
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#modalOpciones"
+                                                    onclick="cargarOpcionesAlumno('@a.Num_Control', '@a.Nom_Alumno @a.App_Alumno @a.Apm_Alumno')">
+                                                <i class="bi bi-pencil"></i>
+                                            </button>
+
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
+
                         </table>
                     </div>
                 }
@@ -99,3 +110,123 @@
         </div>
     </div>
 </div>
+
+<!-- Modal Principal de Opciones - Con tu color #1B396B -->
+<div class="modal fade" id="modalOpciones" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content shadow-lg border-0">
+            <div class="modal-header" style="background-color: #1B396B; color: white;">
+                <h5 class="modal-title fw-bold" id="modalOpcionesTitle">
+                    <i class="bi bi-person-lines-fill me-2"></i> Opciones del Alumno
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="modal-body text-center py-4">
+                <h6 class="mb-4 text-muted">
+                    Alumno: <strong id="nombreAlumnoModal" style="color: #1B396B;">Seleccionar alumno</strong>
+                </h6>
+
+                <div class="d-grid gap-3 mt-4">
+                    <a id="btnEditarInfo" class="btn btn-lg d-flex align-items-center justify-content-center gap-3 shadow-sm"
+                       style="background-color: #1B396B; color: white; border: none; transition: all 0.3s;">
+                        <i class="bi bi-person-fill-gear fs-4"></i>
+                        <span class="fw-medium">Editar Información</span>
+                    </a>
+                    <button type="button"
+                            class="btn btn-lg d-flex align-items-center justify-content-center gap-3 shadow-sm"
+                            style="background-color: #1B396B; color: white; border: none; transition: all 0.3s;"
+                            data-bs-toggle="modal"
+                            data-bs-target="#modalCambiarEstatus">
+                        <i class="bi bi-arrow-repeat fs-4"></i>
+                        <span class="fw-medium">Cambiar Estatus</span>
+                    </button>
+                    <a id="btnMaterias" class="btn btn-lg d-flex align-items-center justify-content-center gap-3 shadow-sm"
+                       style="background-color: #1B396B; color: white; border: none; transition: all 0.3s;">
+                        <i class="bi bi-book-fill fs-4"></i>
+                        <span class="fw-medium">Materias (Alta/Baja)</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal Cambiar Estatus -->
+<div class="modal fade" id="modalCambiarEstatus" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content shadow-lg border-0">
+            <!-- Cabecera con tu color -->
+            <div class="modal-header" style="background-color: #1B396B; color: white;">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-arrow-repeat me-2"></i> Cambiar Estatus
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body py-4">
+                <div class="text-center mb-4">
+                    <p class="mb-2"><strong>Alumno:</strong></p>
+                    <p class="fs-5 fw-bold" style="color: #1B396B;" id="nombreAlumnoEstatus">-</p>
+                </div>
+
+                <form asp-action="CambiarEstatus" method="post">
+                    <input type="hidden" id="numControlEstatus" name="numControl" />
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Seleccionar nuevo estatus</label>
+                        <select name="nuevoEstatus" class="form-select form-select-lg" required>
+                            <option value="" disabled selected>-- Selecciona --</option>
+                            <option value="1">Activo</option>
+                            <option value="2">Egresado</option>
+                            <option value="3">Baja temporal</option>
+                            <option value="4">Baja definitiva</option>
+                        </select>
+                    </div>
+
+                    <div class="d-grid gap-3">
+                        <button type="submit" class="btn btn-lg fw-bold"
+                                style="background-color: #1B396B; color: white; border: none;">
+                            <i class="bi bi-check-circle me-2"></i> Guardar Cambio
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary btn-lg"
+                                data-bs-dismiss="modal">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    
+    function cargarOpcionesAlumno(numControl, nombreCompleto) {
+        numControlSeleccionado = numControl;
+        nombreAlumnoSeleccionado = nombreCompleto.trim();
+
+        // Actualizar nombres
+        document.getElementById('nombreAlumnoModal').textContent = nombreAlumnoSeleccionado;
+        document.getElementById('nombreAlumnoEstatus').textContent = nombreAlumnoSeleccionado;
+        document.getElementById('numControlEstatus').value = numControl;
+
+        // Configurar enlaces
+        document.getElementById('btnEditarInfo').href = '@Url.Action("EditarAlumno", "Alumnos")?numControl=' + numControl;
+        document.getElementById('btnMaterias').href = '@Url.Action("MateriasAlumno", "Alumnos")?numControl=' + numControl;
+    }
+
+    //  Cerrar el modal principal al abrir "Cambiar Estatus"
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalOpciones = document.getElementById('modalOpciones');
+        const btnCambiarEstatus = document.querySelector('#modalOpciones button[data-bs-target="#modalCambiarEstatus"]');
+
+        if (btnCambiarEstatus) {
+            btnCambiarEstatus.addEventListener('click', function () {
+                // Cerrar el modal de opciones
+                const bsModal = bootstrap.Modal.getInstance(modalOpciones);
+                if (bsModal) {
+                    bsModal.hide();
+                }
+            });
+        }
+    });
+</script>

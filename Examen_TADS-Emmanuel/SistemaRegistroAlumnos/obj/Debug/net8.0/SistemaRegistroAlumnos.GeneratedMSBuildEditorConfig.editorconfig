@@ -38,6 +38,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xCdXNjYXJBbHVtbm9zLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/mgomez/Desktop/Examen_TADS/Examen_TADS-Emmanuel/SistemaRegistroAlumnos/Views/Alumnos/EditarAlumno.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xFZGl0YXJBbHVtbm8uY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/mgomez/Desktop/Examen_TADS/Examen_TADS-Emmanuel/SistemaRegistroAlumnos/Views/Alumnos/MateriasAlumno.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWx1bW5vc1xNYXRlcmlhc0FsdW1uby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/mgomez/Desktop/Examen_TADS/Examen_TADS-Emmanuel/SistemaRegistroAlumnos/Views/Graficas/G_Dispersion.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcR3JhZmljYXNcR19EaXNwZXJzaW9uLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 

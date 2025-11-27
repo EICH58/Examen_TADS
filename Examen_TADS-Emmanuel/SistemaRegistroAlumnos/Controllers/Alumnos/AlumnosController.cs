@@ -154,5 +154,109 @@ namespace SistemaRegistroAlumnos.Controllers.Alumnos
 
             return View(alumno);
         }
+
+        // 1. Editar información completa
+        [HttpGet]
+        public IActionResult EditarAlumno(string numControl)
+        {
+            if (string.IsNullOrEmpty(numControl))
+                return NotFound();
+
+            var alumno = _context.Alumno
+                .Include(a => a.Carrera)
+                .Include(a => a.Semestre)
+                .FirstOrDefault(a => a.Num_Control == numControl);
+
+            if (alumno == null)
+                return NotFound();
+
+            ViewBag.Carreras = new SelectList(_context.Carrera, "Id_Carrera", "Nombre_Carrera", alumno.Id_Carrera_Alum);
+            ViewBag.Semestres = new SelectList(_context.Semestre, "Id_Semestre", "Num_Semestre", alumno.Id_Semestre_Alum);
+            ViewBag.StatusAlumnos = new SelectList(new[]
+            {
+        new { Id = 1, Nombre = "Activo" },
+        new { Id = 2, Nombre = "Egresado" },
+        new { Id = 3, Nombre = "Baja temporal" },
+        new { Id = 4, Nombre = "Baja definitiva" }
+    }, "Id", "Nombre", alumno.Id_Status_Alum);
+
+            return View(alumno);
+        }
+        public IActionResult EditarAlumno(Alumno alumno)
+        {
+            if (!ModelState.IsValid)
+            {
+                CargarCombos(alumno);
+                return View(alumno);
+            }
+
+            try
+            {
+                
+                _context.Attach(alumno);                              
+                _context.Entry(alumno).State = EntityState.Modified;   
+                _context.SaveChanges();                               
+
+                TempData["BusquedaOk"] = $"¡Alumno {alumno.Nom_Alumno} actualizado correctamente!";
+                return RedirectToAction("BuscarAlumnos");
+            }
+            catch (Exception ex)
+            {
+                TempData["MensajeError"] = "Error al guardar: " + ex.Message;
+                CargarCombos(alumno);
+                return View(alumno);
+            }
+        }
+
+        // Método auxiliar para no repetir código
+        private void CargarCombos(Alumno alumno)
+        {
+            ViewBag.Carreras = new SelectList(_context.Carrera, "Id_Carrera", "Nombre_Carrera", alumno.Id_Carrera_Alum);
+            ViewBag.Semestres = new SelectList(_context.Semestre, "Id_Semestre", "Num_Semestre", alumno.Id_Semestre_Alum);
+            ViewBag.StatusAlumnos = new SelectList(new[]
+            {
+        new { Id = 1, Nombre = "Activo" },
+        new { Id = 2, Nombre = "Egresado" },
+        new { Id = 3, Nombre = "Baja temporal" },
+        new { Id = 4, Nombre = "Baja definitiva" }
+    }, "Id", "Nombre", alumno.Id_Status_Alum);
+        }
+
+        // 2. Cambiar solo estatus
+        [HttpPost]
+        public IActionResult CambiarEstatus(string numControl, int nuevoEstatus)
+        {
+            var alumno = _context.Alumno.FirstOrDefault(a => a.Num_Control == numControl);
+            if (alumno == null)
+            {
+                TempData["Error"] = "Alumno no encontrado";
+            }
+            else
+            {
+                alumno.Id_Status_Alum = nuevoEstatus;
+                _context.SaveChanges();
+                TempData["BusquedaOk"] = $"Estatus del alumno {alumno.Nom_Alumno} cambiado correctamente.";
+            }
+            return RedirectToAction("BuscarAlumnos");
+        }
+
+
+        [HttpGet]
+        public IActionResult MateriasAlumno(string numControl)
+        {
+            if (string.IsNullOrEmpty(numControl))
+                return NotFound();
+
+            var alumno = _context.Alumno
+                .Include(a => a.Carrera)
+                .Include(a => a.Semestre)
+                .FirstOrDefault(a => a.Num_Control == numControl);
+
+            if (alumno == null)
+                return NotFound();
+
+            return View(alumno);  
+        }
+
     }
 }
