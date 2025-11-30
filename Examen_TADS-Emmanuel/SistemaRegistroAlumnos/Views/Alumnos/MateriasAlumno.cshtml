@@ -1,0 +1,97 @@
+﻿@model SistemaRegistroAlumnos.Models.Alumno
+@{
+    ViewData["Title"] = "Materias del Alumno";
+    var materiasInscritas = ViewBag.MateriasInscritas as List<SistemaRegistroAlumnos.Models.Materia> ?? new List<SistemaRegistroAlumnos.Models.Materia>();
+    var materiasDisponibles = ViewBag.MateriasDisponibles as List<SistemaRegistroAlumnos.Models.Materia> ?? new List<SistemaRegistroAlumnos.Models.Materia>();
+}
+
+<div class="container mt-4">
+    <div class="card shadow-lg border-0">
+        <div class="card-header text-white text-center fw-bold fs-4" style="background-color: #1B396B;">
+            <i class="bi bi-book-fill me-2"></i>
+            Materias del Alumno
+        </div>
+        <div class="card-body">
+
+            <div class="text-center mb-4">
+                <h5>N° Control: <strong>@Model.Num_Control</strong></h5>
+                <h3 class="fw-bold" style="color: #1B396B;">
+                    @Model.Nom_Alumno @Model.App_Alumno @Model.Apm_Alumno
+                </h3>
+                <p class="text-muted">Carrera: @(Model.Carrera?.Nombre_Carrera ?? "—") | Semestre: @(Model.Semestre?.Num_Semestre)</p>
+            </div>
+
+            <div class="row">
+                <!-- Materias inscritas -->
+                <div class="col-lg-6">
+                    <h5 class="text-success fw-bold mb-3">
+                        <i class="bi bi-check-circle-fill"></i> Materias Inscritas (@materiasInscritas.Count)
+                    </h5>
+                    <div class="list-group">
+                        @if (materiasInscritas.Any())
+                        {
+                            foreach (var m in materiasInscritas)
+                            {
+                                <div class="list-group-item d-flex justify-content-between align-items-center">
+                                    <div>
+                                        <strong>@m.Nombre_Materia</strong><br />
+                                        <small class="text-muted">Clave: @m.Clave_Materia</small>
+                                    </div>
+                                    <form asp-action="QuitarMateria" method="post" class="d-inline">
+                                        <input type="hidden" name="numControl" value="@Model.Num_Control" />
+                                        <input type="hidden" name="idMateria" value="@m.Id_Materia" />
+                                        <button type="submit" class="btn btn-sm btn-danger">
+                                            <i class="bi bi-x-circle"></i> Quitar
+                                        </button>
+                                    </form>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="text-center text-muted py-4">
+                                <i class="bi bi-inbox fs-1"></i><br>
+                                No tiene materias inscritas
+                            </div>
+                        }
+                    </div>
+                </div>
+
+                <!-- Materias disponibles -->
+                <div class="col-lg-6">
+                    <h5 class="text-primary fw-bold mb-3">
+                        <i class="bi bi-plus-circle-fill"></i> Agregar Materia
+                    </h5>
+                    <form asp-action="AgregarMateria" method="post">
+                        <input type="hidden" name="numControl" value="@Model.Num_Control" />
+                        <div class="input-group input-group-lg mb-3">
+                            <select name="idMateria" class="form-select" required>
+                                <option value="">-- Seleccionar materia --</option>
+                                @foreach (var m in materiasDisponibles)
+                                {
+                                    <option value="@m.Id_Materia">@m.Nombre_Materia (@m.Clave_Materia)</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn text-white" style="background-color: #1B396B;">
+                                <i class="bi bi-plus-circle"></i> Inscribir
+                            </button>
+                        </div>
+                    </form>
+
+                    @if (!materiasDisponibles.Any())
+                    {
+                        <div class="alert alert-info text-center">
+                            <i class="bi bi-info-circle"></i> No hay materias disponibles para inscribir.
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="text-center mt-4">
+                <a asp-action="BuscarAlumnos" class="btn btn-outline-secondary btn-lg px-5">
+                    <i class="bi bi-arrow-left-circle me-2"></i> Regresar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

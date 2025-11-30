@@ -1,0 +1,346 @@
+/* =========================================
+   MENÚ DE ACCESIBILIDAD FLOTANTE
+   ========================================= */
+
+/* IMPORTANTE: El menú SIEMPRE debe ser visible, incluso en login */
+.accessibility-menu {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Contenedor principal del menú */
+.accessibility-menu {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+}
+
+/* Botón flotante principal */
+.accessibility-toggle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #1B396B 0%, #003875 100%);
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.accessibility-toggle:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+.accessibility-toggle:active {
+    transform: scale(0.95);
+}
+
+/* Panel desplegable */
+.accessibility-panel {
+    position: absolute;
+    bottom: 75px;
+    right: 0;
+    width: 350px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.9);
+    transition: all 0.3s ease;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.accessibility-panel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+
+/* Header del panel */
+.accessibility-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, #1B396B 0%, #003875 100%);
+    color: white;
+    border-radius: 15px 15px 0 0;
+}
+
+.accessibility-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.close-btn {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.close-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+/* Contenido del panel */
+.accessibility-content {
+    padding: 20px;
+}
+
+/* Categorías */
+.accessibility-category {
+    margin-bottom: 25px;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.accessibility-category:last-of-type {
+    border-bottom: none;
+}
+
+.category-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1B396B;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.category-title i {
+    font-size: 18px;
+}
+
+/* Opción individual */
+.accessibility-option {
+    margin-bottom: 15px;
+}
+
+.accessibility-option:last-child {
+    margin-bottom: 0;
+}
+
+.accessibility-option label {
+    display: block;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 13px;
+}
+
+/* Select personalizado */
+.accessibility-option select {
+    width: 100%;
+    padding: 8px;
+    border: 2px solid #1B396B;
+    border-radius: 6px;
+    font-size: 13px;
+    color: #333;
+    background: white;
+}
+
+.accessibility-option select:focus {
+    outline: none;
+    border-color: #003875;
+    box-shadow: 0 0 0 3px rgba(27, 57, 107, 0.1);
+}
+
+/* Range slider personalizado */
+.accessibility-option input[type="range"] {
+    width: 100%;
+    margin: 8px 0;
+}
+
+.accessibility-option small {
+    display: block;
+    text-align: center;
+    color: #666;
+    font-size: 12px;
+}
+
+/* Botones de opciones */
+.option-btn-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.option-btn {
+    padding: 8px 16px;
+    border: 2px solid #1B396B;
+    background: white;
+    color: #1B396B;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.option-btn:hover {
+    background: #1B396B;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.option-btn.active {
+    background: #1B396B;
+    color: white;
+}
+
+/* Switches/toggles */
+.accessibility-switch {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    padding: 8px 0;
+}
+
+.accessibility-switch:last-child {
+    margin-bottom: 0;
+}
+
+.switch-label {
+    font-size: 13px;
+    color: #333;
+    font-weight: 500;
+}
+
+/* Toggle switch personalizado */
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: #ccc;
+    border-radius: 13px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.toggle-switch input {
+    display: none;
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: white;
+    border-radius: 50%;
+    transition: all 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+    transform: translateX(24px);
+}
+
+.toggle-switch input:checked ~ .toggle-switch {
+    background: #1B396B;
+}
+
+.toggle-switch.active {
+    background: #1B396B;
+}
+
+.toggle-switch.active .toggle-slider {
+    transform: translateX(24px);
+}
+
+/* Botón de resetear */
+.reset-btn {
+    width: 100%;
+    padding: 12px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin-top: 15px;
+}
+
+.reset-btn:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+}
+
+/* Scrollbar personalizado para el panel */
+.accessibility-panel::-webkit-scrollbar {
+    width: 8px;
+}
+
+.accessibility-panel::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+.accessibility-panel::-webkit-scrollbar-thumb {
+    background: #1B396B;
+    border-radius: 10px;
+}
+
+.accessibility-panel::-webkit-scrollbar-thumb:hover {
+    background: #003875;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .accessibility-menu {
+        bottom: 15px;
+        right: 15px;
+    }
+
+    .accessibility-toggle {
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+    }
+
+    .accessibility-panel {
+        width: 280px;
+        bottom: 65px;
+    }
+}
+
+/* Animación de entrada */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.accessibility-panel.active {
+    animation: slideInUp 0.3s ease;
+}

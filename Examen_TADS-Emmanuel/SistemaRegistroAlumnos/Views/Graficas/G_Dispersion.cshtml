@@ -1,0 +1,299 @@
+﻿@{
+    ViewData["Title"] = "Gráfica de Dispersión";
+}
+
+<link rel="stylesheet" href="~/css/graficas.css" />
+
+<div class="grafica-container">
+
+    <h2 class="grafica-titulo titulo">Gráfica de Dispersióno</h2>
+
+
+
+    <!-- =================== FILTROS =================== -->
+    <div class="filters mb-4 text-center">
+        <div style="display:inline-flex; gap:15px; align-items:center; flex-wrap:wrap; justify-content:center;">
+
+            <div class="sele">
+                <label>Carrera:</label>
+                <select id="carreraSelect" class="form-control" >
+                    <option value="">-- Selecciona carrera --</option>
+                </select>
+
+                <label>Materia:</label>
+                <select id="materiaSelect" class="form-control">
+                    <option value="">-- Selecciona materia --</option>
+                </select>
+
+                <label>Unidad:</label>
+                <select id="unidadSelect" class="form-control">
+                    <option value="">-- Selecciona unidad --</option>
+                </select>
+            </div>
+            <button id="btnFiltrar" class="btn btn-primary">Filtrar</button>
+            <button id="btnExportarPDF" class="btn btn-success" disabled>Exportar PDF</button>
+        </div>
+    </div>
+
+    <!-- =================== ENCABEZADO =================== -->
+    <h5 id="encabezadoDatos" class="text-center text-secondary mb-4"></h5>
+
+    <!-- =================== TOAST =================== -->
+    <div id="toast" style="position:fixed;top:20px;right:20px;background:#198754;color:#fff;padding:15px 25px;border-radius:8px;display:none;z-index:9999;font-weight:bold;"></div>
+
+    <!-- =================== GRÁFICA =================== -->
+    <div id="graficaContainer" class="chart-container mb-5"
+         style="width:100%;max-width:1000px;margin:0 auto;background:#fff;padding:20px;border-radius:12px;box-shadow:0 2px 8px rgba(0,0,0,0.1);height:550px;">
+        <canvas id="dispersionChart" style="height:100%;width:100%;"></canvas>
+    </div>
+
+    <!-- =================== TABLA =================== -->
+    <div id="tablaContainer" style="max-width:1000px;margin:0 auto;">
+        <h5 class="text-center mb-3 text-secondary">Datos de alumnos (Asistencia vs Calificación)</h5>
+        <table id="tablaResultados" class="table table-striped table-bordered">
+            <thead class="table-dark text-center">
+                <tr>
+                    <th>Alumno</th>
+                    <th>Carrera</th>
+                    <th>Materia</th>
+                    <th>Unidad</th>
+                    <th>% Asistencia</th>
+                    <th>Calificación</th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        // =================== TOAST ===================
+        function mostrarToast(mensaje, color = "green") {
+            const toast = document.getElementById("toast");
+            toast.style.background = color === "red" ? "#dc3545" : "#198754";
+            toast.innerText = mensaje;
+            toast.style.display = "block";
+            setTimeout(() => toast.style.display = "none", 2500);
+        }
+
+        // =================== HELPERS ===================
+        function setOptions(selectEl, items, getVal, getText) {
+            selectEl.innerHTML = '<option value="">-- Selecciona --</option>';
+            items.forEach(it => {
+                const opt = document.createElement("option");
+                opt.value = getVal(it);
+                opt.text = getText(it);
+                selectEl.appendChild(opt);
+            });
+        }
+
+        // =================== CARGA DE SELECTS ===================
+        async function cargarCarreras() {
+            const res = await fetch('/Graficas/ObtenerCarreras');
+            const data = await res.json();
+            setOptions(carreraSelect, data, c => c.id_Carrera, c => c.nombre_Carrera);
+            return data;
+        }
+
+        async function cargarMaterias(idCarrera) {
+            if (!idCarrera) return [];
+            const res = await fetch(`/Graficas/ObtenerMateriasPorCarrera/${idCarrera}`);
+            const data = await res.json();
+            setOptions(materiaSelect, data, m => m.id_Materia, m => m.nombre_Materia);
+            return data;
+        }
+
+        async function cargarUnidades(idMateria) {
+            if (!idMateria) return [];
+            const res = await fetch(`/Graficas/ObtenerUnidadesPorMateria/${idMateria}`);
+            const data = await res.json();
+            setOptions(unidadSelect, data, u => u.id_Unidades, u => u.nombre_Unidad);
+            return data;
+        }
+
+        // =================== TABLA Y GRÁFICA ===================
+        function actualizarTabla(data) {
+            const tbody = document.querySelector("#tablaResultados tbody");
+            tbody.innerHTML = data.map(d => `
+                        <tr>
+                            <td>${d.alumno}</td>
+                            <td>${d.carrera}</td>
+                            <td>${d.materia}</td>
+                            <td>${d.unidad}</td>
+                            <td>${d.porcentajeAsistencia}%</td>
+                            <td>${d.calificacionUnidad}</td>
+                        </tr>`).join("");
+        }
+
+        let chartInstance = null;
+        function actualizarGrafica(data) {
+            const ctx = document.getElementById("dispersionChart").getContext("2d");
+            const puntos = data.map(d => ({ x: d.porcentajeAsistencia, y: d.calificacionUnidad }));
+            if (chartInstance) chartInstance.destroy();
+
+            chartInstance = new Chart(ctx, {
+                type: "scatter",
+                data: {
+                    datasets: [{
+                        label: "Asistencia vs Calificación",
+                        data: puntos,
+                        backgroundColor: "rgba(13, 110, 253, 0.8)",
+                        borderColor: "#0056b3",
+                        pointRadius: 7,
+                        pointHoverRadius: 9
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { title: { display: true, text: "% Asistencia" }, min: 0, max: 100 },
+                        y: { title: { display: true, text: "Calificación" }, min: 0, max: 100 }
+                    }
+                }
+            });
+        }
+
+        function actualizarEncabezado() {
+            const carreraTxt = carreraSelect.options[carreraSelect.selectedIndex]?.text || "";
+            const materiaTxt = materiaSelect.options[materiaSelect.selectedIndex]?.text || "";
+            const unidadTxt = unidadSelect.options[unidadSelect.selectedIndex]?.text || "";
+            document.getElementById("encabezadoDatos").innerText =
+                `${carreraTxt} – ${materiaTxt} – ${unidadTxt}`;
+        }
+
+        // =================== CARGA DE DATOS ===================
+        function cargarDatos() {
+            const idCarrera = carreraSelect.value;
+            const idMateria = materiaSelect.value;
+            const idUnidad = unidadSelect.value;
+
+            if (!idCarrera || !idMateria || !idUnidad) {
+                mostrarToast("Debes seleccionar todos los campos.", "red");
+                return;
+            }
+
+            const url = `/Graficas/ObtenerDatosMateriaUnidadCarrera?idCarrera=${idCarrera}&idMateria=${idMateria}&idUnidad=${idUnidad}`;
+            fetch(url)
+                .then(r => r.json())
+                .then(data => {
+                    if (data.error) return mostrarToast(data.error, "red");
+                    actualizarEncabezado();
+                    actualizarTabla(data);
+                    actualizarGrafica(data);
+                    mostrarToast("Gráfica generada correctamente.", "green");
+                    document.getElementById("btnExportarPDF").disabled = false;
+                })
+                .catch(() => mostrarToast("Error al cargar los datos.", "red"));
+        }
+
+        // =================== EXPORTAR PDF ===================
+        document.getElementById('btnExportarPDF').addEventListener('click', async () => {
+            try {
+                const canvas = document.getElementById('dispersionChart');
+                const carreraTxt = carreraSelect.options[carreraSelect.selectedIndex]?.text || "";
+                const materiaTxt = materiaSelect.options[materiaSelect.selectedIndex]?.text || "";
+                const unidadTxt = unidadSelect.options[unidadSelect.selectedIndex]?.text || "";
+
+                const tablaHTML = `
+                            <style>
+                                table { width:100%; border-collapse:collapse; font-family:Helvetica; font-size:11px; }
+                                th { background:#343a40; color:white; padding:6px; border:1px solid #999; text-align:center; }
+                                td { border:1px solid #999; padding:5px; text-align:center; }
+                            </style>
+                            ${document.getElementById('tablaResultados').outerHTML}
+                        `;
+
+                const payload = {
+                    Titulo: carreraTxt,
+                    Descripcion: `${materiaTxt}|${unidadTxt}`,
+                    ImagenBase64: canvas.toDataURL('image/png'),
+                    TablaHTML: tablaHTML,
+                    Prefijo: "G_Dispersion"
+                };
+
+                const resp = await fetch('/api/exportar/pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                const contentType = resp.headers.get('content-type') || '';
+
+                if (resp.ok && contentType.includes('application/pdf')) {
+                    const blob = await resp.blob();
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `G_Dispersion_${new Date().toISOString().slice(0, 16).replace('T', '_').replace(':', '-')}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    URL.revokeObjectURL(url);
+                    mostrarToast("PDF generado correctamente.", "green");
+                    return;
+                }
+
+                const errJson = await resp.json().catch(() => ({}));
+                const msg = errJson?.error || "Error al generar el PDF.";
+                mostrarToast(msg, "red");
+            } catch (e) {
+                console.error(e);
+                mostrarToast("Error al exportar el PDF.", "red");
+            }
+        });
+
+        // =================== INICIALIZACIÓN ===================
+        document.addEventListener("DOMContentLoaded", async () => {
+            const carreraSel = document.getElementById("carreraSelect");
+            const materiaSel = document.getElementById("materiaSelect");
+            const unidadSel = document.getElementById("unidadSelect");
+
+            carreraSel.addEventListener("change", async () => {
+                const idCarrera = carreraSel.value;
+                const materias = await cargarMaterias(idCarrera);
+                unidadSel.innerHTML = '<option value="">-- Selecciona unidad --</option>';
+                if (materias.length > 0) {
+                    materiaSel.value = materias[0].id_Materia;
+                    const unidades = await cargarUnidades(materias[0].id_Materia);
+                    if (unidades.length > 0) {
+                        unidadSel.value = unidades[0].id_Unidades;
+                        cargarDatos();
+                    }
+                }
+            });
+
+            materiaSel.addEventListener("change", async () => {
+                const idMateria = materiaSel.value;
+                const unidades = await cargarUnidades(idMateria);
+                if (unidades.length > 0) {
+                    unidadSel.value = unidades[0].id_Unidades;
+                    cargarDatos();
+                }
+            });
+
+            document.getElementById("btnFiltrar").addEventListener("click", cargarDatos);
+
+            try {
+                const carreras = await cargarCarreras();
+                if (carreras.length > 0) {
+                    carreraSel.value = carreras[0].id_Carrera;
+                    const materias = await cargarMaterias(carreras[0].id_Carrera);
+                    if (materias.length > 0) {
+                        materiaSel.value = materias[0].id_Materia;
+                        const unidades = await cargarUnidades(materias[0].id_Materia);
+                        if (unidades.length > 0) {
+                            unidadSel.value = unidades[0].id_Unidades;
+                            cargarDatos();
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error("Error en carga inicial:", err);
+                mostrarToast("Error en carga inicial.", "red");
+            }
+        });
+    </script>
+}

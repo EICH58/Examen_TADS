@@ -1,0 +1,83 @@
+﻿.sidebar {
+    background-color: #1B396B;
+    color: #fff;
+    width: 300px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.logo {
+    width: 280px; 
+    height: auto;
+}
+
+
+.sidebar a .icono {
+    width: 20px; 
+    height: 20px; 
+    margin-right: 15px; 
+    flex-shrink: 0;
+}
+
+.sidebar .nav {
+    flex-grow: 1;
+    padding: 0 10px;
+    font-size: 1.2rem; /* letras más grandes */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    line-height: 3;
+    color: #ffffff;
+    display: block;
+    transition: all 0.2s ease-in-out;
+}
+
+
+.sidebar a {
+    color: white;
+    font-weight: normal;
+    font-style: normal;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .nav :hover {
+    color: #FFFFFF;
+    transform: scale(1.05);
+}
+
+/* Footer fijo abajo */
+.sidebar-footer {
+    font-size: 0.9rem;
+    color: #ffffffaa;
+    padding-left: 200px;
+}
+
+/* Ocultar sidebar en la página de login */
+body:has(.container.mt-5 .card.shadow) .sidebar,
+body.login-page .sidebar {
+    display: none !important;
+}
+
+/* Ajustar el main cuando no hay sidebar */
+body:has(.container.mt-5 .card.shadow) main,
+body.login-page main {
+    margin-left: 0 !important;
+    width: 100% !important;
+}
+
+/* ===== CONTENIDO PRINCIPAL ===== */
+main {
+    background-image: url('/Img/fondo.png'); 
+    background-size: cover; /* ocupa todo el espacio del main */
+    background-position: center; /* centrada */
+    background-repeat: no-repeat; /* no se repite */
+    min-height: 100vh; /* para que ocupe toda la altura de la pantalla */
+    padding: 30px; /* para separar contenido de los bordes */
+    padding-top:50px;
+}

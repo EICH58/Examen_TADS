@@ -1,0 +1,145 @@
+﻿@model SistemaRegistroAlumnos.Models.Alumno
+@{
+    ViewData["Title"] = "Editar Alumno";
+}
+<link rel="stylesheet" href="~/css/genera.css" />
+<link rel="stylesheet" href="~/css/RegistroAlumno.css" />
+
+<div class="registro-container">
+    <h1 class="titulo">Editar Alumno</h1>
+
+    @if (TempData["BusquedaOk"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["BusquedaOk"]</div>
+    }
+    @if (TempData["MensajeError"] != null)
+    {
+        <div class="alert alert-danger text-center">@TempData["MensajeError"]</div>
+    }
+
+    <div class="text-center mb-4">
+        <h4 class="fw-bold" style="color: #1B396B;">
+            N° Control: <span class="text-primary">@Model.Num_Control</span>
+        </h4>
+        <p class="fs-5">@Model.Nom_Alumno @Model.App_Alumno @Model.Apm_Alumno</p>
+    </div>
+
+    <form asp-action="EditarAlumno" method="post">
+        @Html.AntiForgeryToken()
+        <input type="hidden" asp-for="Id_Alumno" />  <!-- CLAVE PRIMARIA -->
+        <input type="hidden" asp-for="Num_Control" />
+
+        <div class="grid-form">
+            <!-- ESTADO DEL ALUMNO - CORREGIDO -->
+            <div class="form-group">
+                <label class="form-label">Estado del Alumno</label>
+                <select asp-for="Id_Status_Alum" class="form-control" asp-items="ViewBag.StatusAlumnos" required>
+                    <option value="">Seleccione un estado</option>
+                </select>
+                <span asp-validation-for="Id_Status_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Nom_Alumno">Nombre</label>
+                <input asp-for="Nom_Alumno" class="form-control" required />
+                <span asp-validation-for="Nom_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="App_Alumno">Apellido paterno</label>
+                <input asp-for="App_Alumno" class="form-control" required />
+                <span asp-validation-for="App_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Apm_Alumno">Apellido materno</label>
+                <input asp-for="Apm_Alumno" class="form-control" />
+                <span asp-validation-for="Apm_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gen_Alumno">Género</label>
+                <select asp-for="Gen_Alumno" class="form-control" required>
+                    <option value="">Seleccione</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fecha_Nac">Fecha de nacimiento</label>
+                <input asp-for="Fecha_Nac" type="date" class="form-control" required />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Id_Carrera_Alum">Carrera</label>
+                <select asp-for="Id_Carrera_Alum" class="form-control" asp-items="ViewBag.Carreras" required>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Id_Semestre_Alum">Semestre</label>
+                <select asp-for="Id_Semestre_Alum" class="form-control" asp-items="ViewBag.Semestres" required>
+                    <option value="">Seleccione</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Cod_Postal">Código postal</label>
+                <input asp-for="Cod_Postal" class="form-control" maxlength="5" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Colonia_Alum">Colonia</label>
+                <input asp-for="Colonia_Alum" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Calle_Alum">Calle</label>
+                <input asp-for="Calle_Alum" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Ext">No. Exterior</label>
+                <input asp-for="Num_Ext" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Casa">No. Interior</label>
+                <input asp-for="Num_Casa" class="form-control" />
+            </div>
+        </div>
+
+        <div class="boton-guardar">
+            <button type="submit" class="btn-guardar">
+                Guardar Cambios
+            </button>
+            <a asp-action="BuscarAlumnos" class="btn-cancelar">
+                Cancelar
+            </a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('#Nom_Alumno, #App_Alumno, #Apm_Alumno, #Colonia_Alum, #Calle_Alum').forEach(input => {
+                input.addEventListener('input', function () {
+                    if (this.value.length > 0) {
+                        this.value = this.value.charAt(0).toUpperCase() + this.value.slice(1).toLowerCase();
+                    }
+                });
+            });
+
+            document.querySelectorAll('#Cod_Postal, #Num_Ext, #Num_Casa').forEach(input => {
+                input.addEventListener('input', function () {
+                    this.value = this.value.replace(/[^0-9]/g, '');
+                });
+            });
+        });
+    </script>
+}

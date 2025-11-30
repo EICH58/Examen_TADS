@@ -1,0 +1,20 @@
+﻿@media screen and (max-width: 1400px) {
+    .cont {
+        width: 95% !important;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .resumen, .distribucion {
+        width: 100% !important;
+        overflow-x: auto;
+    }
+
+    table {
+        font-size: 0.9rem;
+    }
+
+
+}
+
+
