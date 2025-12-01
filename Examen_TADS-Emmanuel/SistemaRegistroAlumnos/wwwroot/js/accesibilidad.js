@@ -55,6 +55,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const invertColors = document.getElementById('invertColors');
     const screenReader = document.getElementById('screenReader');
     const visualIndicators = document.getElementById('visualIndicators');
+    const readingGuide = document.getElementById('readingGuide');
+    const colorBlindMode = document.getElementById('colorBlindMode');
     const onScreenKeyboard = document.getElementById('onScreenKeyboard');
     const bigCursor = document.getElementById('bigCursor');
     const highlightLinks = document.getElementById('highlightLinks');
@@ -172,6 +174,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.body.classList.remove('visual-indicators');
             }
             guardarConfiguracion('visualIndicators', this.checked);
+        });
+    }
+
+    // Guía de lectura
+    if (readingGuide) {
+        readingGuide.addEventListener('change', function() {
+            if (this.checked) {
+                activarGuiaLectura();
+            } else {
+                desactivarGuiaLectura();
+            }
+            guardarConfiguracion('readingGuide', this.checked);
+        });
+    }
+
+    // Modo daltonismo
+    if (colorBlindMode) {
+        colorBlindMode.addEventListener('change', function() {
+            const mode = this.value;
+            
+            // Quitar todas las clases de daltonismo
+            document.body.classList.remove(
+                'colorblind-protanopia',
+                'colorblind-deuteranopia', 
+                'colorblind-tritanopia',
+                'colorblind-achromatopsia'
+            );
+            
+            // Agregar la clase correspondiente
+            if (mode !== 'none') {
+                document.body.classList.add('colorblind-' + mode);
+            }
+            
+            guardarConfiguracion('colorBlindMode', mode);
         });
     }
 
@@ -376,6 +412,22 @@ document.addEventListener('DOMContentLoaded', function() {
             onScreenKeyboard.checked = true;
             mostrarTecladoPantalla();
         }
+
+        // Guía de lectura
+        const savedReadingGuide = JSON.parse(localStorage.getItem('accessibility_readingGuide'));
+        if (savedReadingGuide && readingGuide) {
+            readingGuide.checked = true;
+            activarGuiaLectura();
+        }
+
+        // Modo daltonismo
+        const savedColorBlind = JSON.parse(localStorage.getItem('accessibility_colorBlindMode'));
+        if (savedColorBlind && colorBlindMode) {
+            colorBlindMode.value = savedColorBlind;
+            if (savedColorBlind !== 'none') {
+                document.body.classList.add('colorblind-' + savedColorBlind);
+            }
+        }
     }
 
     // Resetear configuración
@@ -389,6 +441,42 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Recargar página
         location.reload();
+    }
+
+    // ==================== FUNCIONES DE GUÍA DE LECTURA ====================
+
+    function activarGuiaLectura() {
+        const guideContainer = document.getElementById('readingGuideLines');
+        const horizontalLine = guideContainer.querySelector('.reading-guide-horizontal');
+        const verticalLine = guideContainer.querySelector('.reading-guide-vertical');
+        
+        guideContainer.style.display = 'block';
+        
+        // Seguir el mouse
+        document.addEventListener('mousemove', moverGuiaLectura);
+        
+        function moverGuiaLectura(e) {
+            if (horizontalLine && verticalLine) {
+                horizontalLine.style.top = e.clientY + 'px';
+                verticalLine.style.left = e.clientX + 'px';
+            }
+        }
+        
+        // Guardar referencia para poder desactivar
+        document.moverGuiaLectura = moverGuiaLectura;
+        
+        mostrarNotificacion('📏 Guía de lectura activada', 'Una línea seguirá tu cursor para ayudarte a leer');
+    }
+
+    function desactivarGuiaLectura() {
+        const guideContainer = document.getElementById('readingGuideLines');
+        guideContainer.style.display = 'none';
+        
+        // Remover event listener
+        if (document.moverGuiaLectura) {
+            document.removeEventListener('mousemove', document.moverGuiaLectura);
+            delete document.moverGuiaLectura;
+        }
     }
 
     // ==================== FUNCIONES ESPECÍFICAS ====================
@@ -583,10 +671,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         document.body.setAttribute('data-read-aloud', 'active');
         
-        // Agregar eventos de clic para leer texto
+        // Agregar event listener de click global
         document.addEventListener('click', manejarClickLectura);
         
-        mostrarNotificacion('📖 Lectura en voz alta activada', 'Haz clic en cualquier texto para escucharlo');
+        mostrarNotificacion('🔊 Lectura activada', 'Haz clic en cualquier texto, campo o elemento para escucharlo');
     }
 
     function desactivarLecturaVozAlta() {
@@ -601,25 +689,137 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function manejarClickLectura(e) {
-        // Evitar leer botones del menú de accesibilidad
+        // No leer el menú de accesibilidad
         if (e.target.closest('.accessibility-menu')) {
             return;
         }
 
         let texto = '';
+        let elemento = e.target;
         
-        // Obtener texto del elemento clickeado
-        if (e.target.matches('p, h1, h2, h3, h4, h5, h6, li, span, div, label, a, button')) {
-            texto = e.target.textContent.trim();
+        // 1. INPUTS Y TEXTAREAS - Leer label + placeholder + valor
+        if (elemento.matches('input, textarea')) {
+            // Buscar label asociado
+            const label = document.querySelector(`label[for="${elemento.id}"]`) || 
+                         elemento.closest('label') ||
+                         elemento.previousElementSibling;
+            
+            if (label && label.tagName === 'LABEL') {
+                texto += label.textContent.trim() + '. ';
+            }
+            
+            // Placeholder
+            if (elemento.placeholder) {
+                texto += elemento.placeholder + '. ';
+            }
+            
+            // Valor actual
+            if (elemento.value && elemento.value.trim()) {
+                texto += 'Valor actual: ' + elemento.value;
+            } else {
+                texto += 'Campo vacío';
+            }
         }
-
+        // 1B. SELECT (DROPDOWNS) - Leer label + opción seleccionada
+        else if (elemento.matches('select')) {
+            // Buscar label asociado
+            const label = document.querySelector(`label[for="${elemento.id}"]`) || 
+                         elemento.closest('label') ||
+                         elemento.previousElementSibling;
+            
+            if (label && label.tagName === 'LABEL') {
+                texto += label.textContent.trim() + '. ';
+            }
+            
+            // Leer la opción seleccionada (el TEXTO, no el value)
+            const opcionSeleccionada = elemento.options[elemento.selectedIndex];
+            if (opcionSeleccionada) {
+                texto += 'Opción seleccionada: ' + opcionSeleccionada.textContent.trim();
+            } else {
+                texto += 'Sin opción seleccionada';
+            }
+        }
+        // 1C. OPCIONES DENTRO DE SELECT
+        else if (elemento.matches('option')) {
+            const select = elemento.closest('select');
+            
+            // Buscar label del select
+            if (select) {
+                const label = document.querySelector(`label[for="${select.id}"]`) || 
+                             select.closest('label') ||
+                             select.previousElementSibling;
+                
+                if (label && label.tagName === 'LABEL') {
+                    texto += label.textContent.trim() + '. ';
+                }
+            }
+            
+            // Leer el texto de la opción
+            texto += 'Opción: ' + elemento.textContent.trim();
+        }
+        // 2. CELDAS DE TABLA - Leer encabezado + contenido
+        else if (elemento.matches('td, th')) {
+            const tabla = elemento.closest('table');
+            const fila = elemento.closest('tr');
+            const indiceColumna = Array.from(fila.children).indexOf(elemento);
+            
+            // Buscar encabezado de la columna
+            const thead = tabla.querySelector('thead');
+            if (thead) {
+                const encabezados = thead.querySelectorAll('th');
+                if (encabezados[indiceColumna]) {
+                    texto += encabezados[indiceColumna].textContent.trim() + ': ';
+                }
+            }
+            
+            // Contenido de la celda
+            texto += elemento.textContent.trim();
+        }
+        // 3. ELEMENTOS SVG/GRÁFICAS - Leer title, aria-label o texto
+        else if (elemento.closest('svg') || elemento.tagName === 'svg') {
+            const svg = elemento.closest('svg') || elemento;
+            
+            // Buscar title dentro del SVG
+            const title = svg.querySelector('title');
+            if (title) {
+                texto = title.textContent.trim();
+            }
+            // O aria-label
+            else if (svg.getAttribute('aria-label')) {
+                texto = svg.getAttribute('aria-label');
+            }
+            // O texto del elemento clickeado
+            else if (elemento.textContent && elemento.textContent.trim()) {
+                texto = elemento.textContent.trim();
+            }
+            // Fallback
+            else {
+                texto = 'Gráfica o elemento visual';
+            }
+        }
+        // 4. BOTONES E ICONOS - Leer aria-label, title o texto
+        else if (elemento.matches('button, a, i, svg')) {
+            texto = elemento.getAttribute('aria-label') || 
+                   elemento.getAttribute('title') || 
+                   elemento.textContent.trim() ||
+                   'Botón o enlace';
+        }
+        // 5. TEXTO GENERAL - Párrafos, títulos, listas, etc.
+        else if (elemento.matches('p, h1, h2, h3, h4, h5, h6, li, span, div, label')) {
+            texto = elemento.textContent.trim();
+        }
+        
+        // Leer el texto si existe
         if (texto && texto.length > 0) {
             leerTexto(texto);
             
             // Resaltar elemento mientras se lee
-            e.target.style.backgroundColor = 'rgba(100, 200, 255, 0.3)';
+            const originalBg = elemento.style.backgroundColor;
+            elemento.style.backgroundColor = 'rgba(100, 200, 255, 0.3)';
+            elemento.style.transition = 'background-color 0.2s';
+            
             setTimeout(() => {
-                e.target.style.backgroundColor = '';
+                elemento.style.backgroundColor = originalBg;
             }, 2000);
         }
     }
@@ -630,12 +830,12 @@ document.addEventListener('DOMContentLoaded', function() {
         // Cancelar lectura anterior
         speechSynthesis.cancel();
         
-        // Crear nueva lectura
+        // Crear nueva utterance
         const utterance = new SpeechSynthesisUtterance(texto);
-        utterance.lang = 'es-MX';
-        utterance.rate = 0.9; // Velocidad (0.1 a 10)
-        utterance.pitch = 1.0; // Tono (0 a 2)
-        utterance.volume = 1.0; // Volumen (0 a 1)
+        utterance.lang = 'es-MX'; // Español de México
+        utterance.rate = 0.9;  // Velocidad (0.9 = más lento para claridad)
+        utterance.pitch = 1.0; // Tono normal
+        utterance.volume = 1.0; // Volumen máximo
         
         // Seleccionar voz en español si está disponible
         const voices = speechSynthesis.getVoices();
@@ -644,7 +844,19 @@ document.addEventListener('DOMContentLoaded', function() {
             utterance.voice = spanishVoice;
         }
         
+        // Hablar
         speechSynthesis.speak(utterance);
+    }
+
+    function desactivarLecturaVozAlta() {
+        console.log('🔇 Lectura en voz alta desactivada');
+        document.body.removeAttribute('data-read-aloud');
+        document.removeEventListener('click', manejarClickLectura);
+        
+        // Detener cualquier lectura en curso
+        if ('speechSynthesis' in window) {
+            speechSynthesis.cancel();
+        }
     }
 
     console.log('✅ Menú de accesibilidad cargado correctamente');

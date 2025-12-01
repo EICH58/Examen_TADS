@@ -101,22 +101,30 @@ body.big-cursor input[type="submit"] {
 
 /* ==================== RESALTAR ENLACES ==================== */
 body.highlight-links a {
-    background-color: rgba(255, 255, 0, 0.3) !important;
+    background-color: rgba(255, 255, 0, 0.4) !important; /* Fondo amarillo más visible */
+    color: #000 !important; /* TEXTO NEGRO para buen contraste */
     padding: 2px 4px !important;
     border-radius: 3px !important;
     font-weight: bold !important;
     text-decoration: underline !important;
     text-decoration-thickness: 2px !important;
+    text-decoration-color: #000 !important;
 }
 
 body.highlight-links a:hover {
-    background-color: rgba(255, 200, 0, 0.5) !important;
+    background-color: rgba(255, 200, 0, 0.6) !important; /* Fondo más intenso al hover */
+    color: #000 !important; /* Mantener texto negro */
     outline: 3px solid #ff0 !important;
 }
 
 body.highlight-links a:focus {
+    color: #000 !important; /* Negro al enfocar */
     outline: 4px solid #f00 !important;
     outline-offset: 2px !important;
+}
+
+body.highlight-links a:visited {
+    color: #1B396B !important; /* Azul oscuro para enlaces visitados - aún visible sobre amarillo */
 }
 
 /* ==================== MODO ENFOQUE ==================== */
@@ -187,6 +195,56 @@ body[data-screen-reader="active"] *:hover::after {
     z-index: 10000;
     white-space: nowrap;
     margin-top: 5px;
+}
+
+/* ==================== GUÍA DE LECTURA ==================== */
+.reading-guide-horizontal {
+    position: fixed;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: rgba(255, 0, 0, 0.7);
+    pointer-events: none;
+    z-index: 9997;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+.reading-guide-vertical {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: rgba(255, 0, 0, 0.7);
+    pointer-events: none;
+    z-index: 9997;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* ==================== FILTROS DALTONISMO ==================== */
+/* Protanopia (dificultad con rojo) */
+body.colorblind-protanopia {
+    filter: grayscale(30%) sepia(20%) hue-rotate(-20deg) saturate(150%);
+}
+
+/* Deuteranopia (dificultad con verde) */
+body.colorblind-deuteranopia {
+    filter: grayscale(40%) sepia(30%) hue-rotate(30deg) saturate(120%);
+}
+
+/* Tritanopia (dificultad con azul-amarillo) */
+body.colorblind-tritanopia {
+    filter: grayscale(20%) sepia(40%) hue-rotate(180deg) saturate(140%);
+}
+
+/* Acromatopsia (sin color - escala de grises) */
+body.colorblind-achromatopsia {
+    filter: grayscale(100%) !important;
+}
+
+/* Excepciones - no aplicar filtro al menú de accesibilidad */
+body[class*="colorblind"] .accessibility-menu,
+body[class*="colorblind"] .accessibility-menu * {
+    filter: none !important;
 }
 
 /* ==================== LECTURA EN VOZ ALTA ==================== */
