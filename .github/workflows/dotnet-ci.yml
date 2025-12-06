@@ -11,7 +11,7 @@ env:
   DOTNET_VERSION: '9.0.308'
   SONAR_HOST_URL: 'https://sonarcloud.io'  # O tu servidor SonarQube
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  SONAR_ORG: 'EICH58'
+  SONAR_ORG: 'eich58'
   SONAR_PROJECT_KEY: 'EICH58_Examen_TADS'
   SONAR_PROJECT_NAME: 'Examen_TADS'
 
