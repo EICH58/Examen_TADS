@@ -1,0 +1,7 @@
+<Project>
+  <PropertyGroup>
+    <SonarQubeTestProject>$(MSBuildProjectName.Contains('Test'))</SonarQubeTestProject>
+    <SonarQubeExclude>false</SonarQubeExclude>
+    <SonarQubeExclude Condition="'$(SonarQubeTestProject)' == 'true'">true</SonarQubeExclude>
+  </PropertyGroup>
+</Project>
