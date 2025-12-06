@@ -1,5 +1,5 @@
 # Versión extendida del workflow con SonarQube
-name: .NET CI con Análisis de Código
+name: .NET CI con SonarCloud
 
 on:
   push:
@@ -9,33 +9,33 @@ on:
 
 env:
   DOTNET_VERSION: '9.0.308'
-  SONAR_HOST_URL: 'https://sonarcloud.io'  # O tu servidor SonarQube
-  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  SONAR_ORG: 'eich58'
+  SONAR_HOST_URL: 'https://sonarcloud.io'
+  SONAR_ORG: 'eich58'              # tu organización
   SONAR_PROJECT_KEY: 'EICH58_Examen_TADS'
   SONAR_PROJECT_NAME: 'Examen_TADS'
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 jobs:
-  analyze:
-    name: Análisis con SonarQube
+  build-analyze:
+    name: Build + Test + SonarCloud
     runs-on: ubuntu-latest
-    
+
     steps:
+
     - name: Checkout código
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-    
-    - name: Setup .NET
+
+    - name: Setup .NET SDK
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-    
-    - name: Instalar SonarScanner para .NET
-      run: |
-        dotnet tool install --global dotnet-sonarscanner
-    
-    - name: Iniciar análisis SonarQube
+
+    - name: Instalar SonarScanner
+      run: dotnet tool install --global dotnet-sonarscanner
+
+    - name: Iniciar análisis SonarCloud
       run: |
         dotnet sonarscanner begin \
           /k:"${{ env.SONAR_PROJECT_KEY }}" \
@@ -43,19 +43,27 @@ jobs:
           /n:"${{ env.SONAR_PROJECT_NAME }}" \
           /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
           /d:sonar.login="${{ env.SONAR_TOKEN }}" \
+          /d:sonar.scanner.skipJreProvisioning=true \
           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
           /d:sonar.coverage.exclusions="**Test*.cs"
-    
-    - name: Compilar y ejecutar pruebas con cobertura
-      run: |
-        dotnet build --configuration Release
-        dotnet test --configuration Release \
-          --no-build \
-          --collect:"XPlat Code Coverage" \
-          --settings:coverlet.runsettings \
-          --results-directory ./coverage
-    
-    - name: Finalizar análisis SonarQube
-      run: |
-        dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
 
+    - name: Compilar solución
+      run: dotnet build --configuration Release
+
+    - name: Ejecutar pruebas con cobertura
+      run: |
+        dotnet test \
+          --configuration Release \
+          --collect:"XPlat Code Coverage" \
+          --results-directory ./coverage
+
+    - name: Convertir cobertura a OpenCover
+      run: |
+        report=$(find coverage -name "coverage.cobertura.xml" | head -n 1)
+        dotnet tool install --global dotnet-reportgenerator-globaltool
+        reportgenerator -reports:"$report" -targetdir:"coverage" -reporttypes:opencover
+
+    - name: Finalizar análisis SonarCloud
+      run: |
+        dotnet sonarscanner end \
+          /d:sonar.login="${{ env.SONAR_TOKEN }}"
