@@ -9,3 +9,18 @@ El proyecto consiste en el diseño y desarrollo de un sistema integral para apoy
 **Objetivo:**  
 
 Desarrollar un programa que permita analizar y visualizar las causas de reprobación y deserción estudiantil mediante herramientas de calidad, con el fin de proporcionar al docente información clara y accionable para mejorar los indicadores académicos. Esto incluye la creación de una base de datos robusta, la implementación de funcionalidades para el registro y análisis de datos, y la generación de reportes automatizados que apoyen la toma de decisiones.
+
+![CI Status](https://github.com/EICH58/Examen_TADS/actions/workflows/dotnet-ci.yml/badge.svg)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=bugs)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=coverage)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+[![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=EICH58_Examen_TADS&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=EICH58_Examen_TADS)
+
+
