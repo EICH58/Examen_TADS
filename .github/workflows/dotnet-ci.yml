@@ -1,4 +1,5 @@
-name: .NET CI Pipeline
+# Versión extendida del workflow con SonarQube
+name: .NET CI con Análisis de Código
 
 on:
   push:
@@ -7,30 +8,50 @@ on:
     branches: [ main ]
 
 env:
-  DOTNET_VERSION: '9.0.308'  # Ajusta según tu versión de .NET
-  SONAR_PROJECT_KEY: "EICH58_Examen_TADS"
-  SONAR_PROJECT_NAME: "Examen_TADS"
+  DOTNET_VERSION: '9.0.308'
+  SONAR_HOST_URL: 'https://sonarcloud.io'  # O tu servidor SonarQube
+  SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
 
 jobs:
-  build-and-test:
+  analyze:
+    name: Análisis con SonarQube
     runs-on: ubuntu-latest
     
     steps:
     - name: Checkout código
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # Necesario para SonarQube
+        fetch-depth: 0
     
     - name: Setup .NET
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
     
-    - name: Restaurar dependencias
-      run: dotnet restore
+    - name: Instalar SonarScanner para .NET
+      run: |
+        dotnet tool install --global dotnet-sonarscanner
     
-    - name: Compilar proyecto
-      run: dotnet build --configuration Release --no-restore
+    - name: Iniciar análisis SonarQube
+      run: |
+        dotnet sonarscanner begin \
+          /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
+          /n:"${{ secrets.SONAR_PROJECT_NAME }}" \
+          /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
+          /d:sonar.login="${{ env.SONAR_TOKEN }}" \
+          /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
+          /d:sonar.coverage.exclusions="**Test*.cs"
     
-    - name: Ejecutar pruebas
-      run: dotnet test --configuration Release --no-build --verbosity normal
+    - name: Compilar y ejecutar pruebas con cobertura
+      run: |
+        dotnet build --configuration Release
+        dotnet test --configuration Release \
+          --no-build \
+          --collect:"XPlat Code Coverage" \
+          --settings:coverlet.runsettings \
+          --results-directory ./coverage
+    
+    - name: Finalizar análisis SonarQube
+      run: |
+        dotnet sonarscanner end /d:sonar.login="${{ env.SONAR_TOKEN }}"
+
