@@ -35,8 +35,8 @@ jobs:
     - name: Iniciar análisis SonarQube
       run: |
         dotnet sonarscanner begin \
-          /k:"${{ secrets.SONAR_PROJECT_KEY }}" \
-          /n:"${{ secrets.SONAR_PROJECT_NAME }}" \
+          /k:"${{ EICH58_Examen_TADS}}" \
+          /n:"${{ Examen_TADS }}" \
           /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
           /d:sonar.login="${{ env.SONAR_TOKEN }}" \
           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
