@@ -71,7 +71,7 @@ jobs:
         fi
 
     - name: Fallback: Generar cobertura con Coverlet SI no existe
-      if: steps.buscar_cobertura.outputs.coverage_file == 'NONE'
+      if: ${{ steps.buscar_cobertura.outputs.coverage_file == "NONE" }}
       run: |
         echo "Generando cobertura con Coverlet (fallback)..."
         dotnet test \
