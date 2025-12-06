@@ -35,7 +35,7 @@ jobs:
     - name: Iniciar análisis SonarQube
       run: |
         dotnet sonarscanner begin \
-          /k:"${{ EICH58_Examen_TADS}}" \
+          /k:"${{ EICH58_Examen_TADS }}" \
           /n:"${{ Examen_TADS }}" \
           /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
           /d:sonar.login="${{ env.SONAR_TOKEN }}" \
