@@ -83,17 +83,19 @@ jobs:
     - name: Convertir a OpenCover
       run: |
         echo "Buscando archivo final cobertura..."
-        report=$(find . -type f -iname "*cobertura*.xml" | head -n 1)
+        report=$(find . -type f \( -iname "*coverage*.xml" -o -iname "*cobertura*.xml" -o -iname "*opencover*.xml" \) | head -n 1)
 
         if [ -z "$report" ]; then
           echo "ERROR: No se pudo generar ningún reporte de cobertura."
+          echo "Archivos encontrados en directorio actual:"
+          find . -maxdepth 4 -type f
           exit 1
         fi
 
         echo "Archivo encontrado: $report"
         dotnet tool install --global dotnet-reportgenerator-globaltool
         reportgenerator -reports:"$report" -targetdir:"coverage" -reporttypes:opencover
-
+    
     - name: Finalizar análisis SonarCloud
       run: |
         dotnet sonarscanner end \
