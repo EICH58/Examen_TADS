@@ -1,4 +1,4 @@
-# Versión extendida del workflow con SonarQube
+# Versión extendida del workflow con SonarQube / SonarCloud
 name: .NET CI con SonarCloud
 
 on:
@@ -10,7 +10,7 @@ on:
 env:
   DOTNET_VERSION: '9.0.308'
   SONAR_HOST_URL: 'https://sonarcloud.io'
-  SONAR_ORG: 'eich58'              # tu organización
+  SONAR_ORG: 'eich58'
   SONAR_PROJECT_KEY: 'EICH58_Examen_TADS'
   SONAR_PROJECT_NAME: 'Examen_TADS'
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
@@ -52,6 +52,7 @@ jobs:
 
     - name: Ejecutar pruebas con cobertura
       run: |
+        mkdir -p coverage
         dotnet test \
           --configuration Release \
           --collect:"XPlat Code Coverage" \
@@ -59,9 +60,27 @@ jobs:
 
     - name: Convertir cobertura a OpenCover
       run: |
-        report=$(find coverage -name "coverage.cobertura.xml" | head -n 1)
+        echo "Buscando archivo cobertura..."
+        report=$(find . -name "coverage.cobertura.xml" | head -n 1)
+
+        if [ -z "$report" ]; then
+          echo "ERROR: No se encontró coverage.cobertura.xml"
+          echo "Contenido de carpetas:"
+          ls -R
+          exit 1
+        fi
+
+        echo "✔ Reporte encontrado en: $report"
+
         dotnet tool install --global dotnet-reportgenerator-globaltool
-        reportgenerator -reports:"$report" -targetdir:"coverage" -reporttypes:opencover
+
+        # Generar reporte OpenCover
+        reportgenerator \
+          -reports:"$report" \
+          -targetdir:"coverage" \
+          -reporttypes:opencover
+
+        echo "✔ OpenCover generado en ./coverage/coverage.opencover.xml"
 
     - name: Finalizar análisis SonarCloud
       run: |
