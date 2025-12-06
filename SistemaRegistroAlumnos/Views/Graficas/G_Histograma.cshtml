@@ -1,0 +1,292 @@
+﻿@{
+    ViewData["Title"] = "Histograma";
+}
+<link rel="stylesheet" href="~/css/graficas.css" />
+
+<div class="grafica-container">
+
+    <h2 class="grafica-titulo titulo">Histograma</h2>
+
+    <!-- ===== FILTROS ===== -->
+    <div class="filtros" style="display:flex; flex-wrap:wrap; gap:10px; justify-content:center; align-items:center;">
+        <label>Carrera:</label>
+        <select id="carreraSelect" class="form-control" style="width:240px;">
+            <option value="">-- Carrera --</option>
+        </select>
+
+        <label>Materia:</label>
+        <select id="materiaSelect" class="form-control" style="width:240px;">
+            <option value="">-- Materia --</option>
+        </select>
+
+        <label>Unidad:</label>
+        <select id="unidadSelect" class="form-control" style="width:200px;">
+            <option value="">-- Todas --</option>
+        </select>
+
+        <button id="btnCargarDatos" class="btn btn-primary">Cargar datos</button>
+        <button id="btnExportarPDF" class="btn btn-success">Exportar PDF</button>
+    </div>
+
+    <!-- Encabezado dinámico -->
+    <h5 id="encabezadoDatos" class="text-center text-secondary mt-3 mb-2"></h5>
+
+    <!-- Toast -->
+    <div id="toast" style="
+        position: fixed; top: 20px; right: 20px;
+        background: #0d6efd; color: #fff;
+        padding: 12px 18px; border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0,0,0,.2);
+        display:none; z-index: 9999; font-weight:600;">
+    </div>
+
+    <!-- ===== GRÁFICA ===== -->
+    <div class="contenedor-grafica"
+         style="width:100%; max-width:900px; margin:0 auto;
+                background:#fff; padding:18px; border-radius:12px;
+                box-shadow:0 2px 8px rgba(0,0,0,.08); height:520px;">
+        <canvas id="histogramaCanvas" style="width:100% !important; height:100% !important;"></canvas>
+    </div>
+
+    <!-- ===== RESUMEN ===== -->
+    <div id="resumen" class="bloque-interpretacion" style="margin-top:18px; max-width:900px; margin-left:auto; margin-right:auto;">
+        <h4>Resumen</h4>
+        <div id="tablaResumenContainer"></div>
+    </div>
+
+    <!-- ===== DESCRIPCIÓN ===== -->
+    <div class="bloque-interpretacion" style="margin-top:16px; max-width:900px; margin-left:auto; margin-right:auto;">
+        <h4>Distribución de Calificaciones</h4>
+        <p>
+            El histograma muestra la <strong>frecuencia de alumnos</strong> por rangos de calificación (0–59, 60–69, 70–79, 80–100).
+            Puedes filtrar por <strong>Carrera</strong>, <strong>Materia</strong> y opcionalmente <strong>Unidad</strong>.
+            Si no eliges Unidad, el valor mostrado es el <strong>promedio</strong> del alumno según el filtro aplicado.
+        </p>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // ===== Toast =====
+        function toast(msg, type="info") {
+            const t = document.getElementById("toast");
+            t.style.background = type==="error" ? "#dc3545" : type==="ok" ? "#198754" : "#0d6efd";
+            t.textContent = msg;
+            t.style.display = "block";
+            clearTimeout(toast._h);
+            toast._h = setTimeout(()=> t.style.display="none", 1800);
+        }
+
+        const RUTAS = {
+            carreras: '/api/carreras',
+            materias: id => `/api/materias/${id}`,
+            unidades: id => `/api/unidades/${id}`,
+            datos: '/api/histograma/calificaciones'
+        };
+
+        async function poblar(url, sel, textKey, valueKey, includeTodas=false) {
+            sel.innerHTML = includeTodas
+                ? '<option value="">-- Todas --</option>'
+                : `<option value="">-- ${sel.id.includes('carrera') ? 'Carrera' : 'Materia'} --</option>`;
+            const r = await fetch(url);
+            if (!r.ok) return;
+            const data = await r.json();
+            data.forEach(it => {
+                const op = document.createElement('option');
+                op.value = it[valueKey];
+                op.textContent = it[textKey];
+                sel.appendChild(op);
+            });
+        }
+
+        async function initSelects() {
+            const selC = document.getElementById('carreraSelect');
+            const selM = document.getElementById('materiaSelect');
+            const selU = document.getElementById('unidadSelect');
+
+            await poblar(RUTAS.carreras, selC, 'nombre_Carrera', 'id_Carrera');
+            selC.addEventListener('change', async () => {
+                const idC = selC.value;
+                selM.innerHTML = '<option value="">-- Materia --</option>';
+                selU.innerHTML = '<option value="">-- Todas --</option>';
+                if (idC) await poblar(RUTAS.materias(idC), selM, 'nombre_Materia', 'id_Materia');
+            });
+
+            selM.addEventListener('change', async () => {
+                const idM = selM.value;
+                selU.innerHTML = '<option value="">-- Todas --</option>';
+                if (idM) await poblar(RUTAS.unidades(idM), selU, 'nombre_Unidad', 'id_Unidades', true);
+            });
+        }
+
+        const ctx = document.getElementById('histogramaCanvas').getContext('2d');
+        let chart = null;
+
+        function agrupar(valores) {
+            const bins = { "0-59":0, "60-69":0, "70-79":0, "80-100":0 };
+            for (const n of valores) {
+                const v = Number(n);
+                if (isNaN(v)) continue;
+                if (v <= 59) bins["0-59"]++;
+                else if (v <= 69) bins["60-69"]++;
+                else if (v <= 79) bins["70-79"]++;
+                else bins["80-100"]++;
+            }
+            return bins;
+        }
+
+        function renderChart(bins) {
+            if (chart) chart.destroy();
+            chart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Object.keys(bins),
+                    datasets: [{
+                        data: Object.values(bins),
+                        backgroundColor: ["#ef5350", "#ffb300", "#42a5f5", "#66bb6a"]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, title: { display: true, text: 'Número de alumnos' } },
+                        x: { title: { display: true, text: 'Rango de calificaciones' } }
+                    }
+                }
+            });
+        }
+
+        function renderResumen(valores) {
+            const bins = agrupar(valores);
+            const total = valores.length;
+            const promedio = total ? (valores.reduce((a,b)=>a+Number(b),0)/total).toFixed(2) : '—';
+            const top = Object.entries(bins).reduce((a,b)=> b[1]>a[1]?b:a, ["0-59",0]);
+            const tag = r => r==="0-59"?"Reprobado":r==="60-69"?"Suficiente":r==="70-79"?"Bueno":"Excelente";
+
+            document.getElementById('tablaResumenContainer').innerHTML = `
+                <table class="table table-striped table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Total alumnos</th><th>Promedio general</th>
+                            <th>Rango con más alumnos</th><th>Nivel predominante</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>${total}</td><td>${promedio}</td>
+                            <td>${top[0]} (${top[1]})</td><td>${tag(top[0])}</td>
+                        </tr>
+                    </tbody>
+                </table>`;
+            renderChart(bins);
+        }
+
+        function actualizarEncabezado() {
+            const cSel = document.getElementById('carreraSelect');
+            const mSel = document.getElementById('materiaSelect');
+            const uSel = document.getElementById('unidadSelect');
+            const enc = document.getElementById('encabezadoDatos');
+
+            const cTxt = cSel.value ? cSel.options[cSel.selectedIndex].text : "";
+            const mTxt = mSel.value ? mSel.options[mSel.selectedIndex].text : "";
+            const uTxt = uSel.value ? uSel.options[uSel.selectedIndex].text : "";
+
+            if (!cSel.value) enc.innerText = "Histograma general de todos los alumnos";
+            else enc.innerText = `${cTxt}${mTxt ? " – " + mTxt : ""}${uTxt ? " – " + uTxt : ""}`;
+        }
+
+        async function cargarDatos() {
+            const idC = document.getElementById('carreraSelect').value;
+            const idM = document.getElementById('materiaSelect').value;
+            const idU = document.getElementById('unidadSelect').value;
+
+            if (!idC && (idM || idU)) {
+                toast("Primero selecciona una Carrera.", "error");
+                return;
+            }
+
+            const params = new URLSearchParams();
+            if (idC) params.append('idCarrera', idC);
+            if (idM) params.append('idMateria', idM);
+            if (idU) params.append('idUnidad', idU);
+
+            try {
+                const url = params.toString() ? `${RUTAS.datos}?${params}` : RUTAS.datos;
+                const r = await fetch(url);
+                if (!r.ok) throw new Error();
+                const valores = await r.json();
+
+                if (!valores.length) {
+                    toast("No hay datos para esos filtros.", "error");
+                    return;
+                }
+
+                actualizarEncabezado();
+                renderResumen(valores);
+                toast("Datos cargados correctamente.", "ok");
+            } catch {
+                toast("Error al cargar datos.", "error");
+            }
+        }
+
+               // ===== EXPORTAR PDF =====
+            document.getElementById('btnExportarPDF').addEventListener('click', async () => {
+            try {
+                const canvas = document.getElementById('histogramaCanvas');
+                const imagenBase64 = canvas.toDataURL('image/png');
+                const tablaHTML = document.getElementById('tablaResumenContainer').outerHTML;
+
+                const encabezado = document.getElementById('encabezadoDatos').innerText;
+                const descripcion = "El histograma muestra la frecuencia de alumnos por rangos de calificación (0–59, 60–69, 70–79, 80–100).";
+
+                const datos = {
+                    Titulo: "Histograma (Distribución de Calificaciones)",
+                    Descripcion: encabezado || "Histograma general de todos los alumnos",
+                    ImagenBase64: imagenBase64,
+                    TablaHTML: tablaHTML,
+                    Prefijo: "G_Histograma"
+                };
+
+                const resp = await fetch('/api/exportar/pdf', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datos)
+                });
+
+                // 🔍 Detección de tipo de respuesta
+                const contentType = resp.headers.get("Content-Type");
+
+                if (contentType && contentType.includes("application/pdf")) {
+                    // ✅ Caso exitoso → descarga automática del PDF
+                    const blob = await resp.blob();
+                    const url = window.URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "G_Histograma.pdf";
+                    document.body.appendChild(a);
+                    a.click();
+                    a.remove();
+                    window.URL.revokeObjectURL(url);
+
+                    toast("PDF generado correctamente.", "ok");
+                } else {
+                    // ⚠️ Caso error (el backend devolvió JSON con error)
+                    const resultado = await resp.json();
+                    toast(resultado.error || "Error al generar el PDF.", "error");
+                }
+
+            } catch (err) {
+                console.error(err);
+                toast("Error al exportar PDF.", "error");
+            }
+        });
+
+
+        document.getElementById('btnCargarDatos').addEventListener('click', cargarDatos);
+        (async () => { await initSelects(); await cargarDatos(); })();
+    </script>
+}

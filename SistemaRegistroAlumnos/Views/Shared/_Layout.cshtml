@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sistema de alumnos</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap-icons/font/bootstrap-icons.css" />
+    <link rel="stylesheet" href="~/css/menu.css" />
+    
+    <!-- CSS del menú de accesibilidad -->
+    <link rel="stylesheet" href="~/css/accesibilidad.css" />
+    <link rel="stylesheet" href="~/css/accesibilidad-estilos.css" />
+    
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+</head>
+
+<body>
+    <div class="d-flex">
+        <!-- === MENÚ LATERAL: SOLO SI ESTÁ LOGUEADO === -->
+        @if (User.Identity?.IsAuthenticated == true)
+        {
+            <div class="sidebar vh-100 position-fixed">
+                <div class="d-flex flex-column align-items-center py-3">
+                    <img class="logo" src="~/Img/Logo.png" alt="Logo">
+                </div>
+
+                <ul class="nav flex-column px-3">
+                    <li class="nav-item">
+                        <ul class="nav flex-column ms-3">
+                            <li><a href="@Url.Action("Index", "Home")"><img src="~/Img/home.png" alt="I" class="icono">Inicio</a></li>
+                            <li><a href="@Url.Action("G_Dispersion", "Graficas")"><img src="~/Img/pac.png" alt="c" class="icono">Gráfica de dispersión</a></li>
+                            <li><a href="@Url.Action("G_Pastel", "Graficas")"><img src="~/Img/pac.png" alt="p" class="icono">Gráfica de pastel</a></li>
+                            <li><a href="@Url.Action("G_Histograma", "Graficas")"><img src="~/Img/pac.png" alt="h" class="icono">Histograma</a></li>
+                            <li><a href="@Url.Action("G_Pareto", "Graficas")"><img src="~/Img/pac.png" alt="pr" class="icono">Gráfica de pareto</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <!-- BOTÓN DE CERRAR SESIÓN - AGREGADO AQUÍ -->
+                <div class="mt-auto p-3">
+                    <a href="@Url.Action("Logout", "Account")" class="btn-logout">
+                        <img src="~/Img/logout.png" alt="->" class="icono">
+                        Cerrar Sesión
+                    </a>
+                </div>
+
+                <div class="sidebar-footer text-center mb-3">
+                    <a href="@Url.Action("info", "Home")">© 2025 by.... </a>
+                </div>
+            </div>
+
+            <!-- Contenido principal con margen -->
+            <main class="flex-grow-1" style="margin-left:300px;">
+                @RenderBody()
+            </main>
+        }
+        else
+        {
+            <!-- === SI NO ESTÁ LOGUEADO: SIN MENÚ, SIN MARGEN === -->
+            <main class="flex-grow-1">
+                @RenderBody()
+            </main>
+        }
+    </div>
+
+    <!-- ============================================ -->
+    <!-- MENÚ DE ACCESIBILIDAD FLOTANTE -->
+    <!-- SIEMPRE VISIBLE (incluso en login) -->
+    <!-- ============================================ -->
+    <div class="accessibility-menu">
+        <button class="accessibility-toggle" id="accessibilityToggle" aria-label="Abrir menú de accesibilidad">
+            <i class="fas fa-universal-access"></i>
+        </button>
+        
+        <div class="accessibility-panel" id="accessibilityPanel">
+            <div class="accessibility-header">
+                <h3>Accesibilidad</h3>
+                <button class="close-btn" id="closeAccessibility" aria-label="Cerrar menú">×</button>
+            </div>
+            
+            <div class="accessibility-content">
+                
+                <!-- ==================== CATEGORÍA: VISUALES ==================== -->
+                <div class="accessibility-category">
+                    <h4 class="category-title">
+                        <i class="fas fa-eye"></i> Visuales
+                    </h4>
+
+                    <!-- Modo de alto contraste -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Alto contraste</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="highContrast">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Ajuste de tamaño de letra -->
+                    <div class="accessibility-option">
+                        <label>Tamaño de texto</label>
+                        <div class="option-btn-group">
+                            <button class="option-btn" id="textSmall" data-size="small">A-</button>
+                            <button class="option-btn active" id="textNormal" data-size="normal">A</button>
+                            <button class="option-btn" id="textLarge" data-size="large">A+</button>
+                        </div>
+                    </div>
+
+                    <!-- Tipo de letra -->
+                    <div class="accessibility-option">
+                        <label>Tipo de letra</label>
+                        <select class="form-select form-select-sm" id="fontFamily">
+                            <option value="default">Predeterminada</option>
+                            <option value="Arial">Arial</option>
+                            <option value="Verdana">Verdana</option>
+                            <option value="Tahoma">Tahoma</option>
+                            <option value="OpenDyslexic">OpenDyslexic (Dislexia)</option>
+                        </select>
+                    </div>
+
+                    <!-- Zoom de pantalla -->
+                    <div class="accessibility-option">
+                        <label>Zoom de pantalla</label>
+                        <div class="option-btn-group">
+                            <button class="option-btn" id="zoomOut">-</button>
+                            <button class="option-btn active" id="zoomNormal">100%</button>
+                            <button class="option-btn" id="zoomIn">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Inversión de colores -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Inversión de colores</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="invertColors">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Modo para daltonismo -->
+                    <div class="accessibility-option">
+                        <label>Modo daltonismo</label>
+                        <select class="form-select form-select-sm" id="colorBlindMode">
+                            <option value="none">Ninguno</option>
+                            <option value="protanopia">Protanopia (rojo-verde)</option>
+                            <option value="deuteranopia">Deuteranopia (rojo-verde)</option>
+                            <option value="tritanopia">Tritanopia (azul-amarillo)</option>
+                            <option value="achromatopsia">Acromatopsia (sin color)</option>
+                        </select>
+                    </div>
+
+                    <!-- Lector de pantalla -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Lector de pantalla</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="screenReader">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Indicadores visuales -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Indicadores visuales</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="visualIndicators">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Guía de lectura -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Guía de lectura (línea)</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="readingGuide">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ==================== CATEGORÍA: MOTORAS Y FÍSICAS ==================== -->
+                <div class="accessibility-category">
+                    <h4 class="category-title">
+                        <i class="fas fa-hand-pointer"></i> Motoras y Físicas
+                    </h4>
+
+                    <!-- Teclado en pantalla -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Teclado en pantalla</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="onScreenKeyboard">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Puntero grande -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Puntero grande</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="bigCursor">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Resaltar enlaces -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Resaltar enlaces</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="highlightLinks">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- ==================== CATEGORÍA: COGNITIVAS ==================== -->
+                <div class="accessibility-category">
+                    <h4 class="category-title">
+                        <i class="fas fa-brain"></i> Cognitivas
+                    </h4>
+
+                    <!-- Lectura en voz alta -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Lectura en voz alta</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="readAloud">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Modo enfoque/simplificado -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Modo enfoque</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="focusMode">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Menús simplificados -->
+                    <div class="accessibility-switch">
+                        <span class="switch-label">Menús simplificados</span>
+                        <label class="toggle-switch">
+                            <input type="checkbox" id="simplifiedMenus">
+                            <span class="toggle-slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Botón resetear -->
+                <button class="reset-btn" id="resetAccessibility">
+                    <i class="fas fa-redo"></i> Restablecer configuración
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- TECLADO EN PANTALLA -->
+    <!-- ============================================ -->
+    <div id="onScreenKeyboardContainer" class="keyboard-container" style="display: none;">
+        <div class="keyboard-header">
+            <span>Teclado en Pantalla</span>
+            <button class="keyboard-close" id="keyboardClose">×</button>
+        </div>
+        <div class="keyboard-body">
+            <div class="keyboard-row">
+                <button class="key">1</button>
+                <button class="key">2</button>
+                <button class="key">3</button>
+                <button class="key">4</button>
+                <button class="key">5</button>
+                <button class="key">6</button>
+                <button class="key">7</button>
+                <button class="key">8</button>
+                <button class="key">9</button>
+                <button class="key">0</button>
+                <button class="key key-backspace">⌫</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key">Q</button>
+                <button class="key">W</button>
+                <button class="key">E</button>
+                <button class="key">R</button>
+                <button class="key">T</button>
+                <button class="key">Y</button>
+                <button class="key">U</button>
+                <button class="key">I</button>
+                <button class="key">O</button>
+                <button class="key">P</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key">A</button>
+                <button class="key">S</button>
+                <button class="key">D</button>
+                <button class="key">F</button>
+                <button class="key">G</button>
+                <button class="key">H</button>
+                <button class="key">J</button>
+                <button class="key">K</button>
+                <button class="key">L</button>
+                <button class="key">Ñ</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key key-shift" id="shiftKey">⇧</button>
+                <button class="key">Z</button>
+                <button class="key">X</button>
+                <button class="key">C</button>
+                <button class="key">V</button>
+                <button class="key">B</button>
+                <button class="key">N</button>
+                <button class="key">M</button>
+                <button class="key key-enter">↵</button>
+            </div>
+            <div class="keyboard-row">
+                <button class="key key-space">Espacio</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- GUÍA DE LECTURA (Línea que sigue al mouse) -->
+    <!-- ============================================ -->
+    <div id="readingGuideLines" style="display: none;">
+        <div class="reading-guide-horizontal"></div>
+        <div class="reading-guide-vertical"></div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Script del menú de accesibilidad -->
+    <script src="~/js/accesibilidad.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,89 @@
+﻿/* Fondo general con tu imagen */
+.login-wrapper {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: url('/Img/fondo.png'); /* Ruta de tu imagen */
+    background-size: cover; /* Cubre toda la pantalla */
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 20px;
+    position: relative;
+}
+
+    /* Capa oscura opcional para mejorar legibilidad (puedes quitarla si no la quieres) */
+    .login-wrapper::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.4); /* Oscurece un poco el fondo */
+        z-index: 1;
+    }
+
+/* Tarjeta del login - ahora con fondo blanco semitransparente */
+.login-card {
+    background: rgba(255, 255, 255, 0.95); /* Blanco con ligera transparencia */
+    backdrop-filter: blur(10px); /* Efecto cristal moderno (opcional) */
+    width: 380px;
+    max-width: 90%;
+    border-radius: 18px;
+    padding: 40px 35px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 2; /* Por encima de la capa oscura */
+}
+
+/* Cabecera sin logo */
+.login-header {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.system-name {
+    margin: 0;
+    font-size: 26px;
+    font-weight: bold;
+    color: #1B396B;
+    letter-spacing: 0.5px;
+}
+
+/* Inputs y botón */
+.form-control {
+    border-radius: 12px;
+    padding: 12px 15px;
+    border: 1px solid #ced4da;
+}
+
+.btn-login {
+    background-color: #1B396B;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 12px;
+    border: none;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+    .btn-login:hover {
+        background-color: #162f57;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(27, 57, 107, 0.3);
+    }
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 30px 25px;
+    }
+
+    .system-name {
+        font-size: 24px;
+    }
+}

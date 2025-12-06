@@ -1,0 +1,61 @@
+﻿/* === DISEÑO GENERAL === */
+.busqueda-card {
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-top: 2rem;
+    transition: all 0.3s ease;
+}
+
+    .busqueda-card:hover {
+        transform: scale(1.01);
+    }
+.titulo {
+    color: #1B396B;
+}
+
+/* === TABLA === */
+.table thead {
+    background-color: #002855;
+    color: white;
+}
+
+.table tbody tr:hover {
+    background-color: #f2f8ff;
+    transition: 0.2s;
+}
+
+/* === ALERTAS === */
+.alert {
+    animation: fadeOut 0.5s ease-in-out 3s forwards;
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+        transform: translateY(-20px);
+        visibility: hidden;
+    }
+}
+
+/* === BOTONES === */
+.btn-primary {
+    background-color: #004a9f;
+    border: none;
+}
+
+    .btn-primary:hover {
+        background-color: #003875;
+    }
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+    .busqueda-card {
+        padding: 1rem;
+    }
+
+    .titulo {
+        font-size: 1.5rem;
+    }
+}

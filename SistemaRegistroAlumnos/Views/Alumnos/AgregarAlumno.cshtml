@@ -1,0 +1,180 @@
+﻿@model SistemaRegistroAlumnos.Models.Alumno
+
+@{
+    ViewData["Title"] = "Registrar nuevo alumno";
+}
+
+<link rel="stylesheet" href="~/css/genera.css" />
+<link rel="stylesheet" href="~/css/RegistroAlumno.css" />
+
+<div class="registro-container">
+    <h1 class="titulo">@ViewData["Title"]</h1>
+
+    <!-- Mensajes -->
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="alert alert-success text-center">@TempData["MensajeExito"]</div>
+    }
+    @if (TempData["MensajeError"] != null)
+    {
+        <div class="alert alert-danger text-center">@TempData["MensajeError"]</div>
+    }
+
+    <form asp-action="AgregarAlumno" method="post" class="registro-form" id="alumnoForm">
+        @Html.AntiForgeryToken()
+
+        <div class="grid-form">
+
+            <!-- Fila 1 -->
+            <div class="form-group">
+                @Html.LabelFor(model => model.Id_Status_Alum, "Estado del Alumno")
+                @Html.DropDownListFor(
+                model => model.Id_Status_Alum,
+                                (SelectList)ViewBag.StatusAlumnos,
+                                "Seleccione un estado",
+                                new { @class = "form-control", required = "required" }
+                                )
+                <span asp-validation-for="Id_Status_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Control">No. Control</label>
+                <input asp-for="Num_Control" required maxlength="8" />
+                <span asp-validation-for="Num_Control" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Nom_Alumno">Nombre</label>
+                <input asp-for="Nom_Alumno" required />
+                <span asp-validation-for="Nom_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="App_Alumno">Apellido paterno</label>
+                <input asp-for="App_Alumno" required />
+                <span asp-validation-for="App_Alumno" class="text-danger"></span>
+            </div>
+
+            <!-- Fila 2 -->
+            <div class="form-group">
+                <label asp-for="Apm_Alumno">Apellido materno</label>
+                <input asp-for="Apm_Alumno" required />
+                <span asp-validation-for="Apm_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Gen_Alumno">Género</label>
+                <select asp-for="Gen_Alumno" required>
+                    <option value="">Seleccione</option>
+                    <option value="M">Masculino</option>
+                    <option value="F">Femenino</option>
+                    <option value="O">Otro</option>
+                </select>
+                <span asp-validation-for="Gen_Alumno" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Fecha_Nac">Fecha de nacimiento</label>
+                <input asp-for="Fecha_Nac" type="date" required />
+                <span asp-validation-for="Fecha_Nac" class="text-danger"></span>
+            </div>
+
+            <!-- Fila 3 -->
+            <div class="form-group">
+                <label asp-for="Id_Carrera_Alum">Carrera</label>
+                <select asp-for="Id_Carrera_Alum" asp-items="ViewBag.Carreras" required>
+                    <option value="">Seleccione</option>
+                </select>
+                <span asp-validation-for="Id_Carrera_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Id_Semestre_Alum">Semestre</label>
+                <select asp-for="Id_Semestre_Alum" asp-items="ViewBag.Semestres" required>
+                    <option value="">Seleccione</option>
+                </select>
+                <span asp-validation-for="Id_Semestre_Alum" class="text-danger"></span>
+            </div>
+
+            <!-- Fila 4 -->
+            <div class="form-group">
+                <label asp-for="Cod_Postal">Código postal</label>
+                <input asp-for="Cod_Postal" maxlength="5" />
+                <span asp-validation-for="Cod_Postal" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Colonia_Alum">Colonia</label>
+                <input asp-for="Colonia_Alum" />
+                <span asp-validation-for="Colonia_Alum" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Calle_Alum">Calle</label>
+                <input asp-for="Calle_Alum" />
+                <span asp-validation-for="Calle_Alum" class="text-danger"></span>
+            </div>
+
+            <!-- Fila 5 -->
+            <div class="form-group">
+                <label asp-for="Num_Ext">No. Exterior</label>
+                <input asp-for="Num_Ext" />
+                <span asp-validation-for="Num_Ext" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Num_Casa">No. Interior</label>
+                <input asp-for="Num_Casa" />
+                <span asp-validation-for="Num_Casa" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="boton-guardar">
+            <button type="submit"><i class="bi bi-upload"></i> Guardar</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        // Validaciones adicionales con JavaScript
+        $(document).ready(function () {
+            // Forzar mayúscula en nombres y apellidos
+            $('#Nom_Alumno, #App_Alumno, #Apm_Alumno, #Colonia_Alum, #Calle_Alum').on('input', function() {
+                var input = $(this);
+                var val = input.val();
+                if (val.length > 0) {
+                    input.val(val.charAt(0).toUpperCase() + val.slice(1));
+                }
+            });
+
+            // Validar solo números para número de control y código postal
+            $('#Num_Control, #Cod_Postal').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Validar solo números para números exterior e interior
+            $('#Num_Ext, #Num_Casa').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            });
+
+            // Validar fecha de nacimiento
+            $('#Fecha_Nac').on('change', function() {
+                var fechaNac = new Date(this.value);
+                var hoy = new Date();
+                var edadMinima = new Date(hoy.getFullYear() - 17, hoy.getMonth(), hoy.getDate());
+                var edadMaxima = new Date(hoy.getFullYear() - 100, hoy.getMonth(), hoy.getDate());
+
+                if (fechaNac > edadMinima) {
+                    alert('El alumno debe tener al menos 17 años');
+                    this.value = '';
+                } else if (fechaNac < edadMaxima) {
+                    alert('La edad no puede ser mayor a 100 años');
+                    this.value = '';
+                }
+            });
+        });
+    </script>
+}
