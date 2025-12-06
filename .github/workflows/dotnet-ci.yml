@@ -70,7 +70,7 @@ jobs:
           echo "Cobertura encontrada en: $FILE"
         fi
 
-    - name: Fallback: Generar cobertura con Coverlet SI no existe
+    - name: "Fallback: Generar cobertura con Coverlet si no existe"
       if: ${{ steps.buscar_cobertura.outputs.coverage_file == "NONE" }}
       run: |
         echo "Generando cobertura con Coverlet (fallback)..."
