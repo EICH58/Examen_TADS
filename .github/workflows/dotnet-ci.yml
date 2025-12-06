@@ -11,6 +11,8 @@ env:
   DOTNET_VERSION: '9.0.308'
   SONAR_HOST_URL: 'https://sonarcloud.io'  # O tu servidor SonarQube
   SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  SONAR_PROJECT_KEY: 'EICH58_Examen_TADS'
+  SONAR_PROJECT_NAME: 'Examen_TADS'
 
 jobs:
   analyze:
@@ -35,8 +37,8 @@ jobs:
     - name: Iniciar análisis SonarQube
       run: |
         dotnet sonarscanner begin \
-          /k:"${{ EICH58_Examen_TADS }}" \
-          /n:"${{ Examen_TADS }}" \
+          /k:"${{ env.SONAR_PROJECT_KEY }}" \
+          /n:"${{ env.SONAR_PROJECT_NAME }}" \
           /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
           /d:sonar.login="${{ env.SONAR_TOKEN }}" \
           /d:sonar.cs.opencover.reportsPaths="**/coverage.opencover.xml" \
