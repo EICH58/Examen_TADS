@@ -151,4 +151,4 @@ coverage/                  # Directorio generado para reportes
 
 **Última ejecución exitosa**: 17 horas ago  
 **Tiempo promedio**: 25 segundos  
-**Estado actual**: ✅ Funcionando correctamente
+**Estado actual**: Funcionando correctamente
